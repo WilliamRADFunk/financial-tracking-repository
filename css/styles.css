@@ -8,34 +8,61 @@ body
 	background-color: #475F77;
 	display: block;
 	font-family: Arial;
-	height: auto;
 	width: 100%;
 }
-form
+header
 {
-	background-color: #DCDDD8;
-	display: block;
-	height: auto;
-	margin: 100px auto;
-}
-h2
-{
-	background-color: #D74B4B;
-	color: #DCDDD8;
-	font-size: 24px;
+	background-color: #D77B7B;
+	border-bottom: 1px solid #444444;
+	color: #444444;
+	font-size: 30px;
 	height: 50px;
-	line-height: 50px;
-	margin-bottom: 20px;
-	padding-left: 15px;
+	padding-top: 20px;
+	text-align: center;
+	width: 100%;
 }
 /**
 *
 * Styles for all forms
 *
 **/
+form
+{
+	color: #DCDDD8;
+	display: block;
+	height: auto;
+	margin: 5% 0% 5% 10%;
+	width: 90%;
+}
+form h2
+{
+	border-bottom: 2px dashed #CCCCCC;
+	font-size: 26px;
+	height: 50px;
+	line-height: 50px;
+	margin-bottom: 20px;
+	width: 40%;
+}
+form hr
+{
+	border-top: 2px dashed #CCCCCC;
+	margin: 0px 0px 20px 0px;
+	padding: 0px;
+	width: 100%;
+}
 .content
 {
-	padding-left: 30px;
+	width: 40%;
+}
+.content p
+{
+	margin-bottom: 5px;
+}
+.content input[type="text"],
+.content input[type="password"]
+{
+	margin-bottom: 20px;
+	width: 100%;
 }
 /**
 *
@@ -44,9 +71,75 @@ h2
 **/
 #btn_login
 {
+	background-color: #444444;
+	color: #DCDDD8;
+	display: block;
+}
+#btn_login:hover
+{
+	background-color: #000000;
+	color: #CCCCCC;
+	display: block;
+}
+#btn_login:active
+{
+	background-color: #CCCCCC;
+	color: #000000;
 	display: block;
 }
 #login
 {
-	width: 300px;
+	
+}
+/**
+*
+* Styles for the footer
+*
+**/
+footer
+{
+	bottom: 5px;
+	left: 0px;
+	position: absolute;
+	width: 100%;
+}
+#external_links
+{
+	background-color: #444444;
+	border: 2px dashed #CCCCCC;
+	color: #DCDDD8;
+	height: 100%;
+	margin: 0px auto;
+	width: 80%;
+}
+#external_links a
+{
+	color: #DCDDD8;
+	text-decoration: none;
+}
+#external_links a:hover
+{
+	text-decoration: underline;
+}
+#external_links ul
+{
+	line-height: 50px;
+	list-style: none;
+	min-height: 50px;
+	padding: 20px;
+}
+#external_links ul li
+{
+	display: block;
+	float: left;
+	margin-left: 4%;
+	text-align: center;
+	width: 20%;
+}
+#external_links h2
+{
+	font-size: 24px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
 }

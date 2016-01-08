@@ -27,22 +27,57 @@ var Project = React.createClass
 	},
 	render: function()
 	{
+
 		if(this.state.phase === "Login")
 		{
 			return (<div>
+						<Header></Header>
 						<Login></Login>
+						<Footer></Footer>
 					</div>);
 		}
 		else
 		{
 			return (<div>
+						<Header></Header>
 						<p>Not in Login anymore</p>
+						<Footer></Footer>
 					</div>);
 		}
 	}
 });
 /**********Root Elements ends here ****************************************************************/
-/**********Login Elements start here *************************************************************/
+/**********Header & Footer Elements start here ****************************************************/
+var Header = React.createClass
+({
+	render: function()
+	{
+		return (<header>
+					<h1>
+						Financial Tracking Repository
+					</h1>
+				</header>);
+	}
+});
+var Footer = React.createClass
+({
+	render: function()
+	{
+		return (<footer>
+					<div id="external_links">
+						<h2>External Links</h2>
+						<ul>
+							<li><a href="http://williamrobertfunk.com">Portfolio Site</a></li>
+							<li><a href="https://github.com/WilliamRADFunk">Github Repository</a></li>
+							<li><a href="http://www.williamrobertfunk.com/assets/Resume.pdf">Download Resume</a></li>
+							<li><a href="mailto:contact@williamradfunk.com?Subject=Programming%20Related:">Send Mail</a></li>
+						</ul>
+					</div>
+				</footer>);
+	}
+});
+/**********Header & Footer Elements end here ******************************************************/
+/**********Login Elements start here **************************************************************/
 var Login = React.createClass
 ({
 	render: function()
@@ -54,12 +89,13 @@ var Login = React.createClass
 						<input id="username" type="text"/>
 						<p><label htmlFor="password">Password:</label></p>
 						<input id="password" type="password"/>
+						<hr/>
 						<input id="btn_login" type="submit" value="SUBMIT"/>
 					</div>
 				</form>);
 	}
 });
-/**********Login Elements end here ***************************************************************/
+/**********Login Elements end here ****************************************************************/
 /**********Phase2 Elements start here *************************************************************/
 
 /**********Phase2 Elements end here ***************************************************************/

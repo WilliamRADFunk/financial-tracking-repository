@@ -26,27 +26,108 @@ var Project = React.createClass({
 		};
 	},
 	render: function () {
+
 		if (this.state.phase === "Login") {
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(Login, null)
+				React.createElement(Header, null),
+				React.createElement(Login, null),
+				React.createElement(Footer, null)
 			);
 		} else {
 			return React.createElement(
 				'div',
 				null,
+				React.createElement(Header, null),
 				React.createElement(
 					'p',
 					null,
 					'Not in Login anymore'
-				)
+				),
+				React.createElement(Footer, null)
 			);
 		}
 	}
 });
 /**********Root Elements ends here ****************************************************************/
-/**********Login Elements start here *************************************************************/
+/**********Header & Footer Elements start here ****************************************************/
+var Header = React.createClass({
+	displayName: 'Header',
+
+	render: function () {
+		return React.createElement(
+			'header',
+			null,
+			React.createElement(
+				'h1',
+				null,
+				'Financial Tracking Repository'
+			)
+		);
+	}
+});
+var Footer = React.createClass({
+	displayName: 'Footer',
+
+	render: function () {
+		return React.createElement(
+			'footer',
+			null,
+			React.createElement(
+				'div',
+				{ id: 'external_links' },
+				React.createElement(
+					'h2',
+					null,
+					'External Links'
+				),
+				React.createElement(
+					'ul',
+					null,
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							'a',
+							{ href: 'http://williamrobertfunk.com' },
+							'Portfolio Site'
+						)
+					),
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							'a',
+							{ href: 'https://github.com/WilliamRADFunk' },
+							'Github Repository'
+						)
+					),
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							'a',
+							{ href: 'http://www.williamrobertfunk.com/assets/Resume.pdf' },
+							'Download Resume'
+						)
+					),
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							'a',
+							{ href: 'mailto:contact@williamradfunk.com?Subject=Programming%20Related:' },
+							'Send Mail'
+						)
+					)
+				)
+			)
+		);
+	}
+});
+/**********Header & Footer Elements end here ******************************************************/
+/**********Login Elements start here **************************************************************/
 var Login = React.createClass({
 	displayName: 'Login',
 
@@ -82,12 +163,13 @@ var Login = React.createClass({
 					)
 				),
 				React.createElement('input', { id: 'password', type: 'password' }),
+				React.createElement('hr', null),
 				React.createElement('input', { id: 'btn_login', type: 'submit', value: 'SUBMIT' })
 			)
 		);
 	}
 });
-/**********Login Elements end here ***************************************************************/
+/**********Login Elements end here ****************************************************************/
 /**********Phase2 Elements start here *************************************************************/
 
 /**********Phase2 Elements end here ***************************************************************/
