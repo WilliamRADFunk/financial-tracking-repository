@@ -5,19 +5,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Repository</title>
-    <!-- Inluding the JQuery Library -->
-    <script type="text/javascript" src="js/external/jquery-1.11.2.js"></script>
     <!-- Resets all default browser stylings for a clean slate -->
-    <link rel="stylesheet" href="css/reset_author_richard_clark.css">
-    <!-- Styles specific to the Encryptor pages -->
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- Data Access (AJAX) -->
-	<script src="js/data.js"></script>
-	<!-- Game data/mechanics -->
-	<script src="js/scripts.js"></script>
+	<link rel="stylesheet" href="css/reset_author_richard_clark.css">
+	<!-- Styles specific to the Encryptor pages -->
+	<link rel="stylesheet" href="css/styles.css">
+	<!-- Inluding the JQuery/JQueryUI Libraries -->
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<script type="text/javascript" src="js/external/jquery-1.11.2.js"></script>
+	<script type="text/javascript" src="js/external/jquery-ui.min.js"></script>
+	<!-- Inluding the React & React-DOM Libraries -->
+	<script src="js/external/react-0.14.3.js"></script>
+	<script src="js/external/react-dom-0.14.3.js"></script>
+	<!-- Scripts unique to this project (React format) -->
+	<script async src="js/reactScripts.js"></script>
+	<script async src="js/scripts.js"></script>
 </head>
 <body>
-	<form action="" method="post">
+	<div id="react-container"></div>
+</body>
+</html>
+<!--
+<form action="" method="post">
 		<input type="submit" value="">
 	</form>
 	<div>
@@ -37,5 +45,4 @@
 			</fieldset>
 		</form>
 	</div>
-</body>
-</html>
+-->

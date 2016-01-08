@@ -1,5 +1,52 @@
+/**
+*
+* Base attribute styles
+*
+**/
 body
 {
+	background-color: #475F77;
 	display: block;
 	font-family: Arial;
+	height: auto;
+	width: 100%;
+}
+form
+{
+	background-color: #DCDDD8;
+	display: block;
+	height: auto;
+	margin: 100px auto;
+}
+h2
+{
+	background-color: #D74B4B;
+	color: #DCDDD8;
+	font-size: 24px;
+	height: 50px;
+	line-height: 50px;
+	margin-bottom: 20px;
+	padding-left: 15px;
+}
+/**
+*
+* Styles for all forms
+*
+**/
+.content
+{
+	padding-left: 30px;
+}
+/**
+*
+* Styles for the login form
+*
+**/
+#btn_login
+{
+	display: block;
+}
+#login
+{
+	width: 300px;
 }

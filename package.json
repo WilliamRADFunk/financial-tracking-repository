@@ -1,0 +1,30 @@
+{
+  "name": "financial-tracking-repository",
+  "version": "1.0.0",
+  "babel": {
+    "presets": [
+      "react"
+    ]
+  },
+  "description": "\"install node\r install globally: gulp-babel",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.3.21",
+    "babel-preset-react": "^6.3.13",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "jshint": "^2.8.0",
+    "jsxhint": "^0.15.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  }
+}

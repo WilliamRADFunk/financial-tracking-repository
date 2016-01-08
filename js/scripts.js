@@ -1,14 +1,5 @@
-var REPO =
-{
-	
-};
+var REPO = {};
 
-REPO.login = 
-{
+REPO.login = {};
 
-};
-
-REPO.login.process = function()
-{
-	
-};
+REPO.login.process = function () {};
