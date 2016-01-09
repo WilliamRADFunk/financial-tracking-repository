@@ -31,6 +31,9 @@ var Project = React.createClass
 		{
 			return (<div>
 						<Header/>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span></li>
+						</ul>
 						<div id="nav_box">
 							<button id="btn_entry" onClick={this.handleClick}>MAKE AN ENTRY</button>
 							<button id="btn_reports" onClick={this.handleClick}>VIEW REPORTS</button>
@@ -42,7 +45,7 @@ var Project = React.createClass
 		{
 			return (<div>
 						<Header/>
-						<Entries/>
+						<Entries onPhaseChange={this.onPhaseChange}/>
 						<Footer/>
 					</div>);
 		}
@@ -128,25 +131,49 @@ var Entries = React.createClass
 		{
 			this.setState({phase: "Expense"});
 		}
+		else if(e.currentTarget.innerHTML === "Entry type")
+		{
+			this.setState({phase: "Initial"});
+		}
+		else if(e.currentTarget.innerHTML === "Homepage")
+		{
+			this.props.onPhaseChange("Navigate");
+		}
 	},
 	render: function()
 	{
 		if(this.state.phase == "Initial")
 		{
-			return (<div id="nav_box-entry-type">
+			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span></li>
+						</ul>
+						<div id="nav_box-entry-type">
 							<button id="btn_income" onClick={this.handleClick}>INCOME</button>
 							<button id="btn_expense" onClick={this.handleClick}>EXPENSE</button>
+						</div>
 					</div>);
 		}
 		else if(this.state.phase == "Income")
 		{
 			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Income</span></li>
+						</ul>
 						<p>Income Entry</p>
 					</div>);
 		}
 		else if(this.state.phase == "Expense")
 		{
 			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Expense</span></li>
+						</ul>
 						<p>Expense Entry</p>
 					</div>);
 		}

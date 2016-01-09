@@ -28,6 +28,19 @@ var Project = React.createClass({
 				null,
 				React.createElement(Header, null),
 				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						)
+					)
+				),
+				React.createElement(
 					"div",
 					{ id: "nav_box" },
 					React.createElement(
@@ -48,7 +61,7 @@ var Project = React.createClass({
 				"div",
 				null,
 				React.createElement(Header, null),
-				React.createElement(Entries, null),
+				React.createElement(Entries, { onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
 		} else {
@@ -201,28 +214,92 @@ var Entries = React.createClass({
 			this.setState({ phase: "Income" });
 		} else if (e.currentTarget.id === "btn_expense") {
 			this.setState({ phase: "Expense" });
+		} else if (e.currentTarget.innerHTML === "Entry type") {
+			this.setState({ phase: "Initial" });
+		} else if (e.currentTarget.innerHTML === "Homepage") {
+			this.props.onPhaseChange("Navigate");
 		}
 	},
 	render: function () {
 		if (this.state.phase == "Initial") {
 			return React.createElement(
 				"div",
-				{ id: "nav_box-entry-type" },
+				null,
 				React.createElement(
-					"button",
-					{ id: "btn_income", onClick: this.handleClick },
-					"INCOME"
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Entry type"
+						)
+					)
 				),
 				React.createElement(
-					"button",
-					{ id: "btn_expense", onClick: this.handleClick },
-					"EXPENSE"
+					"div",
+					{ id: "nav_box-entry-type" },
+					React.createElement(
+						"button",
+						{ id: "btn_income", onClick: this.handleClick },
+						"INCOME"
+					),
+					React.createElement(
+						"button",
+						{ id: "btn_expense", onClick: this.handleClick },
+						"EXPENSE"
+					)
 				)
 			);
 		} else if (this.state.phase == "Income") {
 			return React.createElement(
 				"div",
 				null,
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Entry type"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Income"
+						)
+					)
+				),
 				React.createElement(
 					"p",
 					null,
@@ -233,6 +310,39 @@ var Entries = React.createClass({
 			return React.createElement(
 				"div",
 				null,
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Entry type"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Expense"
+						)
+					)
+				),
 				React.createElement(
 					"p",
 					null,
