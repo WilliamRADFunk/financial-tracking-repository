@@ -3,7 +3,7 @@ var Project = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({phase: "Navigate"});
+		return ({phase: "Input"});
 	},
 	handleClick: function(e)
 	{
@@ -35,6 +35,14 @@ var Project = React.createClass
 							<button id="btn_entry" onClick={this.handleClick}>MAKE AN ENTRY</button>
 							<button id="btn_reports" onClick={this.handleClick}>VIEW REPORTS</button>
 						</div>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "Input")
+		{
+			return (<div>
+						<Header/>
+						<Entries/>
 						<Footer/>
 					</div>);
 		}
@@ -103,9 +111,54 @@ var Login = React.createClass
 	}
 });
 /**********Login Elements end here ****************************************************************/
-/**********Phase2 Elements start here *************************************************************/
-
-/**********Phase2 Elements end here ***************************************************************/
+/**********Entry Elements start here *************************************************************/
+var Entries = React.createClass
+({
+	getInitialState: function()
+	{
+		return ({phase: "Initial"});
+	},
+	handleClick: function(e)
+	{
+		if(e.currentTarget.id === "btn_income")
+		{
+			this.setState({phase: "Income"});
+		}
+		else if(e.currentTarget.id === "btn_expense")
+		{
+			this.setState({phase: "Expense"});
+		}
+	},
+	render: function()
+	{
+		if(this.state.phase == "Initial")
+		{
+			return (<div id="nav_box-entry-type">
+							<button id="btn_income" onClick={this.handleClick}>INCOME</button>
+							<button id="btn_expense" onClick={this.handleClick}>EXPENSE</button>
+					</div>);
+		}
+		else if(this.state.phase == "Income")
+		{
+			return (<div>
+						<p>Income Entry</p>
+					</div>);
+		}
+		else if(this.state.phase == "Expense")
+		{
+			return (<div>
+						<p>Expense Entry</p>
+					</div>);
+		}
+		else
+		{
+			return (<div>
+						<p>Try again</p>
+					</div>);
+		}
+	}
+});
+/**********Entry Elements end here ***************************************************************/
 /**********Phase3 Elements start here *************************************************************/
 
 /**********Phase3 Elements end here ***************************************************************/

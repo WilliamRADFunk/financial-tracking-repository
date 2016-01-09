@@ -132,8 +132,8 @@ footer
 }
 #external_links ul
 {
-	line-height: 50px;
 	list-style: none;
+	margin-top: 20px;
 	min-height: 50px;
 	padding: 20px;
 }
@@ -158,12 +158,15 @@ footer
 *
 **/
 #btn_entry,
-#btn_reports
+#btn_reports,
+#btn_income,
+#btn_expense
 {
-	margin: 20px 0px;
+	margin: 40px 0px;
 	width: 100%;
 }
-#nav_box
+#nav_box,
+#nav_box-entry-type
 {
 	display: block;
 	height: auto;

@@ -3,7 +3,7 @@ var Project = React.createClass({
 	displayName: "Project",
 
 	getInitialState: function () {
-		return { phase: "Navigate" };
+		return { phase: "Input" };
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "Input" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else this.setState({ phase: "Login" });
@@ -41,6 +41,14 @@ var Project = React.createClass({
 						"VIEW REPORTS"
 					)
 				),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "Input") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(Entries, null),
 				React.createElement(Footer, null)
 			);
 		} else {
@@ -181,9 +189,70 @@ var Login = React.createClass({
 	}
 });
 /**********Login Elements end here ****************************************************************/
-/**********Phase2 Elements start here *************************************************************/
+/**********Entry Elements start here *************************************************************/
+var Entries = React.createClass({
+	displayName: "Entries",
 
-/**********Phase2 Elements end here ***************************************************************/
+	getInitialState: function () {
+		return { phase: "Initial" };
+	},
+	handleClick: function (e) {
+		if (e.currentTarget.id === "btn_income") {
+			this.setState({ phase: "Income" });
+		} else if (e.currentTarget.id === "btn_expense") {
+			this.setState({ phase: "Expense" });
+		}
+	},
+	render: function () {
+		if (this.state.phase == "Initial") {
+			return React.createElement(
+				"div",
+				{ id: "nav_box-entry-type" },
+				React.createElement(
+					"button",
+					{ id: "btn_income", onClick: this.handleClick },
+					"INCOME"
+				),
+				React.createElement(
+					"button",
+					{ id: "btn_expense", onClick: this.handleClick },
+					"EXPENSE"
+				)
+			);
+		} else if (this.state.phase == "Income") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"p",
+					null,
+					"Income Entry"
+				)
+			);
+		} else if (this.state.phase == "Expense") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"p",
+					null,
+					"Expense Entry"
+				)
+			);
+		} else {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"p",
+					null,
+					"Try again"
+				)
+			);
+		}
+	}
+});
+/**********Entry Elements end here ***************************************************************/
 /**********Phase3 Elements start here *************************************************************/
 
 /**********Phase3 Elements end here ***************************************************************/
