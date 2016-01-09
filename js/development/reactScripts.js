@@ -100,7 +100,7 @@ var Login = React.createClass
 	},
 	render: function()
 	{
-		return (<form id="login" method="post">
+		return (<form id="form_login" method="post">
 					<h2>Login</h2>
 					<div className="content">
 						<p><label htmlFor="username">Username:</label></p>
@@ -108,7 +108,7 @@ var Login = React.createClass
 						<p><label htmlFor="password">Password:</label></p>
 						<input id="password" type="password"/>
 						<hr/>
-						<input id="btn_login" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+						<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
 					</div>
 				</form>);
 	}
@@ -163,7 +163,56 @@ var Entries = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Income</span></li>
 						</ul>
-						<p>Income Entry</p>
+						<form id="form_income" method="post">
+							<h2>Income</h2>
+							<div className="content">
+								<div className="input_income left">
+									<p><label htmlFor="client">Client:</label></p>
+									<input id="client" type="text"/>
+								</div>
+								<div className="input_income middle">
+									<p><label htmlFor="invoice-number">Invoice #:</label></p>
+									<input id="invoice-number" type="number"/>
+								</div>
+								<div className="input_income right">
+									<p><label htmlFor="country">Country:</label></p>
+									<select id="country">
+										<option id="usa" value="usa">USA</option>
+										<option id="canada" value="canada">Canada</option>
+									</select>
+								</div>
+								<div className="input_income left">
+									<p><label htmlFor="date-submitted">Date Submitted:</label></p>
+									<input id="date-submitted" type="date"/>
+								</div>
+								<div className="input_income middle">
+									<p><label htmlFor="date-received">Date Received:</label></p>
+									<input id="date-received" type="date"/>
+								</div>
+								<div className="input_income right">
+									<p><label htmlFor="date-deposited">Date Deposited:</label></p>
+									<input id="date-deposited" type="date"/>
+								</div>
+								<div className="input_income left">
+									<p><label htmlFor="amount">Full Amount $:</label></p>
+									<input id="amount" type="text"/>
+								</div>
+								<div className="input_income middle">
+									<p><label htmlFor="taxes">Date Tax %:</label></p>
+									<input id="taxes" type="text"/>
+								</div>
+								<div className="input_income right">
+									<p><label htmlFor="payee">Payee:</label></p>
+									<select id="payee">
+										<option id="andrea" value="andrea">Andrea</option>
+										<option id="bill" value="bill">Bill</option>
+										<option id="donna" value="donna">Donna</option>
+									</select>
+								</div>
+								<hr/>
+								<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+							</div>
+						</form>
 					</div>);
 		}
 		else if(this.state.phase == "Expense")

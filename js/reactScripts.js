@@ -166,7 +166,7 @@ var Login = React.createClass({
 	render: function () {
 		return React.createElement(
 			"form",
-			{ id: "login", method: "post" },
+			{ id: "form_login", method: "post" },
 			React.createElement(
 				"h2",
 				null,
@@ -196,7 +196,7 @@ var Login = React.createClass({
 				),
 				React.createElement("input", { id: "password", type: "password" }),
 				React.createElement("hr", null),
-				React.createElement("input", { id: "btn_login", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+				React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 			)
 		);
 	}
@@ -301,9 +301,176 @@ var Entries = React.createClass({
 					)
 				),
 				React.createElement(
-					"p",
-					null,
-					"Income Entry"
+					"form",
+					{ id: "form_income", method: "post" },
+					React.createElement(
+						"h2",
+						null,
+						"Income"
+					),
+					React.createElement(
+						"div",
+						{ className: "content" },
+						React.createElement(
+							"div",
+							{ className: "input_income left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "client" },
+									"Client:"
+								)
+							),
+							React.createElement("input", { id: "client", type: "text" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income middle" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "invoice-number" },
+									"Invoice #:"
+								)
+							),
+							React.createElement("input", { id: "invoice-number", type: "number" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income right" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "country" },
+									"Country:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "country" },
+								React.createElement(
+									"option",
+									{ id: "usa", value: "usa" },
+									"USA"
+								),
+								React.createElement(
+									"option",
+									{ id: "canada", value: "canada" },
+									"Canada"
+								)
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "date-submitted" },
+									"Date Submitted:"
+								)
+							),
+							React.createElement("input", { id: "date-submitted", type: "date" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income middle" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "date-received" },
+									"Date Received:"
+								)
+							),
+							React.createElement("input", { id: "date-received", type: "date" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income right" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "date-deposited" },
+									"Date Deposited:"
+								)
+							),
+							React.createElement("input", { id: "date-deposited", type: "date" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "amount" },
+									"Full Amount $:"
+								)
+							),
+							React.createElement("input", { id: "amount", type: "text" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income middle" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "taxes" },
+									"Date Tax %:"
+								)
+							),
+							React.createElement("input", { id: "taxes", type: "text" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input_income right" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "payee" },
+									"Payee:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "payee" },
+								React.createElement(
+									"option",
+									{ id: "andrea", value: "andrea" },
+									"Andrea"
+								),
+								React.createElement(
+									"option",
+									{ id: "bill", value: "bill" },
+									"Bill"
+								),
+								React.createElement(
+									"option",
+									{ id: "donna", value: "donna" },
+									"Donna"
+								)
+							)
+						),
+						React.createElement("hr", null),
+						React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+					)
 				)
 			);
 		} else if (this.state.phase == "Expense") {

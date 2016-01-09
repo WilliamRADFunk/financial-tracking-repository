@@ -43,6 +43,14 @@ header
 	text-align: center;
 	width: 100%;
 }
+.left
+{
+	float: left;
+}
+.right
+{
+	float: right;
+}
 /**
 *
 * Styles for all forms
@@ -72,6 +80,11 @@ form hr
 	padding: 0px;
 	width: 100%;
 }
+.btn_submit
+{
+	float: right;
+	padding: 12px 20px;
+}
 .content
 {
 	width: 100%;
@@ -82,23 +95,16 @@ form hr
 	margin-bottom: 5px;
 }
 .content input[type="text"],
-.content input[type="password"]
+.content input[type="password"],
+.content input[type="number"],
+.content input[type="date"],
+.content select
 {
 	font-size: 14px;
 	height: 30px;
 	margin-bottom: 20px;
 	padding: 0% 2%;
 	width: 96%;
-}
-/**
-*
-* Styles for the login form
-*
-**/
-#btn_login
-{
-	float: right;
-	padding: 12px 20px;
 }
 /**
 *
@@ -189,4 +195,33 @@ footer
 .breadcrumb-label:hover
 {
 	text-decoration: underline;
+}
+/**
+*
+* Styles for income entry form
+*
+**/
+.input_income
+{
+	display: inline-block;
+	width: 30%;
+}
+.input_income input[type="text"],
+.input_income input[type="password"],
+.input_income input[type="number"]
+{
+	width: 96%;
+}
+.input_income input[type="date"]
+{
+	padding-right: 0%;
+}
+.input_income select
+{
+	height: 34px;
+	width: 100%;
+}
+.middle
+{
+	margin-left: 5%;
 }
