@@ -1,24 +1,6 @@
-/**********Inline CSS starts here *****************************************************************/
-var centerBlack = {
-	color: 'black',
-	textAlign: 'center'
-};
-var centerBlue = {
-	color: 'blue',
-	textAlign: 'center'
-};
-var leftGreen = {
-	color: 'green',
-	textAlign: 'left'
-};
-var rightRed = {
-	color: 'red',
-	textAlign: 'right'
-};
-/**********Inline CSS ends here *******************************************************************/
 /**********Root Element starts here ***************************************************************/
 var Project = React.createClass({
-	displayName: 'Project',
+	displayName: "Project",
 
 	getInitialState: function () {
 		return {
@@ -29,7 +11,7 @@ var Project = React.createClass({
 
 		if (this.state.phase === "Login") {
 			return React.createElement(
-				'div',
+				"div",
 				null,
 				React.createElement(Header, null),
 				React.createElement(Login, null),
@@ -37,13 +19,13 @@ var Project = React.createClass({
 			);
 		} else {
 			return React.createElement(
-				'div',
+				"div",
 				null,
 				React.createElement(Header, null),
 				React.createElement(
-					'p',
+					"p",
 					null,
-					'Not in Login anymore'
+					"Not in Login anymore"
 				),
 				React.createElement(Footer, null)
 			);
@@ -53,72 +35,72 @@ var Project = React.createClass({
 /**********Root Elements ends here ****************************************************************/
 /**********Header & Footer Elements start here ****************************************************/
 var Header = React.createClass({
-	displayName: 'Header',
+	displayName: "Header",
 
 	render: function () {
 		return React.createElement(
-			'header',
+			"header",
 			null,
 			React.createElement(
-				'h1',
+				"h1",
 				null,
-				'Financial Tracking Repository'
+				"Financial Tracking Repository"
 			)
 		);
 	}
 });
 var Footer = React.createClass({
-	displayName: 'Footer',
+	displayName: "Footer",
 
 	render: function () {
 		return React.createElement(
-			'footer',
+			"footer",
 			null,
 			React.createElement(
-				'div',
-				{ id: 'external_links' },
+				"div",
+				{ id: "external_links" },
 				React.createElement(
-					'h2',
+					"h2",
 					null,
-					'External Links'
+					"External Links"
 				),
 				React.createElement(
-					'ul',
+					"ul",
 					null,
 					React.createElement(
-						'li',
+						"li",
 						null,
 						React.createElement(
-							'a',
-							{ href: 'http://williamrobertfunk.com' },
-							'Portfolio Site'
+							"a",
+							{ href: "http://williamrobertfunk.com" },
+							"Portfolio Site"
 						)
 					),
 					React.createElement(
-						'li',
+						"li",
 						null,
 						React.createElement(
-							'a',
-							{ href: 'https://github.com/WilliamRADFunk' },
-							'Github Repository'
+							"a",
+							{ href: "https://github.com/WilliamRADFunk" },
+							"Github Repository"
 						)
 					),
 					React.createElement(
-						'li',
+						"li",
 						null,
 						React.createElement(
-							'a',
-							{ href: 'http://www.williamrobertfunk.com/assets/Resume.pdf' },
-							'Download Resume'
+							"a",
+							{ href: "http://www.williamrobertfunk.com/assets/Resume.pdf" },
+							"Download Resume"
 						)
 					),
 					React.createElement(
-						'li',
+						"li",
 						null,
 						React.createElement(
-							'a',
-							{ href: 'mailto:contact@williamradfunk.com?Subject=Programming%20Related:' },
-							'Send Mail'
+							"a",
+							{ href: "mailto:contact@williamradfunk.com?Subject=Programming%20Related:" },
+							"Send Mail"
 						)
 					)
 				)
@@ -129,42 +111,45 @@ var Footer = React.createClass({
 /**********Header & Footer Elements end here ******************************************************/
 /**********Login Elements start here **************************************************************/
 var Login = React.createClass({
-	displayName: 'Login',
+	displayName: "Login",
 
+	handleClick: function (e) {
+		validateLogin(e);
+	},
 	render: function () {
 		return React.createElement(
-			'form',
-			{ id: 'login', action: 'actions/controllers/login.php', method: 'post' },
+			"form",
+			{ id: "login", method: "post" },
 			React.createElement(
-				'h2',
+				"h2",
 				null,
-				'Login'
+				"Login"
 			),
 			React.createElement(
-				'div',
-				{ className: 'content' },
+				"div",
+				{ className: "content" },
 				React.createElement(
-					'p',
+					"p",
 					null,
 					React.createElement(
-						'label',
-						{ htmlFor: 'username' },
-						'Username:'
+						"label",
+						{ htmlFor: "username" },
+						"Username:"
 					)
 				),
-				React.createElement('input', { id: 'username', type: 'text' }),
+				React.createElement("input", { id: "username", type: "text" }),
 				React.createElement(
-					'p',
+					"p",
 					null,
 					React.createElement(
-						'label',
-						{ htmlFor: 'password' },
-						'Password:'
+						"label",
+						{ htmlFor: "password" },
+						"Password:"
 					)
 				),
-				React.createElement('input', { id: 'password', type: 'password' }),
-				React.createElement('hr', null),
-				React.createElement('input', { id: 'btn_login', type: 'submit', value: 'SUBMIT' })
+				React.createElement("input", { id: "password", type: "password" }),
+				React.createElement("hr", null),
+				React.createElement("input", { id: "btn_login", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 			)
 		);
 	}

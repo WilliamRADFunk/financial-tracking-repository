@@ -1,21 +1,3 @@
-/**********Inline CSS starts here *****************************************************************/
-var centerBlack = {
-	color: 'black',
-	textAlign: 'center'
-};
-var centerBlue = {
-	color: 'blue',
-	textAlign: 'center'
-};
-var leftGreen = {
-	color: 'green',
-	textAlign: 'left'
-};
-var rightRed = {
-	color: 'red',
-	textAlign: 'right'
-};
-/**********Inline CSS ends here *******************************************************************/
 /**********Root Element starts here ***************************************************************/
 var Project = React.createClass
 ({
@@ -80,9 +62,13 @@ var Footer = React.createClass
 /**********Login Elements start here **************************************************************/
 var Login = React.createClass
 ({
+	handleClick: function(e)
+	{
+		validateLogin(e);
+	},
 	render: function()
 	{
-		return (<form id="login" action="actions/controllers/login.php" method="post">
+		return (<form id="login" method="post">
 					<h2>Login</h2>
 					<div className="content">
 						<p><label htmlFor="username">Username:</label></p>
@@ -90,7 +76,7 @@ var Login = React.createClass
 						<p><label htmlFor="password">Password:</label></p>
 						<input id="password" type="password"/>
 						<hr/>
-						<input id="btn_login" type="submit" value="SUBMIT"/>
+						<input id="btn_login" type="submit" onClick={this.handleClick} value="SUBMIT"/>
 					</div>
 				</form>);
 	}

@@ -19,6 +19,8 @@
 	<!-- Scripts unique to this project (React format) -->
 	<script async src="js/reactScripts.js"></script>
 	<script async src="js/scripts.js"></script>
+	<!-- Data Access (AJAX) -->
+	<script src="js/data.js"></script>
 </head>
 <body>
 	<div id="react-container"></div>
