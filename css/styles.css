@@ -10,6 +10,28 @@ body
 	font-family: Arial;
 	width: 100%;
 }
+button,
+input[type="submit"]
+{
+	background-color: #444444;
+	color: #DCDDD8;
+	display: block;
+	padding: 12px 20px;
+}
+button:hover,
+input[type="submit"]:hover
+{
+	background-color: #000000;
+	color: #CCCCCC;
+	display: block;
+}
+button:active,
+input[type="submit"]:active
+{
+	background-color: #CCCCCC;
+	color: #000000;
+	display: block;
+}
 header
 {
 	background-color: #D77B7B;
@@ -31,17 +53,17 @@ form
 	color: #DCDDD8;
 	display: block;
 	height: auto;
-	margin: 5% 0% 5% 10%;
-	width: 90%;
+	margin: 5% auto 5% auto;
+	width: 50%;
 }
 form h2
 {
 	border-bottom: 2px dashed #CCCCCC;
-	font-size: 26px;
+	font-size: 28px;
 	height: 50px;
 	line-height: 50px;
 	margin-bottom: 20px;
-	width: 40%;
+	width: 100%;
 }
 form hr
 {
@@ -52,17 +74,21 @@ form hr
 }
 .content
 {
-	width: 40%;
+	width: 100%;
 }
 .content p
 {
+	font-size: 18px;
 	margin-bottom: 5px;
 }
 .content input[type="text"],
 .content input[type="password"]
 {
+	font-size: 14px;
+	height: 30px;
 	margin-bottom: 20px;
-	width: 100%;
+	padding: 0% 2%;
+	width: 96%;
 }
 /**
 *
@@ -71,25 +97,8 @@ form hr
 **/
 #btn_login
 {
-	background-color: #444444;
-	color: #DCDDD8;
-	display: block;
-}
-#btn_login:hover
-{
-	background-color: #000000;
-	color: #CCCCCC;
-	display: block;
-}
-#btn_login:active
-{
-	background-color: #CCCCCC;
-	color: #000000;
-	display: block;
-}
-#login
-{
-	
+	float: right;
+	padding: 12px 20px;
 }
 /**
 *
@@ -142,4 +151,22 @@ footer
 	height: 50px;
 	line-height: 50px;
 	text-align: center;
+}
+/**
+*
+* Styles for navigation buttons & links
+*
+**/
+#btn_entry,
+#btn_reports
+{
+	margin: 20px 0px;
+	width: 100%;
+}
+#nav_box
+{
+	display: block;
+	height: auto;
+	margin: 10% auto 10% auto;
+	width: 20%;
 }

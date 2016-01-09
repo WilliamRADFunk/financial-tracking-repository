@@ -3,9 +3,10 @@ var Project = React.createClass({
 	displayName: "Project",
 
 	getInitialState: function () {
-		return {
-			phase: "Login"
-		};
+		return { phase: "Navigate" };
+	},
+	handleClick: function (e) {
+		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "Input" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else this.setState({ phase: "Login" });
 	},
 	onPhaseChange: function (phase) {
 		console.log("Phase changed");
@@ -21,6 +22,27 @@ var Project = React.createClass({
 				React.createElement(Login, { onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
+		} else if (this.state.phase === "Navigate") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(
+					"div",
+					{ id: "nav_box" },
+					React.createElement(
+						"button",
+						{ id: "btn_entry", onClick: this.handleClick },
+						"MAKE AN ENTRY"
+					),
+					React.createElement(
+						"button",
+						{ id: "btn_reports", onClick: this.handleClick },
+						"VIEW REPORTS"
+					)
+				),
+				React.createElement(Footer, null)
+			);
 		} else {
 			return React.createElement(
 				"div",
@@ -29,7 +51,7 @@ var Project = React.createClass({
 				React.createElement(
 					"p",
 					null,
-					"Not in Login anymore"
+					"Try again"
 				),
 				React.createElement(Footer, null)
 			);
@@ -118,11 +140,7 @@ var Login = React.createClass({
 	displayName: "Login",
 
 	handleClick: function (e) {
-		if (validateLogin(e)) {
-			this.props.onPhaseChange("Reports");
-		} else {
-			console.log("Not a valid login");
-		}
+		if (validateLogin(e) == "true") this.props.onPhaseChange("Navigate");else console.log("Not a valid login");
 	},
 	render: function () {
 		return React.createElement(
@@ -182,9 +200,5 @@ function run() {
 
 const loadedStates = ['complete', 'loaded', 'interactive'];
 
-if (loadedStates.includes(document.readyState) && document.body) {
-	run();
-} else {
-	window.addEventListener('DOMContentLoaded', run, false);
-}
+if (loadedStates.includes(document.readyState) && document.body) run();else window.addEventListener('DOMContentLoaded', run, false);
 /**********Loadup JavaScript ends here ************************************************************/

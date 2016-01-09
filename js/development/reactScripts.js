@@ -3,9 +3,13 @@ var Project = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({
-			phase: "Login"
-		});
+		return ({phase: "Navigate"});
+	},
+	handleClick: function(e)
+	{
+		if(e.currentTarget.id === "btn_entry") this.setState({phase: "Input"});
+		else if(e.currentTarget.id === "btn_reports") this.setState({phase: "Report"});
+		else this.setState({phase: "Login"});
 	},
 	onPhaseChange: function(phase)
 	{
@@ -23,11 +27,22 @@ var Project = React.createClass
 						<Footer/>
 					</div>);
 		}
+		else if(this.state.phase === "Navigate")
+		{
+			return (<div>
+						<Header/>
+						<div id="nav_box">
+							<button id="btn_entry" onClick={this.handleClick}>MAKE AN ENTRY</button>
+							<button id="btn_reports" onClick={this.handleClick}>VIEW REPORTS</button>
+						</div>
+						<Footer/>
+					</div>);
+		}
 		else
 		{
 			return (<div>
 						<Header/>
-						<p>Not in Login anymore</p>
+						<p>Try again</p>
 						<Footer/>
 					</div>);
 		}
@@ -69,14 +84,8 @@ var Login = React.createClass
 ({
 	handleClick: function(e)
 	{
-		if(validateLogin(e))
-		{
-			this.props.onPhaseChange("Reports");
-		}
-		else
-		{
-			console.log("Not a valid login");
-		}
+		if(validateLogin(e) == "true") this.props.onPhaseChange("Navigate");
+		else console.log("Not a valid login");
 	},
 	render: function()
 	{
@@ -114,12 +123,6 @@ function run()
 
 const loadedStates = ['complete', 'loaded', 'interactive'];
 
-if (loadedStates.includes(document.readyState) && document.body)
-{
-	run();
-}
-else
-{
-	window.addEventListener('DOMContentLoaded', run, false);
-}
+if (loadedStates.includes(document.readyState) && document.body) run();
+else window.addEventListener('DOMContentLoaded', run, false);
 /**********Loadup JavaScript ends here ************************************************************/
