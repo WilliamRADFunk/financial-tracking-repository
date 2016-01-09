@@ -7,23 +7,28 @@ var Project = React.createClass
 			phase: "Login"
 		});
 	},
+	onPhaseChange: function(phase)
+	{
+		console.log("Phase changed");
+		this.setState({phase: phase});
+	},
 	render: function()
 	{
 
 		if(this.state.phase === "Login")
 		{
 			return (<div>
-						<Header></Header>
-						<Login></Login>
-						<Footer></Footer>
+						<Header/>
+						<Login onPhaseChange={this.onPhaseChange}/>
+						<Footer/>
 					</div>);
 		}
 		else
 		{
 			return (<div>
-						<Header></Header>
+						<Header/>
 						<p>Not in Login anymore</p>
-						<Footer></Footer>
+						<Footer/>
 					</div>);
 		}
 	}
@@ -64,7 +69,14 @@ var Login = React.createClass
 ({
 	handleClick: function(e)
 	{
-		validateLogin(e);
+		if(validateLogin(e))
+		{
+			this.props.onPhaseChange("Reports");
+		}
+		else
+		{
+			console.log("Not a valid login");
+		}
 	},
 	render: function()
 	{

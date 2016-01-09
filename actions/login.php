@@ -25,18 +25,17 @@ while ( $db_row = $result->fetch_array(MYSQLI_ASSOC) )
 {
 	$pwd_db = $db_row['Password'];
 }
-$conn->close();
-
 //Now compare input password with password in database
 if( ($pwd_db == "") || ($pwd_db != $pwd) )
 {
-	print "Nope!";
-	return "Invalid";
+	$reply = '{"success":"false"}';
+	print $reply;
 }
 else
 {
 	$_SESSION["key"] = $key;
-	print "You got it!";
-	return "Valid";
+	$reply = '{"success":"true"}';
+	print $reply;
 }
+$conn->close();
 ?>

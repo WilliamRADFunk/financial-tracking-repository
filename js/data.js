@@ -7,17 +7,19 @@ function login(username, password)
         pwd: password
     };
 
+    var result = false;
+
     $.ajax({
         type:'POST',
         url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/login.php',
         data: JSON.stringify(identityPackage),
         contentType:'application/x-www-form-urlencoded; charset=utf-8',
         dataType:'text',
-        async: true,
-        success:function(e)
+        async: false,
+        success:function(responseData)
         {
             console.log("Login Validates.");
-            console.log(e);
+            result = JSON.parse(responseData).success;
         },
         error:function(error)
         {
@@ -28,4 +30,6 @@ function login(username, password)
             alert("Login Failed!");
         }
     });
+
+    return result;
 }
