@@ -35,7 +35,6 @@ if( ($pwd_db == "") || ($pwd_db != $pwd) )
 }
 else
 {
-	session_start();
 	$_SESSION["key"] = $key;
 	print "You got it!";
 	return "Valid";
