@@ -48,7 +48,7 @@ function incomeEntry(incomePackage)
         success:function(responseData)
         {
             console.log("Entry Successfully Entered.");
-            result = JSON.parse(responseData).success;
+            //result = JSON.parse(responseData).success;
         },
         error:function(error)
         {
