@@ -225,3 +225,16 @@ footer
 {
 	margin-left: 5%;
 }
+/**
+*
+* Custom styles related to the jQuery dialog boxes
+*
+**/
+#dialog-failed-entry,
+#dialog-failed-Login,
+#dialog-success
+{
+	display: none;
+	float:left;
+	margin:0px 7px 50px 0px;
+}

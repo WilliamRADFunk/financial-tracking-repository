@@ -3,7 +3,7 @@ var Project = React.createClass({
 	displayName: "Project",
 
 	getInitialState: function () {
-		return { phase: "Login" };
+		return { phase: "Input" };
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "Input" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else this.setState({ phase: "Login" });
@@ -80,6 +80,53 @@ var Project = React.createClass({
 	}
 });
 /**********Root Elements ends here ****************************************************************/
+/**********Modal Elements starts here *************************************************************/
+var SuccessModal = React.createClass({
+	displayName: "SuccessModal",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ id: "dialog-success", title: "Entry Complete" },
+			React.createElement(
+				"p",
+				null,
+				"Your entry was successful."
+			)
+		);
+	}
+});
+var FailedModal = React.createClass({
+	displayName: "FailedModal",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ id: "dialog-failed-entry", title: "Entry Failed" },
+			React.createElement(
+				"p",
+				null,
+				"Your entry failed. Contact your application developer."
+			)
+		);
+	}
+});
+var FailedLogin = React.createClass({
+	displayName: "FailedLogin",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ id: "dialog-failed-Login", title: "Invalid Login" },
+			React.createElement(
+				"p",
+				null,
+				"The username or password you entered didn't match our records."
+			)
+		);
+	}
+});
+/**********Modal Elements ends here ***************************************************************/
 /**********Header & Footer Elements start here ****************************************************/
 var Header = React.createClass({
 	displayName: "Header",
@@ -160,43 +207,56 @@ var Footer = React.createClass({
 var Login = React.createClass({
 	displayName: "Login",
 
+	getInitialState: function () {
+		return {
+			modal: false
+		};
+	},
 	handleClick: function (e) {
-		if (processLogin(e) == "true") this.props.onPhaseChange("Navigate");else console.log("Not a valid login");
+		if (processLogin(e) == "true") this.props.onPhaseChange("Navigate");else {
+			this.setState({ modal: true });
+			callModal("dialog-failed-Login");
+		}
 	},
 	render: function () {
 		return React.createElement(
-			"form",
-			{ id: "form_login", method: "post" },
+			"div",
+			null,
+			React.createElement(FailedLogin, { display: this.state.modal }),
 			React.createElement(
-				"h2",
-				null,
-				"Login"
-			),
-			React.createElement(
-				"div",
-				{ className: "content" },
+				"form",
+				{ id: "form_login", method: "post" },
 				React.createElement(
-					"p",
+					"h2",
 					null,
-					React.createElement(
-						"label",
-						{ htmlFor: "username" },
-						"Username:"
-					)
+					"Login"
 				),
-				React.createElement("input", { id: "username", type: "text", autofocus: true }),
 				React.createElement(
-					"p",
-					null,
+					"div",
+					{ className: "content" },
 					React.createElement(
-						"label",
-						{ htmlFor: "password" },
-						"Password:"
-					)
-				),
-				React.createElement("input", { id: "password", type: "password" }),
-				React.createElement("hr", null),
-				React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+						"p",
+						null,
+						React.createElement(
+							"label",
+							{ htmlFor: "username" },
+							"Username:"
+						)
+					),
+					React.createElement("input", { id: "username", type: "text", autofocus: true }),
+					React.createElement(
+						"p",
+						null,
+						React.createElement(
+							"label",
+							{ htmlFor: "password" },
+							"Password:"
+						)
+					),
+					React.createElement("input", { id: "password", type: "password" }),
+					React.createElement("hr", null),
+					React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+				)
 			)
 		);
 	}
@@ -207,7 +267,11 @@ var Entries = React.createClass({
 	displayName: "Entries",
 
 	getInitialState: function () {
-		return { phase: "Initial" };
+		return {
+			phase: "Income",
+			modalFail: false,
+			modalSuccess: false
+		};
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.id === "btn_income") {
@@ -221,9 +285,11 @@ var Entries = React.createClass({
 		} else if (e.currentTarget.value === "SUBMIT") {
 			var result = processIncomeEntry(e);
 			if (result === "true") {
-				console.log("Form Submitted!");
+				this.setState({ modalSuccess: true });
+				callModal("dialog-success");
 			} else {
-				console.log("Submit Failed!");
+				this.setState({ modalFail: true });
+				callModal("dialog-failed-entry");
 			}
 		}
 	},
@@ -273,7 +339,7 @@ var Entries = React.createClass({
 		} else if (this.state.phase == "Income") {
 			return React.createElement(
 				"div",
-				null,
+				{ id: "wrapper_income" },
 				React.createElement(
 					"ul",
 					{ className: "breadcrumbs" },
@@ -307,6 +373,8 @@ var Entries = React.createClass({
 						)
 					)
 				),
+				React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+				React.createElement(FailedModal, { display: this.state.modalFail }),
 				React.createElement(
 					"form",
 					{ id: "form_income", method: "post" },

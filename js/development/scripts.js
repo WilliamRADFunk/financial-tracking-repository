@@ -28,10 +28,26 @@ function processIncomeEntry(e)
 		taxes: taxes,
 		payee: payee
 	};
+	document.getElementById("form_income").reset();
 	return incomeEntry(incomePackage);
 }
 function killDefaultEvent(e)
 {
 	e.preventDefault();
 	e.stopPropagation();
+}
+function callModal(modalName)
+{
+	$(function() {
+		$( "#" + modalName ).dialog({
+			modal: true,
+			buttons:
+			{
+				Ok: function()
+				{
+		  			$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
 }

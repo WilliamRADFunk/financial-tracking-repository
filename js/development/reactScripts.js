@@ -3,7 +3,7 @@ var Project = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({phase: "Login"});
+		return ({phase: "Input"});
 	},
 	handleClick: function(e)
 	{
@@ -60,6 +60,41 @@ var Project = React.createClass
 	}
 });
 /**********Root Elements ends here ****************************************************************/
+/**********Modal Elements starts here *************************************************************/
+var SuccessModal = React.createClass
+({
+	render: function()
+	{
+		return (<div id="dialog-success" title="Entry Complete">
+					<p>
+						Your entry was successful.
+					</p>
+				</div>);
+	}
+});
+var FailedModal = React.createClass
+({
+	render: function()
+	{
+		return (<div id="dialog-failed-entry" title="Entry Failed">
+					<p>
+						Your entry failed. Contact your application developer.
+					</p>
+				</div>);
+	}
+});
+var FailedLogin = React.createClass
+({
+	render: function()
+	{
+		return (<div id="dialog-failed-Login" title="Invalid Login">
+					<p>
+						The username or password you entered didn&#39;t match our records.
+					</p>
+				</div>);
+	}
+});
+/**********Modal Elements ends here ***************************************************************/
 /**********Header & Footer Elements start here ****************************************************/
 var Header = React.createClass
 ({
@@ -93,24 +128,37 @@ var Footer = React.createClass
 /**********Login Elements start here **************************************************************/
 var Login = React.createClass
 ({
+	getInitialState: function()
+	{
+		return ({
+					modal: false
+				});
+	},
 	handleClick: function(e)
 	{
 		if(processLogin(e) == "true") this.props.onPhaseChange("Navigate");
-		else console.log("Not a valid login");
+		else
+		{
+			this.setState({modal:true});
+			callModal("dialog-failed-Login");
+		}
 	},
 	render: function()
 	{
-		return (<form id="form_login" method="post">
-					<h2>Login</h2>
-					<div className="content">
-						<p><label htmlFor="username">Username:</label></p>
-						<input id="username" type="text" autofocus/>
-						<p><label htmlFor="password">Password:</label></p>
-						<input id="password" type="password"/>
-						<hr/>
-						<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
-					</div>
-				</form>);
+		return (<div>
+					<FailedLogin display={this.state.modal}/>
+					<form id="form_login" method="post">
+						<h2>Login</h2>
+						<div className="content">
+							<p><label htmlFor="username">Username:</label></p>
+							<input id="username" type="text" autofocus/>
+							<p><label htmlFor="password">Password:</label></p>
+							<input id="password" type="password"/>
+							<hr/>
+							<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+						</div>
+					</form>
+				</div>);
 	}
 });
 /**********Login Elements end here ****************************************************************/
@@ -119,7 +167,11 @@ var Entries = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({phase: "Initial"});
+		return ({
+					phase: "Income",
+					modalFail: false,
+					modalSuccess: false
+				});
 	},
 	handleClick: function(e)
 	{
@@ -144,11 +196,13 @@ var Entries = React.createClass
 			var result = processIncomeEntry(e);
 			if(result === "true")
 			{
-				console.log("Form Submitted!");
+				this.setState({modalSuccess:true});
+				callModal("dialog-success");
 			}
 			else
 			{
-				console.log("Submit Failed!");
+				this.setState({modalFail:true});
+				callModal("dialog-failed-entry");
 			}
 		}
 	},
@@ -169,12 +223,14 @@ var Entries = React.createClass
 		}
 		else if(this.state.phase == "Income")
 		{
-			return (<div>
+			return (<div id="wrapper_income">
 						<ul className="breadcrumbs">
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Income</span></li>
 						</ul>
+						<SuccessModal display={this.state.modalSuccess}/>
+						<FailedModal display={this.state.modalFail}/>
 						<form id="form_income" method="post">
 							<h2>Income</h2>
 							<div className="content">

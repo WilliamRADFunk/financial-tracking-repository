@@ -7,7 +7,7 @@ function login(username, password)
         pwd: password
     };
 
-    var result = false;
+    var result = "false";
 
     $.ajax({
         type:'POST',
@@ -18,7 +18,6 @@ function login(username, password)
         async: false,
         success:function(responseData)
         {
-            console.log("Login Validates.");
             result = JSON.parse(responseData).success;
         },
         error:function(error)
@@ -27,7 +26,6 @@ function login(username, password)
             console.log(error.responseText);
             console.log(error.status);
             console.log(error.statusText);
-            alert("Login Failed!");
         }
     });
 
@@ -36,7 +34,7 @@ function login(username, password)
 /* Inserts the new income entry into the database */
 function incomeEntry(incomePackage)
 {
-    var result = false;
+    var result = "false";
 
     $.ajax({
         type:'POST',
@@ -44,11 +42,10 @@ function incomeEntry(incomePackage)
         data: JSON.stringify(incomePackage),
         contentType:'application/x-www-form-urlencoded; charset=utf-8',
         dataType:'text',
-        async: true,
+        async: false,
         success:function(responseData)
         {
-            console.log("Entry Successfully Entered.");
-            //result = JSON.parse(responseData).success;
+            result = JSON.parse(responseData).success;
         },
         error:function(error)
         {
@@ -56,7 +53,6 @@ function incomeEntry(incomePackage)
             console.log(error.responseText);
             console.log(error.status);
             console.log(error.statusText);
-            alert("Entry Failed!");
         }
     });
 
