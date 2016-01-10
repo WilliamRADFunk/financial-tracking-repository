@@ -3,7 +3,7 @@ var Project = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({phase: "Input"});
+		return ({phase: "Login"});
 	},
 	handleClick: function(e)
 	{
@@ -95,7 +95,7 @@ var Login = React.createClass
 ({
 	handleClick: function(e)
 	{
-		if(validateLogin(e) == "true") this.props.onPhaseChange("Navigate");
+		if(processLogin(e) == "true") this.props.onPhaseChange("Navigate");
 		else console.log("Not a valid login");
 	},
 	render: function()
@@ -104,7 +104,7 @@ var Login = React.createClass
 					<h2>Login</h2>
 					<div className="content">
 						<p><label htmlFor="username">Username:</label></p>
-						<input id="username" type="text"/>
+						<input id="username" type="text" autofocus/>
 						<p><label htmlFor="password">Password:</label></p>
 						<input id="password" type="password"/>
 						<hr/>
@@ -139,6 +139,18 @@ var Entries = React.createClass
 		{
 			this.props.onPhaseChange("Navigate");
 		}
+		else if(e.currentTarget.value === "SUBMIT")
+		{
+			var result = processIncomeEntry(e);
+			if(result === "true")
+			{
+				console.log("Form Submitted!");
+			}
+			else
+			{
+				console.log("Submit Failed!");
+			}
+		}
 	},
 	render: function()
 	{
@@ -168,7 +180,7 @@ var Entries = React.createClass
 							<div className="content">
 								<div className="input_income left">
 									<p><label htmlFor="client">Client:</label></p>
-									<input id="client" type="text"/>
+									<input id="client" type="text" autofocus/>
 								</div>
 								<div className="input_income middle">
 									<p><label htmlFor="invoice-number">Invoice #:</label></p>

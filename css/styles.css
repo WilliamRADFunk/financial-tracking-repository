@@ -61,7 +61,7 @@ form
 	color: #DCDDD8;
 	display: block;
 	height: auto;
-	margin: 5% auto 5% auto;
+	margin: 5% auto 10% auto;
 	width: 50%;
 }
 form h2
@@ -115,7 +115,7 @@ footer
 {
 	bottom: 5px;
 	left: 0px;
-	position: absolute;
+	position: relative;
 	width: 100%;
 }
 #external_links

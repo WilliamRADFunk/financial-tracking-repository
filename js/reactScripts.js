@@ -3,7 +3,7 @@ var Project = React.createClass({
 	displayName: "Project",
 
 	getInitialState: function () {
-		return { phase: "Input" };
+		return { phase: "Login" };
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "Input" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else this.setState({ phase: "Login" });
@@ -161,7 +161,7 @@ var Login = React.createClass({
 	displayName: "Login",
 
 	handleClick: function (e) {
-		if (validateLogin(e) == "true") this.props.onPhaseChange("Navigate");else console.log("Not a valid login");
+		if (processLogin(e) == "true") this.props.onPhaseChange("Navigate");else console.log("Not a valid login");
 	},
 	render: function () {
 		return React.createElement(
@@ -184,7 +184,7 @@ var Login = React.createClass({
 						"Username:"
 					)
 				),
-				React.createElement("input", { id: "username", type: "text" }),
+				React.createElement("input", { id: "username", type: "text", autofocus: true }),
 				React.createElement(
 					"p",
 					null,
@@ -218,6 +218,13 @@ var Entries = React.createClass({
 			this.setState({ phase: "Initial" });
 		} else if (e.currentTarget.innerHTML === "Homepage") {
 			this.props.onPhaseChange("Navigate");
+		} else if (e.currentTarget.value === "SUBMIT") {
+			var result = processIncomeEntry(e);
+			if (result === "true") {
+				console.log("Form Submitted!");
+			} else {
+				console.log("Submit Failed!");
+			}
 		}
 	},
 	render: function () {
@@ -323,7 +330,7 @@ var Entries = React.createClass({
 									"Client:"
 								)
 							),
-							React.createElement("input", { id: "client", type: "text" })
+							React.createElement("input", { id: "client", type: "text", autofocus: true })
 						),
 						React.createElement(
 							"div",
