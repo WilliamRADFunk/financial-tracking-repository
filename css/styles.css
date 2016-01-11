@@ -232,7 +232,8 @@ footer
 **/
 #dialog-failed-entry,
 #dialog-failed-Login,
-#dialog-success
+#dialog-success,
+#dialog-no-key
 {
 	display: none;
 	float:left;

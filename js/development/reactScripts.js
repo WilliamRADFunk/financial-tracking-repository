@@ -3,7 +3,7 @@ var Project = React.createClass
 ({
 	getInitialState: function()
 	{
-		return ({phase: "Input"});
+		return ({phase: "Login"});
 	},
 	handleClick: function(e)
 	{
@@ -94,6 +94,17 @@ var FailedLogin = React.createClass
 				</div>);
 	}
 });
+var NoKeyModal = React.createClass
+({
+	render: function()
+	{
+		return (<div id="dialog-no-key" title="Not Logged In">
+					<p>
+						You are not logged in. Log back in, and resubmit your entry.
+					</p>
+				</div>);
+	}
+});
 /**********Modal Elements ends here ***************************************************************/
 /**********Header & Footer Elements start here ****************************************************/
 var Header = React.createClass
@@ -168,46 +179,55 @@ var Entries = React.createClass
 	getInitialState: function()
 	{
 		return ({
-					phase: "Income",
+					phase: "Initial",
 					modalFail: false,
-					modalSuccess: false
+					modalSuccess: false,
+					modalNoKey: true
 				});
+	},
+	handleSubmissionResponse: function(result)
+	{
+		if(result === "true")
+		{
+			this.setState({modalSuccess:true});
+			callModal("dialog-success");
+		}
+		else if(result === "false")
+		{
+			this.setState({modalFail:true});
+			callModal("dialog-failed-entry");
+		}
+		else
+		{
+			this.setState({modalNoKey:true});
+			callModal("dialog-no-key");
+		}
 	},
 	handleClick: function(e)
 	{
-		if(e.currentTarget.id === "btn_income")
-		{
-			this.setState({phase: "Income"});
-		}
-		else if(e.currentTarget.id === "btn_expense")
-		{
-			this.setState({phase: "Expense"});
-		}
-		else if(e.currentTarget.id === "btn_borrow")
-		{
-			this.setState({phase: "Borrow"});
-		}
-		else if(e.currentTarget.innerHTML === "Entry type")
-		{
-			this.setState({phase: "Initial"});
-		}
-		else if(e.currentTarget.innerHTML === "Homepage")
-		{
-			this.props.onPhaseChange("Navigate");
-		}
+		if(e.currentTarget.id === "btn_income") this.setState({phase: "Income"});
+		else if(e.currentTarget.id === "btn_expense") this.setState({phase: "Expense"});
+		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
+		else if(e.currentTarget.innerHTML === "Entry type") this.setState({phase: "Initial"});
+		else if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
 		else if(e.currentTarget.value === "SUBMIT")
 		{
-			var result = processIncomeEntry(e);
-			if(result === "true")
+			if(e.currentTarget.id === "btn_subinc")
 			{
-				this.setState({modalSuccess:true});
-				callModal("dialog-success");
+				this.handleSubmissionResponse(processIncomeEntry(e));
+			}
+			else if(e.currentTarget.id === "btn_subexp")
+			{
+				this.handleSubmissionResponse(processExpenseEntry(e));
 			}
 			else
 			{
-				this.setState({modalFail:true});
-				callModal("dialog-failed-entry");
+				console.log("Neither Income nor expense.");
 			}
+		}
+		else
+		{
+			console.log("Unexpected outcome.");
 		}
 	},
 	render: function()
@@ -236,6 +256,7 @@ var Entries = React.createClass
 						</ul>
 						<SuccessModal display={this.state.modalSuccess}/>
 						<FailedModal display={this.state.modalFail}/>
+						<NoKeyModal display={this.state.modalNoKey}/>
 						<form id="form_income" method="post">
 							<h2>Income</h2>
 							<div className="content">
@@ -283,7 +304,7 @@ var Entries = React.createClass
 									</select>
 								</div>
 								<hr/>
-								<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+								<input id="btn_subinc" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
 							</div>
 						</form>
 					</div>);
@@ -298,6 +319,7 @@ var Entries = React.createClass
 						</ul>
 						<SuccessModal display={this.state.modalSuccess}/>
 						<FailedModal display={this.state.modalFail}/>
+						<NoKeyModal display={this.state.modalNoKey}/>
 						<form id="form_expense" method="post">
 							<h2>Expense</h2>
 							<div className="content">
@@ -371,7 +393,7 @@ var Entries = React.createClass
 									<input id="amount" type="text"/>
 								</div>
 								<hr/>
-								<input className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+								<input id="btn_subexp" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
 							</div>
 						</form>
 					</div>);

@@ -7,16 +7,14 @@ $input = file_get_contents('php://input');
 $object = json_encode($input, JSON_FORCE_OBJECT);
 
 $inputArray = explode(",", $input);
-
-$client = substr($inputArray[0], 11, strlen($inputArray[0])-12);
-$invoice = substr($inputArray[1], 11, strlen($inputArray[1])-12);
-$country = substr($inputArray[2], 11, strlen($inputArray[2])-12);
-$subDate = substr($inputArray[3], 11, strlen($inputArray[3])-12);
-$recDate = substr($inputArray[4], 11, strlen($inputArray[4])-12);
-$depDate = substr($inputArray[5], 11, strlen($inputArray[5])-12);
-$amount = substr($inputArray[6], 10, strlen($inputArray[6])-11);
-$taxes = substr($inputArray[7], 9, strlen($inputArray[7])-10);
-$payee = substr($inputArray[8], 9, strlen($inputArray[8])-11);
+print_r($incomeArray);
+$company = substr($inputArray[0], 12, strlen($inputArray[0])-13);
+$paidDate = substr($inputArray[1], 12, strlen($inputArray[1])-13);
+$category = substr($inputArray[2], 12, strlen($inputArray[2])-13);
+$taxLocal = substr($inputArray[3], 12, strlen($inputArray[3])-13);
+$taxFed = substr($inputArray[4], 10, strlen($inputArray[4])-11);
+$country = substr($inputArray[5], 11, strlen($inputArray[5])-12);
+$amount = substr($inputArray[6], 10, strlen($inputArray[6])-12);
 $today = date("Y-m-d H:i:s");
 
 // Create connection
@@ -30,11 +28,10 @@ if ($conn->connect_error)
 // If value received, send query to insert.
 if($_SESSION["key"] == $key)
 {
-	$sql = "INSERT INTO Income (Client, InvoiceNumber, Country, SubmissionDate, ";
-	$sql .= "ReceivedDate, DepositedDate, Income, TaxPercentage, Payee, DateEntered) ";
-	$sql .= "VALUES ('" . $client . "', '" . $invoice . "', '" . $country . "', '";
-	$sql .= $subDate . "', '" . $recDate . "', '" . $depDate . "', '" . $amount . "', '";
-	$sql .= $taxes . "', '" . $payee . "', '" . $today . "')";
+	$sql = "INSERT INTO Expense (Company, PaidDate, Category, TaxLocal, ";
+	$sql .= "TaxFederal, Country, Amount, DateEntered) ";
+	$sql .= "VALUES ('" . $company . "', '" . $paidDate . "', '" . $category . "', '";
+	$sql .= $taxLocal . "', '" . $taxFed . "', '" . $country . "', '" . $amount . "', '" . $today . "')";
 
 	if($conn->query($sql) === TRUE)
 	{
@@ -49,8 +46,9 @@ if($_SESSION["key"] == $key)
 }
 else
 {
-	$reply = '{"success":"false"}';
+	$reply = '{"success":"No Key"}';
 	print $reply;
 }
+
 $conn->close();
 ?>

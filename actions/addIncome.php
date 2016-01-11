@@ -49,7 +49,7 @@ if($_SESSION["key"] == $key)
 }
 else
 {
-	$reply = '{"success":"false"}';
+	$reply = '{"success":"No Key"}';
 	print $reply;
 }
 $conn->close();

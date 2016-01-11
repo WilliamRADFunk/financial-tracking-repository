@@ -3,7 +3,7 @@ var Project = React.createClass({
 	displayName: "Project",
 
 	getInitialState: function () {
-		return { phase: "Input" };
+		return { phase: "Login" };
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "Input" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else this.setState({ phase: "Login" });
@@ -122,6 +122,21 @@ var FailedLogin = React.createClass({
 				"p",
 				null,
 				"The username or password you entered didn't match our records."
+			)
+		);
+	}
+});
+var NoKeyModal = React.createClass({
+	displayName: "NoKeyModal",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ id: "dialog-no-key", title: "Not Logged In" },
+			React.createElement(
+				"p",
+				null,
+				"You are not logged in. Log back in, and resubmit your entry."
 			)
 		);
 	}
@@ -268,31 +283,35 @@ var Entries = React.createClass({
 
 	getInitialState: function () {
 		return {
-			phase: "Income",
+			phase: "Initial",
 			modalFail: false,
-			modalSuccess: false
+			modalSuccess: false,
+			modalNoKey: true
 		};
 	},
+	handleSubmissionResponse: function (result) {
+		if (result === "true") {
+			this.setState({ modalSuccess: true });
+			callModal("dialog-success");
+		} else if (result === "false") {
+			this.setState({ modalFail: true });
+			callModal("dialog-failed-entry");
+		} else {
+			this.setState({ modalNoKey: true });
+			callModal("dialog-no-key");
+		}
+	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_income") {
-			this.setState({ phase: "Income" });
-		} else if (e.currentTarget.id === "btn_expense") {
-			this.setState({ phase: "Expense" });
-		} else if (e.currentTarget.id === "btn_borrow") {
-			this.setState({ phase: "Borrow" });
-		} else if (e.currentTarget.innerHTML === "Entry type") {
-			this.setState({ phase: "Initial" });
-		} else if (e.currentTarget.innerHTML === "Homepage") {
-			this.props.onPhaseChange("Navigate");
-		} else if (e.currentTarget.value === "SUBMIT") {
-			var result = processIncomeEntry(e);
-			if (result === "true") {
-				this.setState({ modalSuccess: true });
-				callModal("dialog-success");
+		if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.innerHTML === "Entry type") this.setState({ phase: "Initial" });else if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.value === "SUBMIT") {
+			if (e.currentTarget.id === "btn_subinc") {
+				this.handleSubmissionResponse(processIncomeEntry(e));
+			} else if (e.currentTarget.id === "btn_subexp") {
+				this.handleSubmissionResponse(processExpenseEntry(e));
 			} else {
-				this.setState({ modalFail: true });
-				callModal("dialog-failed-entry");
+				console.log("Neither Income nor expense.");
 			}
+		} else {
+			console.log("Unexpected outcome.");
 		}
 	},
 	render: function () {
@@ -382,6 +401,7 @@ var Entries = React.createClass({
 				),
 				React.createElement(SuccessModal, { display: this.state.modalSuccess }),
 				React.createElement(FailedModal, { display: this.state.modalFail }),
+				React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
 				React.createElement(
 					"form",
 					{ id: "form_income", method: "post" },
@@ -551,7 +571,7 @@ var Entries = React.createClass({
 							)
 						),
 						React.createElement("hr", null),
-						React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+						React.createElement("input", { id: "btn_subinc", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 					)
 				)
 			);
@@ -594,6 +614,7 @@ var Entries = React.createClass({
 				),
 				React.createElement(SuccessModal, { display: this.state.modalSuccess }),
 				React.createElement(FailedModal, { display: this.state.modalFail }),
+				React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
 				React.createElement(
 					"form",
 					{ id: "form_expense", method: "post" },
@@ -905,7 +926,7 @@ var Entries = React.createClass({
 							React.createElement("input", { id: "amount", type: "text" })
 						),
 						React.createElement("hr", null),
-						React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+						React.createElement("input", { id: "btn_subexp", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 					)
 				)
 			);
