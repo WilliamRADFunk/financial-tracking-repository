@@ -395,7 +395,7 @@ var Entries = React.createClass({
 						{ className: "content" },
 						React.createElement(
 							"div",
-							{ className: "input_income left" },
+							{ className: "input left" },
 							React.createElement(
 								"p",
 								null,
@@ -409,7 +409,7 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income middle" },
+							{ className: "input middle" },
 							React.createElement(
 								"p",
 								null,
@@ -423,19 +423,19 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income right" },
+							{ className: "input right" },
 							React.createElement(
 								"p",
 								null,
 								React.createElement(
 									"label",
-									{ htmlFor: "country" },
+									{ htmlFor: "income_country" },
 									"Country:"
 								)
 							),
 							React.createElement(
 								"select",
-								{ id: "country" },
+								{ id: "income_country" },
 								React.createElement(
 									"option",
 									{ id: "usa", value: "usa" },
@@ -450,7 +450,7 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income left" },
+							{ className: "input left" },
 							React.createElement(
 								"p",
 								null,
@@ -464,7 +464,7 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income middle" },
+							{ className: "input middle" },
 							React.createElement(
 								"p",
 								null,
@@ -478,7 +478,7 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income right" },
+							{ className: "input right" },
 							React.createElement(
 								"p",
 								null,
@@ -492,7 +492,7 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income left" },
+							{ className: "input left" },
 							React.createElement(
 								"p",
 								null,
@@ -506,21 +506,21 @@ var Entries = React.createClass({
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income middle" },
+							{ className: "input middle" },
 							React.createElement(
 								"p",
 								null,
 								React.createElement(
 									"label",
 									{ htmlFor: "taxes" },
-									"Date Tax %:"
+									"Tax %:"
 								)
 							),
 							React.createElement("input", { id: "taxes", type: "text" })
 						),
 						React.createElement(
 							"div",
-							{ className: "input_income right" },
+							{ className: "input right" },
 							React.createElement(
 								"p",
 								null,
@@ -558,7 +558,7 @@ var Entries = React.createClass({
 		} else if (this.state.phase == "Expense") {
 			return React.createElement(
 				"div",
-				null,
+				{ id: "wrapper_expense" },
 				React.createElement(
 					"ul",
 					{ className: "breadcrumbs" },
@@ -592,10 +592,321 @@ var Entries = React.createClass({
 						)
 					)
 				),
+				React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+				React.createElement(FailedModal, { display: this.state.modalFail }),
 				React.createElement(
-					"p",
-					null,
-					"Expense Entry"
+					"form",
+					{ id: "form_expense", method: "post" },
+					React.createElement(
+						"h2",
+						null,
+						"Expense"
+					),
+					React.createElement(
+						"div",
+						{ className: "content" },
+						React.createElement(
+							"div",
+							{ className: "input left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "company-name" },
+									"Company Name:"
+								)
+							),
+							React.createElement("input", { id: "company-name", type: "text", autofocus: true })
+						),
+						React.createElement(
+							"div",
+							{ className: "input middle" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "date-paid" },
+									"Date Paid:"
+								)
+							),
+							React.createElement("input", { id: "date-paid", type: "date" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input right" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "category" },
+									"Category:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "category" },
+								React.createElement(
+									"option",
+									{ id: "expense_mortgage", value: "mortage" },
+									"Mortgage"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_hoa", value: "hoa" },
+									"HOA"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_phone", value: "phone" },
+									"Phone"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_internet", value: "internet" },
+									"Internet"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_water", value: "water" },
+									"Water"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_electricity", value: "electricity" },
+									"Electricity"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_home-warranty", value: "homeWarranty" },
+									"Home Warranty"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_tuition/books", value: "tuition/books" },
+									"Tuition + Books"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_health-insurance", value: "healthInsurance" },
+									"Health Insurance"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_car-insurance", value: "carInsurance" },
+									"Car Insurance"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_car-repair", value: "carRepair" },
+									"Car Repair"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_bank-fees", value: "bankFees" },
+									"Bank Fees"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_coffee", value: "coffee" },
+									"Coffee"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_medical", value: "medical" },
+									"Medical"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_school-materials", value: "schoolMaterials" },
+									"School Materials"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_office-supplies", value: "officeSupplies" },
+									"Office Supplies"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_restaurants", value: "restaurants" },
+									"Restaurants"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_entertainment", value: "entertainment" },
+									"Entertainment"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_transport", value: "transport" },
+									"Transport"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_groceries", value: "groceries" },
+									"Groceries"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_clothing", value: "clothing" },
+									"Clothing"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_books/games", value: "books/games" },
+									"Books/Games"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_furniture/household", value: "furniture/household" },
+									"Furniture/Household"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_writing", value: "writing" },
+									"Writing"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_hygiene", value: "hygiene" },
+									"Hygiene"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_gifts", value: "gifts" },
+									"Gifts"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_accountant", value: "accountant" },
+									"Accountant"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_skype", value: "skype" },
+									"Skype"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_netflix", value: "netflix" },
+									"Netflix"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_scotia-insurance-1", value: "scotiaInsurance1" },
+									"Scotia Insurance 1"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_scotia-insurance-1", value: "scotiaInsurance2" },
+									"Scotia Insurance 2"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_sunlife-insurance", value: "sunlifeInsurance" },
+									"Sunlife Insurance"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_one-and-one-and-related", value: "oneAndOneAndRelated" },
+									"1and1 + Related"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_jewelry/art", value: "jewelry/art" },
+									"Jewelry/Art"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_hoa", value: "hoa" },
+									"HOA"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_hoa", value: "hoa" },
+									"HOA"
+								),
+								React.createElement(
+									"option",
+									{ id: "expense_other", value: "other" },
+									"Other"
+								)
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: "input left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "taxes-local" },
+									"Local Tax %:"
+								)
+							),
+							React.createElement("input", { id: "taxes-local", type: "text" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input middle" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "taxes-fed" },
+									"Federal Tax %:"
+								)
+							),
+							React.createElement("input", { id: "taxes-fed", type: "text" })
+						),
+						React.createElement(
+							"div",
+							{ className: "input right" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "expense_country" },
+									"Country:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "expense_country" },
+								React.createElement(
+									"option",
+									{ id: "usa", value: "usa" },
+									"USA"
+								),
+								React.createElement(
+									"option",
+									{ id: "canada", value: "canada" },
+									"Canada"
+								)
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: "input left" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "amount" },
+									"Full Amount $:"
+								)
+							),
+							React.createElement("input", { id: "amount", type: "text" })
+						),
+						React.createElement("hr", null),
+						React.createElement("input", { className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+					)
 				)
 			);
 		} else if (this.state.phase == "Borrow") {

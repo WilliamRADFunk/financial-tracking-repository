@@ -58,3 +58,30 @@ function incomeEntry(incomePackage)
 
     return result;
 }
+/* Inserts the new expense entry into the database */
+function expenseEntry(expensePackage)
+{
+    var result = "false";
+
+    $.ajax({
+        type:'POST',
+        url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/addExpense.php',
+        data: JSON.stringify(expensePackage),
+        contentType:'application/x-www-form-urlencoded; charset=utf-8',
+        dataType:'text',
+        async: false,
+        success:function(responseData)
+        {
+            result = JSON.parse(responseData).success;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            console.log(error.responseText);
+            console.log(error.status);
+            console.log(error.statusText);
+        }
+    });
+
+    return result;
+}

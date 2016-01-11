@@ -202,22 +202,21 @@ footer
 * Styles for income entry form
 *
 **/
-.input_income
+.input
 {
 	display: inline-block;
 	width: 30%;
 }
-.input_income input[type="text"],
-.input_income input[type="password"],
-.input_income input[type="number"]
+.input input[type="text"],
+.input input[type="number"]
 {
 	width: 96%;
 }
-.input_income input[type="date"]
+.input input[type="date"]
 {
 	padding-right: 0%;
 }
-.input_income select
+.input select
 {
 	height: 34px;
 	width: 100%;
