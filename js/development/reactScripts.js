@@ -183,6 +183,10 @@ var Entries = React.createClass
 		{
 			this.setState({phase: "Expense"});
 		}
+		else if(e.currentTarget.id === "btn_borrow")
+		{
+			this.setState({phase: "Borrow"});
+		}
 		else if(e.currentTarget.innerHTML === "Entry type")
 		{
 			this.setState({phase: "Initial"});
@@ -218,6 +222,7 @@ var Entries = React.createClass
 						<div id="nav_box-entry-type">
 							<button id="btn_income" onClick={this.handleClick}>INCOME</button>
 							<button id="btn_expense" onClick={this.handleClick}>EXPENSE</button>
+							<button id="btn_borrow" onClick={this.handleClick}>BORROW</button>
 						</div>
 					</div>);
 		}
@@ -292,6 +297,17 @@ var Entries = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Expense</span></li>
 						</ul>
 						<p>Expense Entry</p>
+					</div>);
+		}
+		else if(this.state.phase == "Borrow")
+		{
+			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Borrow</span></li>
+						</ul>
+						<p>Borrow Entry</p>
 					</div>);
 		}
 		else

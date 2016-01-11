@@ -166,7 +166,8 @@ footer
 #btn_entry,
 #btn_reports,
 #btn_income,
-#btn_expense
+#btn_expense,
+#btn_borrow
 {
 	margin: 40px 0px;
 	width: 100%;

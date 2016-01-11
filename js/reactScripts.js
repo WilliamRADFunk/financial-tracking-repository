@@ -278,6 +278,8 @@ var Entries = React.createClass({
 			this.setState({ phase: "Income" });
 		} else if (e.currentTarget.id === "btn_expense") {
 			this.setState({ phase: "Expense" });
+		} else if (e.currentTarget.id === "btn_borrow") {
+			this.setState({ phase: "Borrow" });
 		} else if (e.currentTarget.innerHTML === "Entry type") {
 			this.setState({ phase: "Initial" });
 		} else if (e.currentTarget.innerHTML === "Homepage") {
@@ -333,6 +335,11 @@ var Entries = React.createClass({
 						"button",
 						{ id: "btn_expense", onClick: this.handleClick },
 						"EXPENSE"
+					),
+					React.createElement(
+						"button",
+						{ id: "btn_borrow", onClick: this.handleClick },
+						"BORROW"
 					)
 				)
 			);
@@ -589,6 +596,49 @@ var Entries = React.createClass({
 					"p",
 					null,
 					"Expense Entry"
+				)
+			);
+		} else if (this.state.phase == "Borrow") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Entry type"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Borrow"
+						)
+					)
+				),
+				React.createElement(
+					"p",
+					null,
+					"Borrow Entry"
 				)
 			);
 		} else {

@@ -17,6 +17,7 @@ $depDate = substr($inputArray[5], 11, strlen($inputArray[5])-12);
 $amount = substr($inputArray[6], 10, strlen($inputArray[6])-11);
 $taxes = substr($inputArray[7], 9, strlen($inputArray[7])-10);
 $payee = substr($inputArray[8], 9, strlen($inputArray[8])-11);
+$today = date("Y-m-d H:i:s");
 
 // Create connection
 $conn = new mysqli($hostname, $username, $password, $dbname);
@@ -33,10 +34,10 @@ $sql = 'INSERT Password FROM Income WHERE Username="' . $name . '"';
 if($_SESSION["key"] == $key)
 {
 	$sql = "INSERT INTO Income (Client, InvoiceNumber, Country, SubmissionDate, ";
-	$sql .= "ReceivedDate, DepositedDate, Income, TaxPercentage, Payee) ";
+	$sql .= "ReceivedDate, DepositedDate, Income, TaxPercentage, Payee, DateEntered) ";
 	$sql .= "VALUES ('" . $client . "', '" . $invoice . "', '" . $country . "', '";
 	$sql .= $subDate . "', '" . $recDate . "', '" . $depDate . "', '" . $amount . "', '";
-	$sql .= $taxes . "', '" . $payee . "')";
+	$sql .= $taxes . "', '" . $payee . "', '" . $today . "')";
 
 	if($conn->query($sql) === TRUE)
 	{
