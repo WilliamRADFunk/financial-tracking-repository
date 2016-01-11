@@ -27,25 +27,3 @@
 	<div id="react-container"></div>
 </body>
 </html>
-<!--
-<form action="" method="post">
-		<input type="submit" value="">
-	</form>
-	<div>
-		<form action="" method="post">
-			<fieldset>
-				<legend>Financial-Repository</legend>
-				<p><label for=""></label></p>
-				<select name="">
-					<option value=""></option>
-				</select>
-				<p><label for=""></label></p>
-				<input type="text" name="">
-				<p><input type="checkbox" name=""><label for=""></label></p>
-				<p><label for=""></label></p>
-				<textarea name="" rows="17" cols="20"></textarea>
-				<input type="submit" value="SUBMIT">
-			</fieldset>
-		</form>
-	</div>
--->
