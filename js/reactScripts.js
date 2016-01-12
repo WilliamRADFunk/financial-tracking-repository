@@ -874,16 +874,6 @@ var Expense = React.createClass({
 							),
 							React.createElement(
 								"option",
-								{ id: "expense_hoa", value: "hoa" },
-								"HOA"
-							),
-							React.createElement(
-								"option",
-								{ id: "expense_hoa", value: "hoa" },
-								"HOA"
-							),
-							React.createElement(
-								"option",
 								{ id: "expense_other", value: "other" },
 								"Other"
 							)

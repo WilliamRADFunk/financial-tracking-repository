@@ -400,8 +400,6 @@ var Expense = React.createClass
 									<option id="expense_sunlife-insurance" value="sunlifeInsurance">Sunlife Insurance</option>
 									<option id="expense_one-and-one-and-related" value="oneAndOneAndRelated">1and1 + Related</option>
 									<option id="expense_jewelry/art" value="jewelry/art">Jewelry/Art</option>
-									<option id="expense_hoa" value="hoa">HOA</option>
-									<option id="expense_hoa" value="hoa">HOA</option>
 									<option id="expense_other" value="other">Other</option>
 								</select>
 							</div>
