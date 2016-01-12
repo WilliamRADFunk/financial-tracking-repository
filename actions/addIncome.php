@@ -27,30 +27,42 @@ if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 
-// If value received, send query to insert.
-if($_SESSION["key"] == $key)
+// Make sure username has no special characters before checking database.
+if( (preg_match('/[^\w\s]/s' , $client)) || (preg_match('/[^\w\s]/s' , $invoice)) || (preg_match('/[^\w\s]/s' , $country)) ||
+	(preg_match('/[^\w\s]/s' , $subDate)) || (preg_match('/[^\w\s]/s' , $recDate)) || (preg_match('/[^\w\s]/s' , $depDate)) ||
+	(preg_match('/[^\w\s]/s' , $amount)) || (preg_match('/[^\w\s]/s' , $taxes)) || (preg_match('/[^\w\s]/s' , $payee)) )
 {
-	$sql = "INSERT INTO Income (Client, InvoiceNumber, Country, SubmissionDate, ";
-	$sql .= "ReceivedDate, DepositedDate, Income, TaxPercentage, Payee, DateEntered) ";
-	$sql .= "VALUES ('" . $client . "', '" . $invoice . "', '" . $country . "', '";
-	$sql .= $subDate . "', '" . $recDate . "', '" . $depDate . "', '" . $amount . "', '";
-	$sql .= $taxes . "', '" . $payee . "', '" . $today . "')";
-
-	if($conn->query($sql) === TRUE)
-	{
-		$reply = '{"success":"true"}';
-		print $reply;
-	}
-	else
-	{
-		$reply = '{"success":"false"}';
-		print $reply;
-	}
+	$reply = '{"success":"invalid character(s)"}';
+	print $reply;
+	$conn->close();
 }
 else
 {
-	$reply = '{"success":"No Key"}';
-	print $reply;
+	// If value received, send query to insert.
+	if($_SESSION["key"] == $key)
+	{
+		$sql = "INSERT INTO Income (Client, InvoiceNumber, Country, SubmissionDate, ";
+		$sql .= "ReceivedDate, DepositedDate, Income, TaxPercentage, Payee, DateEntered) ";
+		$sql .= "VALUES ('" . $client . "', '" . $invoice . "', '" . $country . "', '";
+		$sql .= $subDate . "', '" . $recDate . "', '" . $depDate . "', '" . $amount . "', '";
+		$sql .= $taxes . "', '" . $payee . "', '" . $today . "')";
+
+		if($conn->query($sql) === TRUE)
+		{
+			$reply = '{"success":"true"}';
+			print $reply;
+		}
+		else
+		{
+			$reply = '{"success":"false"}';
+			print $reply;
+		}
+	}
+	else
+	{
+		$reply = '{"success":"No Key"}';
+		print $reply;
+	}
+	$conn->close();
 }
-$conn->close();
 ?>

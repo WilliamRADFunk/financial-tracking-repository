@@ -18,25 +18,35 @@ if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Getting password attached to username.
-$sql = 'SELECT Password FROM Login WHERE Username="' . $name . '"';
-$result = $conn->query($sql);
-$pwd_db = "";
-while ( $db_row = $result->fetch_array(MYSQLI_ASSOC) )
+// Make sure username has no special characters before checking database.
+if(preg_match('/[^\w\s]/s' , $name))
 {
-	$pwd_db = $db_row['Password'];
-}
-//Now compare input password with password in database
-if( ($pwd_db == "") || ($pwd_db != $pwd) )
-{
-	$reply = '{"success":"false"}';
+	$reply = '{"success":"invalid character(s)"}';
 	print $reply;
+	$conn->close();
 }
 else
 {
-	$_SESSION["key"] = $key;
-	$reply = '{"success":"true"}';
-	print $reply;
+	// Getting password attached to username.
+	$sql = 'SELECT Password FROM Login WHERE Username="' . $name . '"';
+	$result = $conn->query($sql);
+	$pwd_db = "";
+	while ( $db_row = $result->fetch_array(MYSQLI_ASSOC) )
+	{
+		$pwd_db = $db_row['Password'];
+	}
+	//Now compare input password with password in database
+	if( ($pwd_db == "") || ($pwd_db != $pwd) )
+	{
+		$reply = '{"success":"false"}';
+		print $reply;
+	}
+	else
+	{
+		$_SESSION["key"] = $key;
+		$reply = '{"success":"true"}';
+		print $reply;
+	}
+	$conn->close();
 }
-$conn->close();
 ?>

@@ -192,15 +192,15 @@ var Entries = React.createClass
 			this.setState({modalSuccess:true});
 			callModal("dialog-success");
 		}
-		else if(result === "false")
-		{
-			this.setState({modalFail:true});
-			callModal("dialog-failed-entry");
-		}
-		else
+		else if(result === "No Key")
 		{
 			this.setState({modalNoKey:true});
 			callModal("dialog-no-key");
+		}
+		else
+		{
+			this.setState({modalFail:true});
+			callModal("dialog-failed-entry");
 		}
 	},
 	handleClick: function(e)
@@ -208,7 +208,11 @@ var Entries = React.createClass
 		if(e.currentTarget.id === "btn_income") this.setState({phase: "Income"});
 		else if(e.currentTarget.id === "btn_expense") this.setState({phase: "Expense"});
 		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
-		else if(e.currentTarget.innerHTML === "Entry type") this.setState({phase: "Initial"});
+		else if(e.currentTarget.innerHTML === "Entry type")
+		{	
+			this.setState({phase: "Initial"});
+			this.props.onPhaseChange("Input");
+		}
 		else if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
 		else if(e.currentTarget.value === "SUBMIT")
 		{
@@ -248,7 +252,7 @@ var Entries = React.createClass
 		}
 		else if(this.state.phase == "Income")
 		{
-			return (<div id="wrapper_income">
+			return (<div>
 						<ul className="breadcrumbs">
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
@@ -311,7 +315,7 @@ var Entries = React.createClass
 		}
 		else if(this.state.phase == "Expense")
 		{
-			return (<div id="wrapper_expense">
+			return (<div>
 						<ul className="breadcrumbs">
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>

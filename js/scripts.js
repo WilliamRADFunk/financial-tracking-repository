@@ -6,15 +6,15 @@ function processLogin(e) {
 }
 function processIncomeEntry(e) {
 	killDefaultEvent(e);
-	var client = document.getElementById("client").value;
-	var invoice = document.getElementById("invoice-number").value;
-	var country = document.getElementById("income_country").value;
-	var subDate = document.getElementById("date-submitted").value;
-	var recDate = document.getElementById("date-received").value;
-	var depDate = document.getElementById("date-deposited").value;
-	var income = document.getElementById("amount").value;
-	var taxes = document.getElementById("taxes").value;
-	var payee = document.getElementById("payee").value;
+	var client = document.getElementById("client").value.replace(/[^\w\s]/gi, '');
+	var invoice = document.getElementById("invoice-number").value.replace(/[^\w\s]/gi, '');
+	var country = document.getElementById("income_country").value.replace(/[^\w\s]/gi, '');
+	var subDate = document.getElementById("date-submitted").value.replace(/[^\w\s]/gi, '');
+	var recDate = document.getElementById("date-received").value.replace(/[^\w\s]/gi, '');
+	var depDate = document.getElementById("date-deposited").value.replace(/[^\w\s]/gi, '');
+	var income = document.getElementById("amount").value.replace(/[^\w\s]/gi, '');
+	var taxes = document.getElementById("taxes").value.replace(/[^\w\s]/gi, '');
+	var payee = document.getElementById("payee").value.replace(/[^\w\s]/gi, '');
 	var incomePackage = {
 		client: client,
 		invoice: invoice,
@@ -31,13 +31,13 @@ function processIncomeEntry(e) {
 }
 function processExpenseEntry(e) {
 	killDefaultEvent(e);
-	var company = document.getElementById("company-name").value;
-	var paidDate = document.getElementById("date-paid").value;
-	var category = document.getElementById("category").value;
-	var taxLocal = document.getElementById("taxes-local").value;
-	var taxFed = document.getElementById("taxes-fed").value;
-	var country = document.getElementById("expense_country").value;
-	var amount = document.getElementById("amount").value;
+	var company = document.getElementById("company-name").value.replace(/[^\w\s]/gi, '');
+	var paidDate = document.getElementById("date-paid").value.replace(/[^\w\s]/gi, '');
+	var category = document.getElementById("category").value.replace(/[^\w\s]/gi, '');
+	var taxLocal = document.getElementById("taxes-local").value.replace(/[^\w\s]/gi, '');
+	var taxFed = document.getElementById("taxes-fed").value.replace(/[^\w\s]/gi, '');
+	var country = document.getElementById("expense_country").value.replace(/[^\w\s]/gi, '');
+	var amount = document.getElementById("amount").value.replace(/[^\w\s]/gi, '');
 	var expensePackage = {
 		company: company,
 		paidDate: paidDate,

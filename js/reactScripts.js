@@ -293,16 +293,19 @@ var Entries = React.createClass({
 		if (result === "true") {
 			this.setState({ modalSuccess: true });
 			callModal("dialog-success");
-		} else if (result === "false") {
-			this.setState({ modalFail: true });
-			callModal("dialog-failed-entry");
-		} else {
+		} else if (result === "No Key") {
 			this.setState({ modalNoKey: true });
 			callModal("dialog-no-key");
+		} else {
+			this.setState({ modalFail: true });
+			callModal("dialog-failed-entry");
 		}
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.innerHTML === "Entry type") this.setState({ phase: "Initial" });else if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.value === "SUBMIT") {
+		if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.innerHTML === "Entry type") {
+			this.setState({ phase: "Initial" });
+			this.props.onPhaseChange("Input");
+		} else if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.value === "SUBMIT") {
 			if (e.currentTarget.id === "btn_subinc") {
 				this.handleSubmissionResponse(processIncomeEntry(e));
 			} else if (e.currentTarget.id === "btn_subexp") {
@@ -365,7 +368,7 @@ var Entries = React.createClass({
 		} else if (this.state.phase == "Income") {
 			return React.createElement(
 				"div",
-				{ id: "wrapper_income" },
+				null,
 				React.createElement(
 					"ul",
 					{ className: "breadcrumbs" },
@@ -578,7 +581,7 @@ var Entries = React.createClass({
 		} else if (this.state.phase == "Expense") {
 			return React.createElement(
 				"div",
-				{ id: "wrapper_expense" },
+				null,
 				React.createElement(
 					"ul",
 					{ className: "breadcrumbs" },

@@ -7,7 +7,7 @@ $input = file_get_contents('php://input');
 $object = json_encode($input, JSON_FORCE_OBJECT);
 
 $inputArray = explode(",", $input);
-print_r($incomeArray);
+
 $company = substr($inputArray[0], 12, strlen($inputArray[0])-13);
 $paidDate = substr($inputArray[1], 12, strlen($inputArray[1])-13);
 $category = substr($inputArray[2], 12, strlen($inputArray[2])-13);
@@ -25,30 +25,42 @@ if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 
-// If value received, send query to insert.
-if($_SESSION["key"] == $key)
+// Make sure username has no special characters before checking database.
+if( (preg_match('/[^\w\s]/s' , $company)) || (preg_match('/[^\w\s]/s' , $paidDate)) || (preg_match('/[^\w\s]/s' , $category)) ||
+	(preg_match('/[^\w\s]/s' , $taxLocal)) || (preg_match('/[^\w\s]/s' , $taxFed)) || (preg_match('/[^\w\s]/s' , $country)) ||
+	(preg_match('/[^\w\s]/s' , $amount)) )
 {
-	$sql = "INSERT INTO Expense (Company, PaidDate, Category, TaxLocal, ";
-	$sql .= "TaxFederal, Country, Amount, DateEntered) ";
-	$sql .= "VALUES ('" . $company . "', '" . $paidDate . "', '" . $category . "', '";
-	$sql .= $taxLocal . "', '" . $taxFed . "', '" . $country . "', '" . $amount . "', '" . $today . "')";
-
-	if($conn->query($sql) === TRUE)
-	{
-		$reply = '{"success":"true"}';
-		print $reply;
-	}
-	else
-	{
-		$reply = '{"success":"false"}';
-		print $reply;
-	}
+	$reply = '{"success":"invalid character(s)"}';
+	print $reply;
+	$conn->close();
 }
 else
 {
-	$reply = '{"success":"No Key"}';
-	print $reply;
-}
+	// If value received, send query to insert.
+	if($_SESSION["key"] == $key)
+	{
+		$sql = "INSERT INTO Expense (Company, PaidDate, Category, TaxLocal, ";
+		$sql .= "TaxFederal, Country, Amount, DateEntered) ";
+		$sql .= "VALUES ('" . $company . "', '" . $paidDate . "', '" . $category . "', '";
+		$sql .= $taxLocal . "', '" . $taxFed . "', '" . $country . "', '" . $amount . "', '" . $today . "')";
 
-$conn->close();
+		if($conn->query($sql) === TRUE)
+		{
+			$reply = '{"success":"true"}';
+			print $reply;
+		}
+		else
+		{
+			$reply = '{"success":"false"}';
+			print $reply;
+		}
+	}
+	else
+	{
+		$reply = '{"success":"No Key"}';
+		print $reply;
+	}
+
+	$conn->close();
+}
 ?>
