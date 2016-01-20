@@ -40,9 +40,9 @@ else
 	if($_SESSION["key"] == $key)
 	{
 		$sql = "INSERT INTO Expense (Company, PaidDate, Category, TaxLocal, ";
-		$sql .= "TaxFederal, Country, Amount, DateEntered) ";
-		$sql .= "VALUES ('" . $company . "', '" . $paidDate . "', '" . $category . "', '";
-		$sql .= $taxLocal . "', '" . $taxFed . "', '" . $country . "', '" . $amount . "', '" . $today . "')";
+		$sql .= "TaxFederal, Country, Cost, DateEntered) ";
+		$sql .= "VALUES ('" . $company . "','" . $paidDate . "','" . $category . "','";
+		$sql .= $taxLocal . "','" . $taxFed . "','" . $country . "','" . $amount . "','" . $today . "')";
 
 		if($conn->query($sql) === TRUE)
 		{
