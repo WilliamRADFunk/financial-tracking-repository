@@ -589,8 +589,8 @@ var Report = React.createClass
 		else if(e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");
 		else if(e.currentTarget.value === "SUBMIT")
 		{
-			if(this.props.data === "Table") console.log("Table", e);
-			else console.log("Graph", e);
+			if(this.props.data === "Table") processReportTable(e);
+			else processReportGraph(e);
 		}
 	},
 	render: function()
@@ -608,8 +608,8 @@ var Report = React.createClass
 						<h2>Report - {this.props.data} Format</h2>
 						<div className="content">
 							<div className="input left report">
-								<p><label htmlFor="tabular-category">Category:</label></p>
-								<select id="tabular-category">
+								<p><label htmlFor="report-category">Category:</label></p>
+								<select id="report-category">
 									<option value="income-all">Income - All</option>
 									<option value="income-andrea">Income - Andrea</option>
 									<option value="income-bill">Income - Bill</option>
@@ -655,8 +655,8 @@ var Report = React.createClass
 								</select>
 							</div>
 							<div className="input right report">
-								<p><label htmlFor="borrow_country">Country:</label></p>
-								<select id="borrow_country">
+								<p><label htmlFor="report_country">Country:</label></p>
+								<select id="report_country">
 									<option value="usa">USA</option>
 									<option value="canada">Canada</option>
 								</select>

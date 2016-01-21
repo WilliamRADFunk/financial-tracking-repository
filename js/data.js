@@ -112,3 +112,33 @@ function borrowEntry(borrowPackage)
 
     return result;
 }
+/* Collects data from database to fill in output in table format */
+function reportTable(reportPackage, populateTable)
+{
+    var result = "false";
+
+    console.log(reportPackage.category);
+
+    $.ajax({
+        type:'POST',
+        url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/getIncome.php',
+        data: JSON.stringify(reportPackage),
+        contentType:'application/x-www-form-urlencoded; charset=utf-8',
+        dataType:'text',
+        async: false,
+        success:function(responseData)
+        {
+            populateTable();
+            result = JSON.parse(responseData).success;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            console.log(error.responseText);
+            console.log(error.status);
+            console.log(error.statusText);
+        }
+    });
+
+    return result;
+}

@@ -8,7 +8,7 @@ function processLogin(e)
 function processIncomeEntry(e)
 {
 	killDefaultEvent(e);
-	var client = (document.getElementById("client").value).replace(/[^\w\s]/gi, '');
+	var client = (document.getElementById("client").value).replace(/[^\w\s\/-]/gi, '');
 	var invoice = (document.getElementById("invoice-number").value).replace(/[^\w\s]/gi, '');
 	var country = (document.getElementById("income_country").value).replace(/[^\w\s]/gi, '');
 	var subDate = (document.getElementById("date-submitted").value).replace(/[^\w\s]/gi, '');
@@ -34,9 +34,9 @@ function processIncomeEntry(e)
 function processExpenseEntry(e)
 {
 	killDefaultEvent(e);
-	var company = (document.getElementById("company-name").value).replace(/[^\w\s]/gi, '');
+	var company = (document.getElementById("company-name").value).replace(/[^\w\s\/-]/gi, '');
 	var paidDate = (document.getElementById("date-paid").value).replace(/[^\w\s]/gi, '');
-	var category = (document.getElementById("category").value).replace(/[^\w\s]/gi, '');
+	var category = (document.getElementById("category").value).replace(/[^\w\s\/-]/gi, '');
 	var taxLocal = (document.getElementById("taxes-local").value).replace(/[^\w\s]/gi, '');
 	var taxFed = (document.getElementById("taxes-fed").value).replace(/[^\w\s]/gi, '');
 	var country = (document.getElementById("expense_country").value).replace(/[^\w\s]/gi, '');
@@ -56,7 +56,7 @@ function processExpenseEntry(e)
 function processBorrowEntry(e)
 {
 	killDefaultEvent(e);
-	var purpose = (document.getElementById("purpose").value).replace(/[^\w\s]/gi, '');
+	var purpose = (document.getElementById("purpose").value).replace(/[^\w\s\/-]/gi, '');
 	var person = (document.getElementById("borrow_person").value).replace(/[^\w\s]/gi, '');
 	var country = (document.getElementById("borrow_country").value).replace(/[^\w\s]/gi, '');
 	var transDate = (document.getElementById("date-trans").value).replace(/[^\w\s]/gi, '');
@@ -74,6 +74,22 @@ function processBorrowEntry(e)
 	};
 	document.getElementById("form_borrow").reset();
 	return borrowEntry(borrowPackage);
+}
+function processReportTable(e)
+{
+	killDefaultEvent(e);
+	var category = (document.getElementById("report-category").value).replace(/[^\w\s\/-]/gi, '');
+	var country = (document.getElementById("report_country").value).replace(/[^\w\s]/gi, '');
+	var reportPackage = {
+		category: category,
+		country: country
+	};
+	document.getElementById("form_report").reset();
+	reportTable(reportPackage, populateTable);
+}
+function populateTable(data)
+{
+	console.log("DEBUG: I was called. Yay!");
 }
 function killDefaultEvent(e)
 {

@@ -1258,7 +1258,7 @@ var Report = React.createClass({
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
-			if (this.props.data === "Table") console.log("Table", e);else console.log("Graph", e);
+			if (this.props.data === "Table") processReportTable(e);else processReportGraph(e);
 		}
 	},
 	render: function () {
@@ -1322,13 +1322,13 @@ var Report = React.createClass({
 							null,
 							React.createElement(
 								"label",
-								{ htmlFor: "tabular-category" },
+								{ htmlFor: "report-category" },
 								"Category:"
 							)
 						),
 						React.createElement(
 							"select",
-							{ id: "tabular-category" },
+							{ id: "report-category" },
 							React.createElement(
 								"option",
 								{ value: "income-all" },
@@ -1549,13 +1549,13 @@ var Report = React.createClass({
 							null,
 							React.createElement(
 								"label",
-								{ htmlFor: "borrow_country" },
+								{ htmlFor: "report_country" },
 								"Country:"
 							)
 						),
 						React.createElement(
 							"select",
-							{ id: "borrow_country" },
+							{ id: "report_country" },
 							React.createElement(
 								"option",
 								{ value: "usa" },
