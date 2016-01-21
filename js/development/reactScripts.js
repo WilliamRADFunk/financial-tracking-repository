@@ -8,10 +8,12 @@ var Project = React.createClass
 	handleClick: function(e)
 	{
 		if(e.currentTarget.id === "btn_entry") this.setState({phase: "InputType"});
-		else if(e.currentTarget.id === "btn_reports") this.setState({phase: "Report"});
+		else if(e.currentTarget.id === "btn_reports") this.setState({phase: "ReportType"});
 		else if(e.currentTarget.id === "btn_income") this.setState({phase: "Income"});
 		else if(e.currentTarget.id === "btn_expense") this.setState({phase: "Expense"});
 		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
+		else if(e.currentTarget.id === "btn_tabular") this.setState({phase: "Tabular"});
+		else if(e.currentTarget.id === "btn_graphical") this.setState({phase: "Graphical"});
 		else this.setState({phase: "Login"});
 	},
 	onPhaseChange: function(phase)
@@ -81,6 +83,37 @@ var Project = React.createClass
 			return (<div>
 						<Header/>
 						<Borrow onPhaseChange={this.onPhaseChange}/>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "ReportType")
+		{
+			return (<div>
+						<Header/>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span></li>
+						</ul>
+						<div id="nav_box-entry-type">
+							<button id="btn_tabular" onClick={this.handleClick}>TABULAR</button>
+							<button id="btn_graphical" onClick={this.handleClick}>GRAPHICAL</button>
+						</div>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "Tabular")
+		{
+			return (<div>
+						<Header/>
+						<Report data="Table" onPhaseChange={this.onPhaseChange}/>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "Graphical")
+		{
+			return (<div>
+						<Header/>
+						<Report data="Graph"  onPhaseChange={this.onPhaseChange}/>
 						<Footer/>
 					</div>);
 		}
@@ -521,15 +554,121 @@ var Borrow = React.createClass
 	}
 });
 /**********Entry Elements end here ***************************************************************/
-/**********Phase3 Elements start here *************************************************************/
-
-/**********Phase3 Elements end here ***************************************************************/
-/**********Phase4 Elements start here *************************************************************/
-
-/**********Phase4 Elements end here ***************************************************************/
-/**********Phase5 Elements start here *************************************************************/
-
-/**********Phase5 Elements end here ***************************************************************/
+/**********Reporting Elements start here *************************************************************/
+var Report = React.createClass
+({
+	getInitialState: function()
+	{
+		return ({
+					modalFail: false,
+					modalSuccess: false,
+					modalNoKey: true
+				});
+	},
+	handleSubmissionResponse: function(result)
+	{
+		if(result === "true")
+		{
+			this.setState({modalSuccess:true});
+			callModal("dialog-success");
+		}
+		else if(result === "No Key")
+		{
+			this.setState({modalNoKey:true});
+			callModal("dialog-no-key");
+		}
+		else
+		{
+			this.setState({modalFail:true});
+			callModal("dialog-failed-entry");
+		}
+	},
+	handleClick: function(e)
+	{
+		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
+		else if(e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");
+		else if(e.currentTarget.value === "SUBMIT")
+		{
+			if(this.props.data === "Table") console.log("Table", e);
+			else console.log("Graph", e);
+		}
+	},
+	render: function()
+	{
+		return (<div>
+					<ul className="breadcrumbs">
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>{this.props.data}</span></li>
+					</ul>
+					<SuccessModal display={this.state.modalSuccess}/>
+					<FailedModal display={this.state.modalFail}/>
+					<NoKeyModal display={this.state.modalNoKey}/>
+					<form id="form_report" method="post">
+						<h2>Report - {this.props.data} Format</h2>
+						<div className="content">
+							<div className="input left report">
+								<p><label htmlFor="tabular-category">Category:</label></p>
+								<select id="tabular-category">
+									<option value="income-all">Income - All</option>
+									<option value="income-andrea">Income - Andrea</option>
+									<option value="income-bill">Income - Bill</option>
+									<option value="expense-mortage">Expense - Mortgage</option>
+									<option value="expense-hoa">Expense - HOA</option>
+									<option value="expense-phone">Expense - Phone</option>
+									<option value="expense-internet">Expense - Internet</option>
+									<option value="expense-water">Expense - Water</option>
+									<option value="expense-electricity">Expense - Electricity</option>
+									<option value="expense-homeWarranty">Expense - Home Warranty</option>
+									<option value="expense-tuition/books">Expense - Tuition + Books</option>
+									<option value="expense-healthInsurance">Expense - Health Insurance</option>
+									<option value="expense-carInsurance">Expense - Car Insurance</option>
+									<option value="expense-carRepair">Expense - Car Repair</option>
+									<option value="expense-bankFees">Expense - Bank Fees</option>
+									<option value="expense-coffee">Expense - Coffee</option>
+									<option value="expense-medical">Expense - Medical</option>
+									<option value="expense-schoolMaterials">Expense - School Materials</option>
+									<option value="expense-officeSupplies">Expense - Office Supplies</option>
+									<option value="expense-restaurants">Expense - Restaurants</option>
+									<option value="expense-entertainment">Expense - Entertainment</option>
+									<option value="expense-transport">Expense - Transport</option>
+									<option value="expense-groceries">Expense - Groceries</option>
+									<option value="expense-clothing">Expense - Clothing</option>
+									<option value="expense-books/games">Expense - Books/Games</option>
+									<option value="expense-furniture/household">Expense - Furniture/Household</option>
+									<option value="expense-writing">Expense - Writing</option>
+									<option value="expense-hygiene">Expense - Hygiene</option>
+									<option value="expense-gifts">Expense - Gifts</option>
+									<option value="expense-accountant">Expense - Accountant</option>
+									<option value="expense-skype">Expense - Skype</option>
+									<option value="expense-netflix">Expense - Netflix</option>
+									<option value="expense-scotiaInsurance1">Expense - Scotia Insurance 1</option>
+									<option value="expense-scotiaInsurance2">Expense - Scotia Insurance 2</option>
+									<option value="expense-sunlifeInsurance">Expense - Sunlife Insurance</option>
+									<option value="expense-oneAndOneAndRelated">Expense - 1and1 &amp; Related</option>
+									<option value="expense-jewelry/art">Expense - Jewelry/Art</option>
+									<option value="expense-other">Expense - Other</option>
+									<option value="borrow-local">Borrow - Local</option>
+									<option value="borrow-fam">Borrow - Fam</option>
+									<option value="borrow-omar">Borrow - Omar</option>
+									<option value="borrow-taxes">Borrow - Taxes</option>
+								</select>
+							</div>
+							<div className="input right report">
+								<p><label htmlFor="borrow_country">Country:</label></p>
+								<select id="borrow_country">
+									<option value="usa">USA</option>
+									<option value="canada">Canada</option>
+								</select>
+							</div>
+							<hr/>
+							<input id="btn_subtab" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+						</div>
+					</form>
+				</div>);
+	}
+});
+/**********Reporting Elements end here ***************************************************************/
 /**********Loadup JavaScript starts here **********************************************************/
 function run()
 {

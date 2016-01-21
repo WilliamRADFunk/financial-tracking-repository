@@ -6,7 +6,7 @@ var Project = React.createClass({
 		return { phase: "Login" };
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "Report" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else this.setState({ phase: "Login" });
+		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tabular") this.setState({ phase: "Tabular" });else if (e.currentTarget.id === "btn_graphical") this.setState({ phase: "Graphical" });else this.setState({ phase: "Login" });
 	},
 	onPhaseChange: function (phase) {
 		console.log("Phase changed");
@@ -127,6 +127,66 @@ var Project = React.createClass({
 				null,
 				React.createElement(Header, null),
 				React.createElement(Borrow, { onPhaseChange: this.onPhaseChange }),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "ReportType") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Entry type"
+						)
+					)
+				),
+				React.createElement(
+					"div",
+					{ id: "nav_box-entry-type" },
+					React.createElement(
+						"button",
+						{ id: "btn_tabular", onClick: this.handleClick },
+						"TABULAR"
+					),
+					React.createElement(
+						"button",
+						{ id: "btn_graphical", onClick: this.handleClick },
+						"GRAPHICAL"
+					)
+				),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "Tabular") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(Report, { data: "Table", onPhaseChange: this.onPhaseChange }),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "Graphical") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(Report, { data: "Graph", onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
 		} else {
@@ -1173,15 +1233,349 @@ var Borrow = React.createClass({
 	}
 });
 /**********Entry Elements end here ***************************************************************/
-/**********Phase3 Elements start here *************************************************************/
+/**********Reporting Elements start here *************************************************************/
+var Report = React.createClass({
+	displayName: "Report",
 
-/**********Phase3 Elements end here ***************************************************************/
-/**********Phase4 Elements start here *************************************************************/
-
-/**********Phase4 Elements end here ***************************************************************/
-/**********Phase5 Elements start here *************************************************************/
-
-/**********Phase5 Elements end here ***************************************************************/
+	getInitialState: function () {
+		return {
+			modalFail: false,
+			modalSuccess: false,
+			modalNoKey: true
+		};
+	},
+	handleSubmissionResponse: function (result) {
+		if (result === "true") {
+			this.setState({ modalSuccess: true });
+			callModal("dialog-success");
+		} else if (result === "No Key") {
+			this.setState({ modalNoKey: true });
+			callModal("dialog-no-key");
+		} else {
+			this.setState({ modalFail: true });
+			callModal("dialog-failed-entry");
+		}
+	},
+	handleClick: function (e) {
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
+			if (this.props.data === "Table") console.log("Table", e);else console.log("Graph", e);
+		}
+	},
+	render: function () {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"ul",
+				{ className: "breadcrumbs" },
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Homepage"
+					),
+					"  >  "
+				),
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Entry type"
+					),
+					"  >  "
+				),
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						this.props.data
+					)
+				)
+			),
+			React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+			React.createElement(FailedModal, { display: this.state.modalFail }),
+			React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
+			React.createElement(
+				"form",
+				{ id: "form_report", method: "post" },
+				React.createElement(
+					"h2",
+					null,
+					"Report - ",
+					this.props.data,
+					" Format"
+				),
+				React.createElement(
+					"div",
+					{ className: "content" },
+					React.createElement(
+						"div",
+						{ className: "input left report" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "tabular-category" },
+								"Category:"
+							)
+						),
+						React.createElement(
+							"select",
+							{ id: "tabular-category" },
+							React.createElement(
+								"option",
+								{ value: "income-all" },
+								"Income - All"
+							),
+							React.createElement(
+								"option",
+								{ value: "income-andrea" },
+								"Income - Andrea"
+							),
+							React.createElement(
+								"option",
+								{ value: "income-bill" },
+								"Income - Bill"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-mortage" },
+								"Expense - Mortgage"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-hoa" },
+								"Expense - HOA"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-phone" },
+								"Expense - Phone"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-internet" },
+								"Expense - Internet"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-water" },
+								"Expense - Water"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-electricity" },
+								"Expense - Electricity"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-homeWarranty" },
+								"Expense - Home Warranty"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-tuition/books" },
+								"Expense - Tuition + Books"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-healthInsurance" },
+								"Expense - Health Insurance"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-carInsurance" },
+								"Expense - Car Insurance"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-carRepair" },
+								"Expense - Car Repair"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-bankFees" },
+								"Expense - Bank Fees"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-coffee" },
+								"Expense - Coffee"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-medical" },
+								"Expense - Medical"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-schoolMaterials" },
+								"Expense - School Materials"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-officeSupplies" },
+								"Expense - Office Supplies"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-restaurants" },
+								"Expense - Restaurants"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-entertainment" },
+								"Expense - Entertainment"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-transport" },
+								"Expense - Transport"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-groceries" },
+								"Expense - Groceries"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-clothing" },
+								"Expense - Clothing"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-books/games" },
+								"Expense - Books/Games"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-furniture/household" },
+								"Expense - Furniture/Household"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-writing" },
+								"Expense - Writing"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-hygiene" },
+								"Expense - Hygiene"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-gifts" },
+								"Expense - Gifts"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-accountant" },
+								"Expense - Accountant"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-skype" },
+								"Expense - Skype"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-netflix" },
+								"Expense - Netflix"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-scotiaInsurance1" },
+								"Expense - Scotia Insurance 1"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-scotiaInsurance2" },
+								"Expense - Scotia Insurance 2"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-sunlifeInsurance" },
+								"Expense - Sunlife Insurance"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-oneAndOneAndRelated" },
+								"Expense - 1and1 & Related"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-jewelry/art" },
+								"Expense - Jewelry/Art"
+							),
+							React.createElement(
+								"option",
+								{ value: "expense-other" },
+								"Expense - Other"
+							),
+							React.createElement(
+								"option",
+								{ value: "borrow-local" },
+								"Borrow - Local"
+							),
+							React.createElement(
+								"option",
+								{ value: "borrow-fam" },
+								"Borrow - Fam"
+							),
+							React.createElement(
+								"option",
+								{ value: "borrow-omar" },
+								"Borrow - Omar"
+							),
+							React.createElement(
+								"option",
+								{ value: "borrow-taxes" },
+								"Borrow - Taxes"
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "input right report" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "borrow_country" },
+								"Country:"
+							)
+						),
+						React.createElement(
+							"select",
+							{ id: "borrow_country" },
+							React.createElement(
+								"option",
+								{ value: "usa" },
+								"USA"
+							),
+							React.createElement(
+								"option",
+								{ value: "canada" },
+								"Canada"
+							)
+						)
+					),
+					React.createElement("hr", null),
+					React.createElement("input", { id: "btn_subtab", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+				)
+			)
+		);
+	}
+});
+/**********Reporting Elements end here ***************************************************************/
 /**********Loadup JavaScript starts here **********************************************************/
 function run() {
 	ReactDOM.render(React.createElement(Project, null), document.getElementById("react-container"));
