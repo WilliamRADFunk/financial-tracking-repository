@@ -199,7 +199,7 @@ footer
 }
 /**
 *
-* Styles for income entry form
+* Styles for income, expense, and borrow entry forms
 *
 **/
 .input
@@ -210,7 +210,7 @@ footer
 .input input[type="text"],
 .input input[type="number"]
 {
-	width: 96%;
+	width: 94%;
 }
 .input input[type="date"]
 {
@@ -220,6 +220,15 @@ footer
 {
 	height: 34px;
 	width: 100%;
+}
+.input-full
+{
+	display: inline-block;
+	width: 100%;
+}
+.input-full input[type="text"]
+{
+	width: 95%;
 }
 .middle
 {

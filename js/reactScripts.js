@@ -464,12 +464,12 @@ var Income = React.createClass({
 							{ id: "income_country" },
 							React.createElement(
 								"option",
-								{ id: "usa", value: "usa" },
+								{ value: "usa" },
 								"USA"
 							),
 							React.createElement(
 								"option",
-								{ id: "canada", value: "canada" },
+								{ value: "canada" },
 								"Canada"
 							)
 						)
@@ -924,12 +924,12 @@ var Expense = React.createClass({
 							{ id: "expense_country" },
 							React.createElement(
 								"option",
-								{ id: "usa", value: "usa" },
+								{ value: "usa" },
 								"USA"
 							),
 							React.createElement(
 								"option",
-								{ id: "canada", value: "canada" },
+								{ value: "canada" },
 								"Canada"
 							)
 						)
@@ -978,7 +978,7 @@ var Borrow = React.createClass({
 		}
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("InputType");else if (e.currentTarget.value === "SUBMIT") this.handleSubmissionResponse(processExpenseEntry(e));
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("InputType");else if (e.currentTarget.value === "SUBMIT") this.handleSubmissionResponse(processBorrowEntry(e));
 	},
 	render: function () {
 		return React.createElement(
@@ -1017,10 +1017,157 @@ var Borrow = React.createClass({
 					)
 				)
 			),
+			React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+			React.createElement(FailedModal, { display: this.state.modalFail }),
+			React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
 			React.createElement(
-				"p",
-				null,
-				"Borrow Entry"
+				"form",
+				{ id: "form_borrow", method: "post" },
+				React.createElement(
+					"h2",
+					null,
+					"Expense"
+				),
+				React.createElement(
+					"div",
+					{ className: "content" },
+					React.createElement(
+						"div",
+						{ className: "input left" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "subtracted" },
+								"Subtract:"
+							)
+						),
+						React.createElement("input", { id: "subtracted", type: "text" })
+					),
+					React.createElement(
+						"div",
+						{ className: "input middle" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "borrowed" },
+								"Borrowed:"
+							)
+						),
+						React.createElement("input", { id: "borrowed", type: "text" })
+					),
+					React.createElement(
+						"div",
+						{ className: "input right" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "added" },
+								"Added:"
+							)
+						),
+						React.createElement("input", { id: "added", type: "text" })
+					),
+					React.createElement(
+						"div",
+						{ className: "input left" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "borrow_country" },
+								"Country:"
+							)
+						),
+						React.createElement(
+							"select",
+							{ id: "borrow_country" },
+							React.createElement(
+								"option",
+								{ value: "usa" },
+								"USA"
+							),
+							React.createElement(
+								"option",
+								{ value: "canada" },
+								"Canada"
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "input middle" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "borrow_person" },
+								"Person:"
+							)
+						),
+						React.createElement(
+							"select",
+							{ id: "borrow_person" },
+							React.createElement(
+								"option",
+								{ id: "borrow_local", value: "local" },
+								"Local"
+							),
+							React.createElement(
+								"option",
+								{ id: "borrow_fam", value: "fam" },
+								"Fam"
+							),
+							React.createElement(
+								"option",
+								{ id: "borrow_omar", value: "omar" },
+								"Omar"
+							),
+							React.createElement(
+								"option",
+								{ id: "borrow_taxes", value: "taxes" },
+								"Taxes"
+							)
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "input right" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "date-trans" },
+								"Date of Transaction:"
+							)
+						),
+						React.createElement("input", { id: "date-trans", type: "date" })
+					),
+					React.createElement(
+						"div",
+						{ className: "input-full left" },
+						React.createElement(
+							"p",
+							null,
+							React.createElement(
+								"label",
+								{ htmlFor: "purpose" },
+								"Purpose:"
+							)
+						),
+						React.createElement("input", { id: "purpose", type: "text" })
+					),
+					React.createElement("hr", null),
+					React.createElement("input", { id: "btn_subbor", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
+				)
 			)
 		);
 	}

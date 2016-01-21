@@ -85,3 +85,30 @@ function expenseEntry(expensePackage)
 
     return result;
 }
+/* Inserts the new borrow entry into the database */
+function borrowEntry(borrowPackage)
+{
+    var result = "false";
+
+    $.ajax({
+        type:'POST',
+        url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/addBorrow.php',
+        data: JSON.stringify(borrowPackage),
+        contentType:'application/x-www-form-urlencoded; charset=utf-8',
+        dataType:'text',
+        async: false,
+        success:function(responseData)
+        {
+            result = JSON.parse(responseData).success;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            console.log(error.responseText);
+            console.log(error.status);
+            console.log(error.statusText);
+        }
+    });
+
+    return result;
+}

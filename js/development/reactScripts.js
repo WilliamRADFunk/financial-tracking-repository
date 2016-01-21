@@ -268,8 +268,8 @@ var Income = React.createClass
 							<div className="input right">
 								<p><label htmlFor="income_country">Country:</label></p>
 								<select id="income_country">
-									<option id="usa" value="usa">USA</option>
-									<option id="canada" value="canada">Canada</option>
+									<option value="usa">USA</option>
+									<option value="canada">Canada</option>
 								</select>
 							</div>
 							<div className="input left">
@@ -414,8 +414,8 @@ var Expense = React.createClass
 							<div className="input right">
 								<p><label htmlFor="expense_country">Country:</label></p>
 								<select id="expense_country">
-									<option id="usa" value="usa">USA</option>
-									<option id="canada" value="canada">Canada</option>
+									<option value="usa">USA</option>
+									<option value="canada">Canada</option>
 								</select>
 							</div>
 							<div className="input left">
@@ -461,7 +461,7 @@ var Borrow = React.createClass
 	{
 		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
 		else if(e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("InputType");
-		else if(e.currentTarget.value === "SUBMIT") this.handleSubmissionResponse(processExpenseEntry(e));
+		else if(e.currentTarget.value === "SUBMIT") this.handleSubmissionResponse(processBorrowEntry(e));
 	},
 	render: function()
 	{
@@ -471,7 +471,52 @@ var Borrow = React.createClass
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Borrow</span></li>
 					</ul>
-					<p>Borrow Entry</p>
+					<SuccessModal display={this.state.modalSuccess}/>
+					<FailedModal display={this.state.modalFail}/>
+					<NoKeyModal display={this.state.modalNoKey}/>
+					<form id="form_borrow" method="post">
+						<h2>Expense</h2>
+						<div className="content">
+							<div className="input left">
+								<p><label htmlFor="subtracted">Subtract:</label></p>
+								<input id="subtracted" type="text"/>
+							</div>
+							<div className="input middle">
+								<p><label htmlFor="borrowed">Borrowed:</label></p>
+								<input id="borrowed" type="text"/>
+							</div>
+							<div className="input right">
+								<p><label htmlFor="added">Added:</label></p>
+								<input id="added" type="text"/>
+							</div>
+							<div className="input left">
+								<p><label htmlFor="borrow_country">Country:</label></p>
+								<select id="borrow_country">
+									<option value="usa">USA</option>
+									<option value="canada">Canada</option>
+								</select>
+							</div>
+							<div className="input middle">
+								<p><label htmlFor="borrow_person">Person:</label></p>
+								<select id="borrow_person">
+									<option id="borrow_local" value="local">Local</option>
+									<option id="borrow_fam" value="fam">Fam</option>
+									<option id="borrow_omar" value="omar">Omar</option>
+									<option id="borrow_taxes" value="taxes">Taxes</option>
+								</select>
+							</div>
+							<div className="input right">
+								<p><label htmlFor="date-trans">Date of Transaction:</label></p>
+								<input id="date-trans" type="date"/>
+							</div>
+							<div className="input-full left">
+								<p><label htmlFor="purpose">Purpose:</label></p>
+								<input id="purpose" type="text"/>
+							</div>
+							<hr/>
+							<input id="btn_subbor" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+						</div>
+					</form>
 				</div>);
 	}
 });

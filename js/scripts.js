@@ -50,6 +50,27 @@ function processExpenseEntry(e) {
 	document.getElementById("form_expense").reset();
 	return expenseEntry(expensePackage);
 }
+function processBorrowEntry(e) {
+	killDefaultEvent(e);
+	var purpose = document.getElementById("purpose").value.replace(/[^\w\s]/gi, '');
+	var person = document.getElementById("borrow_person").value.replace(/[^\w\s]/gi, '');
+	var country = document.getElementById("borrow_country").value.replace(/[^\w\s]/gi, '');
+	var transDate = document.getElementById("date-trans").value.replace(/[^\w\s]/gi, '');
+	var subtract = document.getElementById("subtracted").value.replace(/[^\w\s]/gi, '');
+	var add = document.getElementById("added").value.replace(/[^\w\s]/gi, '');
+	var borrow = document.getElementById("borrowed").value.replace(/[^\w\s]/gi, '');
+	var borrowPackage = {
+		purpose: purpose,
+		person: person,
+		country: country,
+		transDate: transDate,
+		subtracted: subtract,
+		added: add,
+		borrowed: borrow
+	};
+	document.getElementById("form_borrow").reset();
+	return borrowEntry(borrowPackage);
+}
 function killDefaultEvent(e) {
 	e.preventDefault();
 	e.stopPropagation();
