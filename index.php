@@ -8,7 +8,7 @@
     <title>Financial Repository</title>
     <!-- Resets all default browser stylings for a clean slate -->
 	<link rel="stylesheet" href="css/reset_author_richard_clark.css">
-	<!-- Styles specific to the Encryptor pages -->
+	<!-- Styles specific to this application -->
 	<link rel="stylesheet" href="css/styles.css">
 	<!-- Inluding the JQuery/JQueryUI Libraries -->
 	<link rel="stylesheet" href="css/jquery-ui.min.css">
