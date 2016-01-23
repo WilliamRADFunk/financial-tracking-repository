@@ -79,9 +79,8 @@ function processReportTable(e) {
 		category: category,
 		country: country
 	};
-	var cat = "";
-	if (category.substring(0, 6) === "income") cat = "Income";else if (category.substring(0, 7) === "expense") cat = "Expense";else if (category.substring(0, 6) === "borrow") cat = "Borrow";
-	reportTable(reportPackage, populateTable, cat);
+
+	return reportTable(reportPackage);
 }
 function populateTable(data, category) {
 	tableData = data;

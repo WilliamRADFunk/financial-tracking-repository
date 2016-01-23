@@ -182,28 +182,12 @@ var Project = React.createClass({
 				React.createElement(Report, { data: "Table", onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
-		} else if (this.state.phase === "Table") {
-			return React.createElement(
-				"div",
-				null,
-				React.createElement(Header, null),
-				React.createElement(Table, { onPhaseChange: this.onPhaseChange }),
-				React.createElement(Footer, null)
-			);
 		} else if (this.state.phase === "GraphSelection") {
 			return React.createElement(
 				"div",
 				null,
 				React.createElement(Header, null),
 				React.createElement(Report, { data: "Graph", onPhaseChange: this.onPhaseChange }),
-				React.createElement(Footer, null)
-			);
-		} else if (this.state.phase === "Graph") {
-			return React.createElement(
-				"div",
-				null,
-				React.createElement(Header, null),
-				React.createElement(Graph, { onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
 		} else {
@@ -1258,7 +1242,10 @@ var Report = React.createClass({
 		return {
 			modalFail: false,
 			modalSuccess: false,
-			modalNoKey: true
+			modalNoKey: true,
+			category: "",
+			data: [],
+			phase: "select"
 		};
 	},
 	handleSubmissionResponse: function (result) {
@@ -1274,416 +1261,528 @@ var Report = React.createClass({
 		}
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.setState({ phase: "select" });else if (e.currentTarget.value === "SUBMIT") {
+			var category = document.getElementById("report_category").value;
+			var cat = "";
+			if (category.substring(0, 6) === "income") cat = "Income";else if (category.substring(0, 7) === "expense") cat = "Expense";else if (category.substring(0, 6) === "borrow") cat = "Borrow";
+
 			if (this.props.data === "Table") {
-				this.props.onPhaseChange("Table");
-				processReportTable(e);
+				this.setState({ category: cat, data: processReportTable(e), phase: "Table Report" });
 			} else {
-				this.props.onPhaseChange("Graph");
-				processReportGraph(e);
+				this.setState({ category: cat, data: processReportGraph(e), phase: "Graph Report" });
 			}
 		}
 	},
 	render: function () {
-		return React.createElement(
-			"div",
-			null,
-			React.createElement(
-				"ul",
-				{ className: "breadcrumbs" },
+		if (this.state.phase === "select") {
+			return React.createElement(
+				"div",
+				null,
 				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
+					"ul",
+					{ className: "breadcrumbs" },
 					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Homepage"
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
 					),
-					"  >  "
-				),
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
 					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Report type"
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Report type"
+						),
+						"  >  "
 					),
-					"  >  "
-				),
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
 					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							this.props.data,
+							" Criteria"
+						)
+					)
+				),
+				React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+				React.createElement(FailedModal, { display: this.state.modalFail }),
+				React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
+				React.createElement(
+					"form",
+					{ id: "form_report", method: "post" },
+					React.createElement(
+						"h2",
+						null,
+						"Report - ",
 						this.props.data,
-						" Criteria"
+						" Format"
+					),
+					React.createElement(
+						"div",
+						{ className: "content" },
+						React.createElement(
+							"div",
+							{ className: "input left report" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "report_category" },
+									"Category:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "report_category" },
+								React.createElement(
+									"option",
+									{ value: "income-all" },
+									"Income - All"
+								),
+								React.createElement(
+									"option",
+									{ value: "income-andrea" },
+									"Income - Andrea"
+								),
+								React.createElement(
+									"option",
+									{ value: "income-bill" },
+									"Income - Bill"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-mortage" },
+									"Expense - Mortgage"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-hoa" },
+									"Expense - HOA"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-phone" },
+									"Expense - Phone"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-internet" },
+									"Expense - Internet"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-water" },
+									"Expense - Water"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-electricity" },
+									"Expense - Electricity"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-homeWarranty" },
+									"Expense - Home Warranty"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-tuition/books" },
+									"Expense - Tuition + Books"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-healthInsurance" },
+									"Expense - Health Insurance"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-carInsurance" },
+									"Expense - Car Insurance"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-carRepair" },
+									"Expense - Car Repair"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-bankFees" },
+									"Expense - Bank Fees"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-coffee" },
+									"Expense - Coffee"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-medical" },
+									"Expense - Medical"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-schoolMaterials" },
+									"Expense - School Materials"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-officeSupplies" },
+									"Expense - Office Supplies"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-restaurants" },
+									"Expense - Restaurants"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-entertainment" },
+									"Expense - Entertainment"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-transport" },
+									"Expense - Transport"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-groceries" },
+									"Expense - Groceries"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-clothing" },
+									"Expense - Clothing"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-books/games" },
+									"Expense - Books/Games"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-furniture/household" },
+									"Expense - Furniture/Household"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-writing" },
+									"Expense - Writing"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-hygiene" },
+									"Expense - Hygiene"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-gifts" },
+									"Expense - Gifts"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-accountant" },
+									"Expense - Accountant"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-skype" },
+									"Expense - Skype"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-netflix" },
+									"Expense - Netflix"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-scotiaInsurance1" },
+									"Expense - Scotia Insurance 1"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-scotiaInsurance2" },
+									"Expense - Scotia Insurance 2"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-sunlifeInsurance" },
+									"Expense - Sunlife Insurance"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-oneAndOneAndRelated" },
+									"Expense - 1and1 & Related"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-jewelry/art" },
+									"Expense - Jewelry/Art"
+								),
+								React.createElement(
+									"option",
+									{ value: "expense-other" },
+									"Expense - Other"
+								),
+								React.createElement(
+									"option",
+									{ value: "borrow-local" },
+									"Borrow - Local"
+								),
+								React.createElement(
+									"option",
+									{ value: "borrow-fam" },
+									"Borrow - Fam"
+								),
+								React.createElement(
+									"option",
+									{ value: "borrow-omar" },
+									"Borrow - Omar"
+								),
+								React.createElement(
+									"option",
+									{ value: "borrow-taxes" },
+									"Borrow - Taxes"
+								)
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: "input right report" },
+							React.createElement(
+								"p",
+								null,
+								React.createElement(
+									"label",
+									{ htmlFor: "report_country" },
+									"Country:"
+								)
+							),
+							React.createElement(
+								"select",
+								{ id: "report_country" },
+								React.createElement(
+									"option",
+									{ value: "usa" },
+									"USA"
+								),
+								React.createElement(
+									"option",
+									{ value: "canada" },
+									"Canada"
+								)
+							)
+						),
+						React.createElement("hr", null),
+						React.createElement("input", { id: "btn_subtab", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 					)
 				)
-			),
-			React.createElement(SuccessModal, { display: this.state.modalSuccess }),
-			React.createElement(FailedModal, { display: this.state.modalFail }),
-			React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
-			React.createElement(
-				"form",
-				{ id: "form_report", method: "post" },
-				React.createElement(
-					"h2",
+			);
+		} else if (this.state.phase === "Table Report") {
+			var headers = [];
+			if (this.state.category === "Income") {
+				var titles = ["Invoice #", "Client", "Income", "Payee", "Country", "SubDate", "RecDate", "DepDate", "Tax %", "DateEntered"];
+				var heads = [];
+				for (var i = 0; i < 10; i++) {
+					heads.push(React.createElement(
+						"th",
+						null,
+						titles[i]
+					));
+				}
+				headers.push(React.createElement(
+					"tr",
 					null,
-					"Report - ",
-					this.props.data,
-					" Format"
-				),
-				React.createElement(
-					"div",
-					{ className: "content" },
-					React.createElement(
-						"div",
-						{ className: "input left report" },
-						React.createElement(
-							"p",
-							null,
-							React.createElement(
-								"label",
-								{ htmlFor: "report_category" },
-								"Category:"
-							)
-						),
-						React.createElement(
-							"select",
-							{ id: "report_category" },
-							React.createElement(
-								"option",
-								{ value: "income-all" },
-								"Income - All"
-							),
-							React.createElement(
-								"option",
-								{ value: "income-andrea" },
-								"Income - Andrea"
-							),
-							React.createElement(
-								"option",
-								{ value: "income-bill" },
-								"Income - Bill"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-mortage" },
-								"Expense - Mortgage"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-hoa" },
-								"Expense - HOA"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-phone" },
-								"Expense - Phone"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-internet" },
-								"Expense - Internet"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-water" },
-								"Expense - Water"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-electricity" },
-								"Expense - Electricity"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-homeWarranty" },
-								"Expense - Home Warranty"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-tuition/books" },
-								"Expense - Tuition + Books"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-healthInsurance" },
-								"Expense - Health Insurance"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-carInsurance" },
-								"Expense - Car Insurance"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-carRepair" },
-								"Expense - Car Repair"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-bankFees" },
-								"Expense - Bank Fees"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-coffee" },
-								"Expense - Coffee"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-medical" },
-								"Expense - Medical"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-schoolMaterials" },
-								"Expense - School Materials"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-officeSupplies" },
-								"Expense - Office Supplies"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-restaurants" },
-								"Expense - Restaurants"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-entertainment" },
-								"Expense - Entertainment"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-transport" },
-								"Expense - Transport"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-groceries" },
-								"Expense - Groceries"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-clothing" },
-								"Expense - Clothing"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-books/games" },
-								"Expense - Books/Games"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-furniture/household" },
-								"Expense - Furniture/Household"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-writing" },
-								"Expense - Writing"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-hygiene" },
-								"Expense - Hygiene"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-gifts" },
-								"Expense - Gifts"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-accountant" },
-								"Expense - Accountant"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-skype" },
-								"Expense - Skype"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-netflix" },
-								"Expense - Netflix"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-scotiaInsurance1" },
-								"Expense - Scotia Insurance 1"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-scotiaInsurance2" },
-								"Expense - Scotia Insurance 2"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-sunlifeInsurance" },
-								"Expense - Sunlife Insurance"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-oneAndOneAndRelated" },
-								"Expense - 1and1 & Related"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-jewelry/art" },
-								"Expense - Jewelry/Art"
-							),
-							React.createElement(
-								"option",
-								{ value: "expense-other" },
-								"Expense - Other"
-							),
-							React.createElement(
-								"option",
-								{ value: "borrow-local" },
-								"Borrow - Local"
-							),
-							React.createElement(
-								"option",
-								{ value: "borrow-fam" },
-								"Borrow - Fam"
-							),
-							React.createElement(
-								"option",
-								{ value: "borrow-omar" },
-								"Borrow - Omar"
-							),
-							React.createElement(
-								"option",
-								{ value: "borrow-taxes" },
-								"Borrow - Taxes"
-							)
-						)
-					),
-					React.createElement(
-						"div",
-						{ className: "input right report" },
-						React.createElement(
-							"p",
-							null,
-							React.createElement(
-								"label",
-								{ htmlFor: "report_country" },
-								"Country:"
-							)
-						),
-						React.createElement(
-							"select",
-							{ id: "report_country" },
-							React.createElement(
-								"option",
-								{ value: "usa" },
-								"USA"
-							),
-							React.createElement(
-								"option",
-								{ value: "canada" },
-								"Canada"
-							)
-						)
-					),
-					React.createElement("hr", null),
-					React.createElement("input", { id: "btn_subtab", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
-				)
-			)
-		);
-	}
-});
-var Table = React.createClass({
-	displayName: "Table",
-
-	handleClick: function (e) {
-		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.props.onPhaseChange("TableSelection");
-	},
-	render: function () {
-		var rows = [];
-		for (var i = 0; i < tableData.length; i++) {
-			var cols = [];
-			for (var j = 0; j < tableData[i].length; j++) {
-				cols.push(React.createElement(
-					"td",
+					heads
+				));
+			} else if (this.state.category === "Expense") {
+				var titles = ["Company", "Cost", "Category", "Country", "PaidDate", "Tax Local", "Tax Federal", "DateEntered"];
+				var heads = [];
+				for (var i = 0; i < 10; i++) {
+					heads.push(React.createElement(
+						"th",
+						null,
+						titles[i]
+					));
+				}
+				headers.push(React.createElement(
+					"tr",
 					null,
-					"tableData[i][j]"
+					heads
+				));
+			} else if (this.state.category === "Borrow") {
+				var titles = ["Person", "Purpose", "Country", "Subtracted", "Added", "Borrowed", "TransDate", "DateEntered"];
+				var heads = [];
+				for (var i = 0; i < 10; i++) {
+					heads.push(React.createElement(
+						"th",
+						null,
+						titles[i]
+					));
+				}
+				headers.push(React.createElement(
+					"tr",
+					null,
+					heads
 				));
 			}
-			rows.push(React.createElement(
-				"tr",
-				null,
-				cols
-			));
-		}
-		return React.createElement(
-			"div",
-			null,
-			React.createElement(
-				"ul",
-				{ className: "breadcrumbs" },
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
-					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Homepage"
-					),
-					"  >  "
-				),
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
-					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Report type"
-					),
-					"  >  "
-				),
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
-					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Tabular"
-					),
-					"  >  "
-				),
-				React.createElement(
-					"li",
-					{ className: "breadcrumb" },
-					React.createElement(
-						"span",
-						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Table Report"
-					)
-				)
-			),
-			React.createElement(
-				"h2",
-				{ id: "header_table" },
-				"Table Header"
-			),
-			React.createElement(
-				"table",
-				{ id: "table_report" },
-				React.createElement(
-					"tbody",
+			var rows = [];
+			for (var j = 0; j < this.state.data.length; j++) {
+				var cols = [];
+				$.each(this.state.data[j], function (key, value) {
+					console.log(key, value);
+					cols.push(React.createElement(
+						"td",
+						null,
+						value
+					));
+				});
+				rows.push(React.createElement(
+					"tr",
 					null,
-					rows
-				)
-			),
-			React.createElement("hr", null)
-		);
+					cols
+				));
+			}
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Report type"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Tabular"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Table Report"
+						)
+					)
+				),
+				React.createElement(
+					"h2",
+					{ id: "header_table" },
+					"Income"
+				),
+				React.createElement(
+					"table",
+					{ id: "table_report" },
+					React.createElement(
+						"thead",
+						null,
+						headers
+					),
+					React.createElement(
+						"tbody",
+						null,
+						rows
+					)
+				),
+				React.createElement("hr", null)
+			);
+		} else {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(
+					"ul",
+					{ className: "breadcrumbs" },
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Homepage"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Report type"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Graphical"
+						),
+						"  >  "
+					),
+					React.createElement(
+						"li",
+						{ className: "breadcrumb" },
+						React.createElement(
+							"span",
+							{ className: "breadcrumb-label", onClick: this.handleClick },
+							"Graph Report"
+						)
+					)
+				),
+				React.createElement(
+					"h2",
+					{ id: "header_table" },
+					"Something Else"
+				),
+				React.createElement(
+					"table",
+					{ id: "graph_report" },
+					React.createElement(
+						"tbody",
+						null,
+						rows
+					)
+				),
+				React.createElement("hr", null)
+			);
+		}
 	}
 });
 /**********Reporting Elements end here ***************************************************************/

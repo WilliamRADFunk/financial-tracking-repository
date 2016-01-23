@@ -113,27 +113,11 @@ var Project = React.createClass
 						<Footer/>
 					</div>);
 		}
-		else if(this.state.phase === "Table")
-		{
-			return (<div>
-						<Header/>
-						<Table onPhaseChange={this.onPhaseChange}/>
-						<Footer/>
-					</div>);
-		}
 		else if(this.state.phase === "GraphSelection")
 		{
 			return (<div>
 						<Header/>
 						<Report data="Graph"  onPhaseChange={this.onPhaseChange}/>
-						<Footer/>
-					</div>);
-		}
-		else if(this.state.phase === "Graph")
-		{
-			return (<div>
-						<Header/>
-						<Graph onPhaseChange={this.onPhaseChange}/>
 						<Footer/>
 					</div>);
 		}
@@ -582,7 +566,10 @@ var Report = React.createClass
 		return ({
 					modalFail: false,
 					modalSuccess: false,
-					modalNoKey: true
+					modalNoKey: true,
+					category: "",
+					data: [],
+					phase: "select"
 				});
 	},
 	handleSubmissionResponse: function(result)
@@ -607,130 +594,210 @@ var Report = React.createClass
 	{
 		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
 		else if(e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");
+		else if(e.currentTarget.innerHTML === "Tabular") this.setState({phase: "select"});
 		else if(e.currentTarget.value === "SUBMIT")
 		{
+			var category = document.getElementById("report_category").value;
+			var cat = "";
+			if(category.substring(0, 6) === "income") cat = "Income";
+			else if(category.substring(0, 7) === "expense") cat = "Expense";
+			else if(category.substring(0, 6) === "borrow") cat = "Borrow";
+
 			if(this.props.data === "Table")
 			{
-				this.props.onPhaseChange("Table")
-				processReportTable(e);
+				this.setState({category: cat, data: processReportTable(e), phase: "Table Report"});
 			}
 			else
 			{
-				this.props.onPhaseChange("Graph")
-				processReportGraph(e);
+				this.setState({category: cat, data: processReportGraph(e), phase: "Graph Report"});
 			}
 		}
 	},
 	render: function()
 	{
-		return (<div>
-					<ul className="breadcrumbs">
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>{this.props.data} Criteria</span></li>
-					</ul>
-					<SuccessModal display={this.state.modalSuccess}/>
-					<FailedModal display={this.state.modalFail}/>
-					<NoKeyModal display={this.state.modalNoKey}/>
-					<form id="form_report" method="post">
-						<h2>Report - {this.props.data} Format</h2>
-						<div className="content">
-							<div className="input left report">
-								<p><label htmlFor="report_category">Category:</label></p>
-								<select id="report_category">
-									<option value="income-all">Income - All</option>
-									<option value="income-andrea">Income - Andrea</option>
-									<option value="income-bill">Income - Bill</option>
-									<option value="expense-mortage">Expense - Mortgage</option>
-									<option value="expense-hoa">Expense - HOA</option>
-									<option value="expense-phone">Expense - Phone</option>
-									<option value="expense-internet">Expense - Internet</option>
-									<option value="expense-water">Expense - Water</option>
-									<option value="expense-electricity">Expense - Electricity</option>
-									<option value="expense-homeWarranty">Expense - Home Warranty</option>
-									<option value="expense-tuition/books">Expense - Tuition + Books</option>
-									<option value="expense-healthInsurance">Expense - Health Insurance</option>
-									<option value="expense-carInsurance">Expense - Car Insurance</option>
-									<option value="expense-carRepair">Expense - Car Repair</option>
-									<option value="expense-bankFees">Expense - Bank Fees</option>
-									<option value="expense-coffee">Expense - Coffee</option>
-									<option value="expense-medical">Expense - Medical</option>
-									<option value="expense-schoolMaterials">Expense - School Materials</option>
-									<option value="expense-officeSupplies">Expense - Office Supplies</option>
-									<option value="expense-restaurants">Expense - Restaurants</option>
-									<option value="expense-entertainment">Expense - Entertainment</option>
-									<option value="expense-transport">Expense - Transport</option>
-									<option value="expense-groceries">Expense - Groceries</option>
-									<option value="expense-clothing">Expense - Clothing</option>
-									<option value="expense-books/games">Expense - Books/Games</option>
-									<option value="expense-furniture/household">Expense - Furniture/Household</option>
-									<option value="expense-writing">Expense - Writing</option>
-									<option value="expense-hygiene">Expense - Hygiene</option>
-									<option value="expense-gifts">Expense - Gifts</option>
-									<option value="expense-accountant">Expense - Accountant</option>
-									<option value="expense-skype">Expense - Skype</option>
-									<option value="expense-netflix">Expense - Netflix</option>
-									<option value="expense-scotiaInsurance1">Expense - Scotia Insurance 1</option>
-									<option value="expense-scotiaInsurance2">Expense - Scotia Insurance 2</option>
-									<option value="expense-sunlifeInsurance">Expense - Sunlife Insurance</option>
-									<option value="expense-oneAndOneAndRelated">Expense - 1and1 &amp; Related</option>
-									<option value="expense-jewelry/art">Expense - Jewelry/Art</option>
-									<option value="expense-other">Expense - Other</option>
-									<option value="borrow-local">Borrow - Local</option>
-									<option value="borrow-fam">Borrow - Fam</option>
-									<option value="borrow-omar">Borrow - Omar</option>
-									<option value="borrow-taxes">Borrow - Taxes</option>
-								</select>
-							</div>
-							<div className="input right report">
-								<p><label htmlFor="report_country">Country:</label></p>
-								<select id="report_country">
-									<option value="usa">USA</option>
-									<option value="canada">Canada</option>
-								</select>
-							</div>
-							<hr/>
-							<input id="btn_subtab" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
-						</div>
-					</form>
-				</div>);
-	}
-});
-var Table = React.createClass
-({
-	handleClick: function(e)
-	{
-		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
-		else if(e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");
-		else if(e.currentTarget.innerHTML === "Tabular") this.props.onPhaseChange("TableSelection");
-	},
-	render: function()
-	{
-		var rows = [];
-		for(var i = 0; i < tableData.length; i++)
+		if(this.state.phase === "select")
 		{
-			var cols = [];
-			for(var j = 0; j < tableData[i].length; j++)
-			{
-				cols.push(<td>tableData[i][j]</td>);
-			}
-			rows.push(<tr>{cols}</tr>);
+			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>{this.props.data} Criteria</span></li>
+						</ul>
+						<SuccessModal display={this.state.modalSuccess}/>
+						<FailedModal display={this.state.modalFail}/>
+						<NoKeyModal display={this.state.modalNoKey}/>
+						<form id="form_report" method="post">
+							<h2>Report - {this.props.data} Format</h2>
+							<div className="content">
+								<div className="input left report">
+									<p><label htmlFor="report_category">Category:</label></p>
+									<select id="report_category">
+										<option value="income-all">Income - All</option>
+										<option value="income-andrea">Income - Andrea</option>
+										<option value="income-bill">Income - Bill</option>
+										<option value="expense-mortage">Expense - Mortgage</option>
+										<option value="expense-hoa">Expense - HOA</option>
+										<option value="expense-phone">Expense - Phone</option>
+										<option value="expense-internet">Expense - Internet</option>
+										<option value="expense-water">Expense - Water</option>
+										<option value="expense-electricity">Expense - Electricity</option>
+										<option value="expense-homeWarranty">Expense - Home Warranty</option>
+										<option value="expense-tuition/books">Expense - Tuition + Books</option>
+										<option value="expense-healthInsurance">Expense - Health Insurance</option>
+										<option value="expense-carInsurance">Expense - Car Insurance</option>
+										<option value="expense-carRepair">Expense - Car Repair</option>
+										<option value="expense-bankFees">Expense - Bank Fees</option>
+										<option value="expense-coffee">Expense - Coffee</option>
+										<option value="expense-medical">Expense - Medical</option>
+										<option value="expense-schoolMaterials">Expense - School Materials</option>
+										<option value="expense-officeSupplies">Expense - Office Supplies</option>
+										<option value="expense-restaurants">Expense - Restaurants</option>
+										<option value="expense-entertainment">Expense - Entertainment</option>
+										<option value="expense-transport">Expense - Transport</option>
+										<option value="expense-groceries">Expense - Groceries</option>
+										<option value="expense-clothing">Expense - Clothing</option>
+										<option value="expense-books/games">Expense - Books/Games</option>
+										<option value="expense-furniture/household">Expense - Furniture/Household</option>
+										<option value="expense-writing">Expense - Writing</option>
+										<option value="expense-hygiene">Expense - Hygiene</option>
+										<option value="expense-gifts">Expense - Gifts</option>
+										<option value="expense-accountant">Expense - Accountant</option>
+										<option value="expense-skype">Expense - Skype</option>
+										<option value="expense-netflix">Expense - Netflix</option>
+										<option value="expense-scotiaInsurance1">Expense - Scotia Insurance 1</option>
+										<option value="expense-scotiaInsurance2">Expense - Scotia Insurance 2</option>
+										<option value="expense-sunlifeInsurance">Expense - Sunlife Insurance</option>
+										<option value="expense-oneAndOneAndRelated">Expense - 1and1 &amp; Related</option>
+										<option value="expense-jewelry/art">Expense - Jewelry/Art</option>
+										<option value="expense-other">Expense - Other</option>
+										<option value="borrow-local">Borrow - Local</option>
+										<option value="borrow-fam">Borrow - Fam</option>
+										<option value="borrow-omar">Borrow - Omar</option>
+										<option value="borrow-taxes">Borrow - Taxes</option>
+									</select>
+								</div>
+								<div className="input right report">
+									<p><label htmlFor="report_country">Country:</label></p>
+									<select id="report_country">
+										<option value="usa">USA</option>
+										<option value="canada">Canada</option>
+									</select>
+								</div>
+								<hr/>
+								<input id="btn_subtab" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
+							</div>
+						</form>
+					</div>);
 		}
-		return (<div>
-					<ul className="breadcrumbs">
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Tabular</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Table Report</span></li>
-					</ul>
-					<h2 id="header_table">Table Header</h2>
-					<table id="table_report">
-						<tbody>
-							{rows}
-						</tbody>
-					</table>
-					<hr/>
-				</div>);
+		else if(this.state.phase === "Table Report")
+		{
+			var headers = []
+			if(this.state.category === "Income")
+			{
+				var titles = [
+					"Invoice #",
+					"Client",
+					"Income",
+					"Payee",
+					"Country",
+					"SubDate",
+					"RecDate",
+					"DepDate",
+					"Tax %",
+					"DateEntered"
+				];
+				var heads = [];
+				for(var i = 0; i < 10; i++)
+				{
+					heads.push(<th>{titles[i]}</th>);
+				}
+				headers.push(<tr>{heads}</tr>);
+			}
+			else if(this.state.category === "Expense")
+			{
+				var titles = [
+					"Company",
+					"Cost",
+					"Category",
+					"Country",
+					"PaidDate",
+					"Tax Local",
+					"Tax Federal",
+					"DateEntered"
+				];
+				var heads = [];
+				for(var i = 0; i < 10; i++)
+				{
+					heads.push(<th>{titles[i]}</th>);
+				}
+				headers.push(<tr>{heads}</tr>);
+			}
+			else if(this.state.category === "Borrow")
+			{
+				var titles = [
+					"Person",
+					"Purpose",
+					"Country",
+					"Subtracted",
+					"Added",
+					"Borrowed",
+					"TransDate",
+					"DateEntered"
+				];
+				var heads = [];
+				for(var i = 0; i < 10; i++)
+				{
+					heads.push(<th>{titles[i]}</th>);
+				}
+				headers.push(<tr>{heads}</tr>);
+			}
+			var rows = [];
+			for(var j = 0; j < this.state.data.length; j++)
+			{
+				var cols = [];
+				$.each(this.state.data[j], function(key, value) {
+					console.log(key, value);
+					cols.push(<td>{value}</td>);
+				});
+				rows.push(<tr>{cols}</tr>);
+			}
+			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Tabular</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Table Report</span></li>
+						</ul>
+						<h2 id="header_table">Income</h2>
+						<table id="table_report">
+							<thead>
+								{headers}
+							</thead>
+							<tbody>
+								{rows}
+							</tbody>
+						</table>
+						<hr/>
+					</div>);
+		}
+		else
+		{
+			return (<div>
+						<ul className="breadcrumbs">
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graphical</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graph Report</span></li>
+						</ul>
+						<h2 id="header_table">Something Else</h2>
+						<table id="graph_report">
+							<tbody>
+								{rows}
+							</tbody>
+						</table>
+						<hr/>
+					</div>);
+		}
 	}
 });
 /**********Reporting Elements end here ***************************************************************/
