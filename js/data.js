@@ -125,11 +125,10 @@ function reportTable(reportPackage, populateTable)
         data: JSON.stringify(reportPackage),
         contentType:'application/x-www-form-urlencoded; charset=utf-8',
         dataType:'text',
-        async: false,
+        async: true,
         success:function(responseData)
         {
-            populateTable();
-            result = JSON.parse(responseData).success;
+            populateTable(responseData);
         },
         error:function(error)
         {
@@ -139,6 +138,4 @@ function reportTable(reportPackage, populateTable)
             console.log(error.statusText);
         }
     });
-
-    return result;
 }

@@ -12,8 +12,8 @@ var Project = React.createClass
 		else if(e.currentTarget.id === "btn_income") this.setState({phase: "Income"});
 		else if(e.currentTarget.id === "btn_expense") this.setState({phase: "Expense"});
 		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
-		else if(e.currentTarget.id === "btn_tabular") this.setState({phase: "Tabular"});
-		else if(e.currentTarget.id === "btn_graphical") this.setState({phase: "Graphical"});
+		else if(e.currentTarget.id === "btn_tableSelection") this.setState({phase: "TableSelection"});
+		else if(e.currentTarget.id === "btn_GraphSelection") this.setState({phase: "GraphSelection"});
 		else this.setState({phase: "Login"});
 	},
 	onPhaseChange: function(phase)
@@ -95,13 +95,13 @@ var Project = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span></li>
 						</ul>
 						<div id="nav_box-entry-type">
-							<button id="btn_tabular" onClick={this.handleClick}>TABULAR</button>
-							<button id="btn_graphical" onClick={this.handleClick}>GRAPHICAL</button>
+							<button id="btn_tableSelection" onClick={this.handleClick}>TABULAR</button>
+							<button id="btn_graphSelection" onClick={this.handleClick}>GRAPHICAL</button>
 						</div>
 						<Footer/>
 					</div>);
 		}
-		else if(this.state.phase === "Tabular")
+		else if(this.state.phase === "TableSelection")
 		{
 			return (<div>
 						<Header/>
@@ -109,11 +109,27 @@ var Project = React.createClass
 						<Footer/>
 					</div>);
 		}
-		else if(this.state.phase === "Graphical")
+		else if(this.state.phase === "Table")
+		{
+			return (<div>
+						<Header/>
+						<Table onPhaseChange={this.onPhaseChange}/>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "GraphSelection")
 		{
 			return (<div>
 						<Header/>
 						<Report data="Graph"  onPhaseChange={this.onPhaseChange}/>
+						<Footer/>
+					</div>);
+		}
+		else if(this.state.phase === "Graph")
+		{
+			return (<div>
+						<Header/>
+						<Graph onPhaseChange={this.onPhaseChange}/>
 						<Footer/>
 					</div>);
 		}
@@ -589,8 +605,16 @@ var Report = React.createClass
 		else if(e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");
 		else if(e.currentTarget.value === "SUBMIT")
 		{
-			if(this.props.data === "Table") processReportTable(e);
-			else processReportGraph(e);
+			if(this.props.data === "Table")
+			{
+				this.props.onPhaseChange("ReportType")
+				processReportTable(e);
+			}
+			else
+			{
+				this.props.onPhaseChange("ReportType")
+				processReportGraph(e);
+			}
 		}
 	},
 	render: function()
@@ -665,6 +689,15 @@ var Report = React.createClass
 							<input id="btn_subtab" className="btn_submit" type="submit" onClick={this.handleClick} value="SUBMIT"/>
 						</div>
 					</form>
+				</div>);
+	}
+});
+var Table = React.createClass
+({
+	render: function()
+	{
+		return (<div>
+					<p>Table goes here</p>
 				</div>);
 	}
 });

@@ -6,7 +6,7 @@ var Project = React.createClass({
 		return { phase: "Login" };
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tabular") this.setState({ phase: "Tabular" });else if (e.currentTarget.id === "btn_graphical") this.setState({ phase: "Graphical" });else this.setState({ phase: "Login" });
+		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tableSelection") this.setState({ phase: "TableSelection" });else if (e.currentTarget.id === "btn_GraphSelection") this.setState({ phase: "GraphSelection" });else this.setState({ phase: "Login" });
 	},
 	onPhaseChange: function (phase) {
 		console.log("Phase changed");
@@ -162,18 +162,18 @@ var Project = React.createClass({
 					{ id: "nav_box-entry-type" },
 					React.createElement(
 						"button",
-						{ id: "btn_tabular", onClick: this.handleClick },
+						{ id: "btn_tableSelection", onClick: this.handleClick },
 						"TABULAR"
 					),
 					React.createElement(
 						"button",
-						{ id: "btn_graphical", onClick: this.handleClick },
+						{ id: "btn_graphSelection", onClick: this.handleClick },
 						"GRAPHICAL"
 					)
 				),
 				React.createElement(Footer, null)
 			);
-		} else if (this.state.phase === "Tabular") {
+		} else if (this.state.phase === "TableSelection") {
 			return React.createElement(
 				"div",
 				null,
@@ -181,12 +181,28 @@ var Project = React.createClass({
 				React.createElement(Report, { data: "Table", onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
-		} else if (this.state.phase === "Graphical") {
+		} else if (this.state.phase === "Table") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(Table, { onPhaseChange: this.onPhaseChange }),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "GraphSelection") {
 			return React.createElement(
 				"div",
 				null,
 				React.createElement(Header, null),
 				React.createElement(Report, { data: "Graph", onPhaseChange: this.onPhaseChange }),
+				React.createElement(Footer, null)
+			);
+		} else if (this.state.phase === "Graph") {
+			return React.createElement(
+				"div",
+				null,
+				React.createElement(Header, null),
+				React.createElement(Graph, { onPhaseChange: this.onPhaseChange }),
 				React.createElement(Footer, null)
 			);
 		} else {
@@ -1258,7 +1274,13 @@ var Report = React.createClass({
 	},
 	handleClick: function (e) {
 		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
-			if (this.props.data === "Table") processReportTable(e);else processReportGraph(e);
+			if (this.props.data === "Table") {
+				this.props.onPhaseChange("ReportType");
+				processReportTable(e);
+			} else {
+				this.props.onPhaseChange("ReportType");
+				processReportGraph(e);
+			}
 		}
 	},
 	render: function () {
@@ -1571,6 +1593,21 @@ var Report = React.createClass({
 					React.createElement("hr", null),
 					React.createElement("input", { id: "btn_subtab", className: "btn_submit", type: "submit", onClick: this.handleClick, value: "SUBMIT" })
 				)
+			)
+		);
+	}
+});
+var Table = React.createClass({
+	displayName: "Table",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"p",
+				null,
+				"Table goes here"
 			)
 		);
 	}
