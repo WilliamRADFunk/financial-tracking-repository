@@ -6,7 +6,7 @@ var Project = React.createClass({
 		return { phase: "Login" };
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tableSelection") this.setState({ phase: "TableSelection" });else if (e.currentTarget.id === "btn_GraphSelection") this.setState({ phase: "GraphSelection" });else this.setState({ phase: "Login" });
+		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tableSelection") this.setState({ phase: "TableSelection" });else if (e.currentTarget.id === "btn_GraphSelection") this.setState({ phase: "GraphSelection" });else if (e.currentTarget.innerHTML === "Homepage") this.setState({ phase: "Navigate" });else if (e.currentTarget.innerHTML === "Entry type") this.setState({ phase: "InputType" });else if (e.currentTarget.innerHTML === "Report type") this.setState({ phase: "ReportType" });else this.setState({ phase: "Login" });
 	},
 	onPhaseChange: function (phase) {
 		console.log("Phase changed");
@@ -153,7 +153,7 @@ var Project = React.createClass({
 						React.createElement(
 							"span",
 							{ className: "breadcrumb-label", onClick: this.handleClick },
-							"Entry type"
+							"Report type"
 						)
 					)
 				),
@@ -1273,7 +1273,7 @@ var Report = React.createClass({
 		}
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
 			if (this.props.data === "Table") {
 				this.props.onPhaseChange("Table");
 				processReportTable(e);
@@ -1306,7 +1306,7 @@ var Report = React.createClass({
 					React.createElement(
 						"span",
 						{ className: "breadcrumb-label", onClick: this.handleClick },
-						"Entry type"
+						"Report type"
 					),
 					"  >  "
 				),
@@ -1316,7 +1316,8 @@ var Report = React.createClass({
 					React.createElement(
 						"span",
 						{ className: "breadcrumb-label", onClick: this.handleClick },
-						this.props.data
+						this.props.data,
+						" Criteria"
 					)
 				)
 			),
@@ -1600,14 +1601,90 @@ var Report = React.createClass({
 var Table = React.createClass({
 	displayName: "Table",
 
+	getInitialState: function () {
+		return {
+			modalFail: false,
+			modalSuccess: false,
+			modalNoKey: true
+		};
+	},
+	handleSubmissionResponse: function (result) {
+		if (result === "true") {
+			this.setState({ modalSuccess: true });
+			callModal("dialog-success");
+		} else if (result === "No Key") {
+			this.setState({ modalNoKey: true });
+			callModal("dialog-no-key");
+		} else {
+			this.setState({ modalFail: true });
+			callModal("dialog-failed-entry");
+		}
+	},
+	handleClick: function (e) {
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.props.onPhaseChange("TableSelection");
+	},
 	render: function () {
 		return React.createElement(
 			"div",
 			null,
 			React.createElement(
-				"p",
-				null,
-				"Table goes here"
+				"ul",
+				{ className: "breadcrumbs" },
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Homepage"
+					),
+					"  >  "
+				),
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Report type"
+					),
+					"  >  "
+				),
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Tabular"
+					),
+					"  >  "
+				),
+				React.createElement(
+					"li",
+					{ className: "breadcrumb" },
+					React.createElement(
+						"span",
+						{ className: "breadcrumb-label", onClick: this.handleClick },
+						"Table Report"
+					)
+				)
+			),
+			React.createElement(SuccessModal, { display: this.state.modalSuccess }),
+			React.createElement(FailedModal, { display: this.state.modalFail }),
+			React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
+			React.createElement(
+				"table",
+				{ id: "table_report" },
+				React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						"Table goes here"
+					)
+				)
 			)
 		);
 	}

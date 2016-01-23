@@ -14,6 +14,9 @@ var Project = React.createClass
 		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
 		else if(e.currentTarget.id === "btn_tableSelection") this.setState({phase: "TableSelection"});
 		else if(e.currentTarget.id === "btn_GraphSelection") this.setState({phase: "GraphSelection"});
+		else if(e.currentTarget.innerHTML === "Homepage") this.setState({phase: "Navigate"});
+		else if(e.currentTarget.innerHTML === "Entry type") this.setState({phase: "InputType"});
+		else if(e.currentTarget.innerHTML === "Report type") this.setState({phase: "ReportType"});
 		else this.setState({phase: "Login"});
 	},
 	onPhaseChange: function(phase)
@@ -92,7 +95,7 @@ var Project = React.createClass
 						<Header/>
 						<ul className="breadcrumbs">
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span></li>
+							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span></li>
 						</ul>
 						<div id="nav_box-entry-type">
 							<button id="btn_tableSelection" onClick={this.handleClick}>TABULAR</button>
@@ -602,7 +605,7 @@ var Report = React.createClass
 	handleClick: function(e)
 	{
 		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
-		else if(e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");
+		else if(e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");
 		else if(e.currentTarget.value === "SUBMIT")
 		{
 			if(this.props.data === "Table")
@@ -622,8 +625,8 @@ var Report = React.createClass
 		return (<div>
 					<ul className="breadcrumbs">
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Entry type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
-						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>{this.props.data}</span></li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>{this.props.data} Criteria</span></li>
 					</ul>
 					<SuccessModal display={this.state.modalSuccess}/>
 					<FailedModal display={this.state.modalFail}/>
@@ -694,13 +697,54 @@ var Report = React.createClass
 });
 var Table = React.createClass
 ({
+	getInitialState: function()
+	{
+		return ({
+					modalFail: false,
+					modalSuccess: false,
+					modalNoKey: true
+				});
+	},
+	handleSubmissionResponse: function(result)
+	{
+		if(result === "true")
+		{
+			this.setState({modalSuccess:true});
+			callModal("dialog-success");
+		}
+		else if(result === "No Key")
+		{
+			this.setState({modalNoKey:true});
+			callModal("dialog-no-key");
+		}
+		else
+		{
+			this.setState({modalFail:true});
+			callModal("dialog-failed-entry");
+		}
+	},
+	handleClick: function(e)
+	{
+		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
+		else if(e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");
+		else if(e.currentTarget.innerHTML === "Tabular") this.props.onPhaseChange("TableSelection");
+	},
 	render: function()
 	{
 		return (<div>
+					<ul className="breadcrumbs">
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Report type</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Tabular</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
+						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Table Report</span></li>
+					</ul>
+					<SuccessModal display={this.state.modalSuccess}/>
+					<FailedModal display={this.state.modalFail}/>
+					<NoKeyModal display={this.state.modalNoKey}/>
 					<table id="table_report">
 						<tr>
 							<td>Table goes here</td>
-						<\tr>
+						</tr>
 					</table>
 				</div>);
 	}
