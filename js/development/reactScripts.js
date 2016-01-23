@@ -607,12 +607,12 @@ var Report = React.createClass
 		{
 			if(this.props.data === "Table")
 			{
-				this.props.onPhaseChange("ReportType")
+				this.props.onPhaseChange("Table")
 				processReportTable(e);
 			}
 			else
 			{
-				this.props.onPhaseChange("ReportType")
+				this.props.onPhaseChange("Graph")
 				processReportGraph(e);
 			}
 		}
@@ -697,7 +697,11 @@ var Table = React.createClass
 	render: function()
 	{
 		return (<div>
-					<p>Table goes here</p>
+					<table id="table_report">
+						<tr>
+							<td>Table goes here</td>
+						<\tr>
+					</table>
 				</div>);
 	}
 });

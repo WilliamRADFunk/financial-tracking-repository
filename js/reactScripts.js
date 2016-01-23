@@ -1275,10 +1275,10 @@ var Report = React.createClass({
 	handleClick: function (e) {
 		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Entry type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.value === "SUBMIT") {
 			if (this.props.data === "Table") {
-				this.props.onPhaseChange("ReportType");
+				this.props.onPhaseChange("Table");
 				processReportTable(e);
 			} else {
-				this.props.onPhaseChange("ReportType");
+				this.props.onPhaseChange("Graph");
 				processReportGraph(e);
 			}
 		}

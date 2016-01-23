@@ -89,7 +89,6 @@ function processReportTable(e)
 }
 function populateTable(data)
 {
-	Project.setState({phase: "Table"});
 	console.log("DEBUG: I was called. Yay! === ", data);
 }
 function killDefaultEvent(e)
