@@ -108,6 +108,36 @@ form hr
 }
 /**
 *
+* Styles for all tables
+*
+**/
+table
+{
+	color: #DCDDD8;
+	display: block;
+	height: auto;
+	margin: 5% auto 10% auto;
+	width: 80%;
+}
+hr
+{
+	border-top: 2px dashed #CCCCCC;
+	margin: 60px auto;
+	padding: 0px;
+	width: 80%;
+}
+#header_table
+{
+	border-bottom: 2px dashed #CCCCCC;
+	color: #DCDDD8;
+	font-size: 28px;
+	height: 50px;
+	line-height: 50px;
+	margin: 60px auto 20px auto;
+	width: 80%;
+}
+/**
+*
 * Styles for the footer
 *
 **/

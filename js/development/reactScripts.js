@@ -1,3 +1,4 @@
+var tableData = [];
 /**********Root Element starts here ***************************************************************/
 var Project = React.createClass
 ({
@@ -635,8 +636,8 @@ var Report = React.createClass
 						<h2>Report - {this.props.data} Format</h2>
 						<div className="content">
 							<div className="input left report">
-								<p><label htmlFor="report-category">Category:</label></p>
-								<select id="report-category">
+								<p><label htmlFor="report_category">Category:</label></p>
+								<select id="report_category">
 									<option value="income-all">Income - All</option>
 									<option value="income-andrea">Income - Andrea</option>
 									<option value="income-bill">Income - Bill</option>
@@ -697,32 +698,6 @@ var Report = React.createClass
 });
 var Table = React.createClass
 ({
-	getInitialState: function()
-	{
-		return ({
-					modalFail: false,
-					modalSuccess: false,
-					modalNoKey: true
-				});
-	},
-	handleSubmissionResponse: function(result)
-	{
-		if(result === "true")
-		{
-			this.setState({modalSuccess:true});
-			callModal("dialog-success");
-		}
-		else if(result === "No Key")
-		{
-			this.setState({modalNoKey:true});
-			callModal("dialog-no-key");
-		}
-		else
-		{
-			this.setState({modalFail:true});
-			callModal("dialog-failed-entry");
-		}
-	},
 	handleClick: function(e)
 	{
 		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
@@ -731,6 +706,16 @@ var Table = React.createClass
 	},
 	render: function()
 	{
+		var rows = [];
+		for(var i = 0; i < tableData.length; i++)
+		{
+			var cols = [];
+			for(var j = 0; j < tableData[i].length; j++)
+			{
+				cols.push(<td>tableData[i][j]</td>);
+			}
+			rows.push(<tr>{cols}</tr>);
+		}
 		return (<div>
 					<ul className="breadcrumbs">
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
@@ -738,14 +723,13 @@ var Table = React.createClass
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Tabular</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 						<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Table Report</span></li>
 					</ul>
-					<SuccessModal display={this.state.modalSuccess}/>
-					<FailedModal display={this.state.modalFail}/>
-					<NoKeyModal display={this.state.modalNoKey}/>
+					<h2 id="header_table">Table Header</h2>
 					<table id="table_report">
-						<tr>
-							<td>Table goes here</td>
-						</tr>
+						<tbody>
+							{rows}
+						</tbody>
 					</table>
+					<hr/>
 				</div>);
 	}
 });

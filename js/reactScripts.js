@@ -1,3 +1,4 @@
+var tableData = [];
 /**********Root Element starts here ***************************************************************/
 var Project = React.createClass({
 	displayName: "Project",
@@ -1345,13 +1346,13 @@ var Report = React.createClass({
 							null,
 							React.createElement(
 								"label",
-								{ htmlFor: "report-category" },
+								{ htmlFor: "report_category" },
 								"Category:"
 							)
 						),
 						React.createElement(
 							"select",
-							{ id: "report-category" },
+							{ id: "report_category" },
 							React.createElement(
 								"option",
 								{ value: "income-all" },
@@ -1601,29 +1602,26 @@ var Report = React.createClass({
 var Table = React.createClass({
 	displayName: "Table",
 
-	getInitialState: function () {
-		return {
-			modalFail: false,
-			modalSuccess: false,
-			modalNoKey: true
-		};
-	},
-	handleSubmissionResponse: function (result) {
-		if (result === "true") {
-			this.setState({ modalSuccess: true });
-			callModal("dialog-success");
-		} else if (result === "No Key") {
-			this.setState({ modalNoKey: true });
-			callModal("dialog-no-key");
-		} else {
-			this.setState({ modalFail: true });
-			callModal("dialog-failed-entry");
-		}
-	},
 	handleClick: function (e) {
 		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.props.onPhaseChange("TableSelection");
 	},
 	render: function () {
+		var rows = [];
+		for (var i = 0; i < tableData.length; i++) {
+			var cols = [];
+			for (var j = 0; j < tableData[i].length; j++) {
+				cols.push(React.createElement(
+					"td",
+					null,
+					"tableData[i][j]"
+				));
+			}
+			rows.push(React.createElement(
+				"tr",
+				null,
+				cols
+			));
+		}
 		return React.createElement(
 			"div",
 			null,
@@ -1670,22 +1668,21 @@ var Table = React.createClass({
 					)
 				)
 			),
-			React.createElement(SuccessModal, { display: this.state.modalSuccess }),
-			React.createElement(FailedModal, { display: this.state.modalFail }),
-			React.createElement(NoKeyModal, { display: this.state.modalNoKey }),
+			React.createElement(
+				"h2",
+				{ id: "header_table" },
+				"Table Header"
+			),
 			React.createElement(
 				"table",
 				{ id: "table_report" },
 				React.createElement(
-					"tr",
+					"tbody",
 					null,
-					React.createElement(
-						"td",
-						null,
-						"Table goes here"
-					)
+					rows
 				)
-			)
+			),
+			React.createElement("hr", null)
 		);
 	}
 });

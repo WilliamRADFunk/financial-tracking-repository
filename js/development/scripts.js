@@ -78,18 +78,22 @@ function processBorrowEntry(e)
 function processReportTable(e)
 {
 	killDefaultEvent(e);
-	var category = (document.getElementById("report-category").value).replace(/[^\w\s\/-]/gi, '');
+	var category = (document.getElementById("report_category").value).replace(/[^\w\s\/-]/gi, '');
 	var country = (document.getElementById("report_country").value).replace(/[^\w\s]/gi, '');
 	var reportPackage = {
 		category: category,
 		country: country
 	};
-	document.getElementById("form_report").reset();
-	reportTable(reportPackage, populateTable);
+	var cat = "";
+	if(category.substring(0, 6) === "income") cat = "Income";
+	else if(category.substring(0, 7) === "expense") cat = "Expense";
+	else if(category.substring(0, 6) === "borrow") cat = "Borrow";
+	reportTable(reportPackage, populateTable, cat);
 }
-function populateTable(data)
+function populateTable(data, category)
 {
-	console.log("DEBUG: I was called. Yay! === ", data);
+	tableData = data;
+	document.getElementById("header_table").innerHTML = category;
 }
 function killDefaultEvent(e)
 {
