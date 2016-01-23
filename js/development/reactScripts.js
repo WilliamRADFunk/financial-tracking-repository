@@ -777,7 +777,6 @@ var Report = React.createClass
 								{rows}
 							</tbody>
 						</table>
-						<hr/>
 					</div>);
 		}
 		else

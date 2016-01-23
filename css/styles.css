@@ -111,20 +111,13 @@ form hr
 * Styles for all tables
 *
 **/
-hr
-{
-	border-top: 2px dashed #CCCCCC;
-	margin: 60px auto;
-	padding: 0px;
-	width: 80%;
-}
 table
 {
 	color: #DCDDD8;
 	display: block;
 	font-size: 12px;
 	height: auto;
-	margin: 5% auto 10% auto;
+	margin: 3% auto 3% auto;
 	width: 80%;
 }
 tbody
@@ -135,16 +128,16 @@ td,
 th
 {
 	border: 1px solid #CCCCCC;
-	height: 35px;
-	float: left;
-	line-height: 35px;
-	overflow: hidden;
+	height: 36px;
+	line-height: 18px;
 	text-align: center;
+}
+th
+{
 	width: 9%;
 }
 tr
 {
-	display: block;
 	width: 100%;
 }
 #header_table

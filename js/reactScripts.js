@@ -1716,8 +1716,7 @@ var Report = React.createClass({
 						null,
 						rows
 					)
-				),
-				React.createElement("hr", null)
+				)
 			);
 		} else {
 			return React.createElement(
