@@ -79,13 +79,17 @@ function processReportTable(e)
 {
 	killDefaultEvent(e);
 	var category = (document.getElementById("report_category").value).replace(/[^\w\s\/-]/gi, '');
+	var subcategory = category.substring(category.indexOf('-') + 1, category.length);
 	var country = (document.getElementById("report_country").value).replace(/[^\w\s]/gi, '');
 	var reportPackage = {
-		category: category,
+		category: subcategory,
 		country: country
 	};
 
-	return reportTable(reportPackage);
+	if(category.indexOf('income') > -1) return reportIncomeTable(reportPackage);
+	else if(category.indexOf('expense') > -1) return reportExpenseTable(reportPackage);
+	else if(category.indexOf('borrow') > -1) return reportBorrowTable(reportPackage);
+	else return null;
 }
 function populateTable(data, category)
 {

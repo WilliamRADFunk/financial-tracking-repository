@@ -598,18 +598,21 @@ var Report = React.createClass
 		else if(e.currentTarget.value === "SUBMIT")
 		{
 			var category = document.getElementById("report_category").value;
-			var cat = "";
-			if(category.substring(0, 6) === "income") cat = "Income";
-			else if(category.substring(0, 7) === "expense") cat = "Expense";
-			else if(category.substring(0, 6) === "borrow") cat = "Borrow";
+			if(category.substring(0, 6) === "income") category = "Income";
+			else if(category.substring(0, 7) === "expense") category = "Expense";
+			else if(category.substring(0, 6) === "borrow") category = "Borrow";
 
 			if(this.props.data === "Table")
 			{
-				this.setState({category: cat, data: processReportTable(e), phase: "Table Report"});
+				this.setState({	category: category,
+								data: processReportTable(e),
+								phase: "Table Report"});
 			}
 			else
 			{
-				this.setState({category: cat, data: processReportGraph(e), phase: "Graph Report"});
+				this.setState({	category: category,
+								data: processReportGraph(e),
+								phase: "Graph Report"});
 			}
 		}
 	},
@@ -707,7 +710,7 @@ var Report = React.createClass
 					"DateEntered"
 				];
 				var heads = [];
-				for(var i = 0; i < 10; i++)
+				for(var i = 0; i < titles.length; i++)
 				{
 					heads.push(<th>{titles[i]}</th>);
 				}
@@ -716,17 +719,17 @@ var Report = React.createClass
 			else if(this.state.category === "Expense")
 			{
 				var titles = [
+					"PaidDate",
 					"Company",
 					"Cost",
-					"Category",
-					"Country",
-					"PaidDate",
 					"Tax Local",
 					"Tax Federal",
+					"Country",
+					"Category",
 					"DateEntered"
 				];
 				var heads = [];
-				for(var i = 0; i < 10; i++)
+				for(var i = 0; i < titles.length; i++)
 				{
 					heads.push(<th>{titles[i]}</th>);
 				}
@@ -745,7 +748,7 @@ var Report = React.createClass
 					"DateEntered"
 				];
 				var heads = [];
-				for(var i = 0; i < 10; i++)
+				for(var i = 0; i < titles.length; i++)
 				{
 					heads.push(<th>{titles[i]}</th>);
 				}
@@ -756,7 +759,6 @@ var Report = React.createClass
 			{
 				var cols = [];
 				$.each(this.state.data[j], function(key, value) {
-					console.log(key, value);
 					cols.push(<td>{value}</td>);
 				});
 				rows.push(<tr>{cols}</tr>);
@@ -768,7 +770,7 @@ var Report = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Tabular</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Table Report</span></li>
 						</ul>
-						<h2 id="header_table">Income</h2>
+						<h2 id="header_table">{this.state.category}</h2>
 						<table id="table_report">
 							<thead>
 								{headers}

@@ -1263,13 +1263,16 @@ var Report = React.createClass({
 	handleClick: function (e) {
 		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.setState({ phase: "select" });else if (e.currentTarget.value === "SUBMIT") {
 			var category = document.getElementById("report_category").value;
-			var cat = "";
-			if (category.substring(0, 6) === "income") cat = "Income";else if (category.substring(0, 7) === "expense") cat = "Expense";else if (category.substring(0, 6) === "borrow") cat = "Borrow";
+			if (category.substring(0, 6) === "income") category = "Income";else if (category.substring(0, 7) === "expense") category = "Expense";else if (category.substring(0, 6) === "borrow") category = "Borrow";
 
 			if (this.props.data === "Table") {
-				this.setState({ category: cat, data: processReportTable(e), phase: "Table Report" });
+				this.setState({ category: category,
+					data: processReportTable(e),
+					phase: "Table Report" });
 			} else {
-				this.setState({ category: cat, data: processReportGraph(e), phase: "Graph Report" });
+				this.setState({ category: category,
+					data: processReportGraph(e),
+					phase: "Graph Report" });
 			}
 		}
 	},
@@ -1592,7 +1595,7 @@ var Report = React.createClass({
 			if (this.state.category === "Income") {
 				var titles = ["Invoice #", "Client", "Income", "Payee", "Country", "SubDate", "RecDate", "DepDate", "Tax %", "DateEntered"];
 				var heads = [];
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
@@ -1605,9 +1608,9 @@ var Report = React.createClass({
 					heads
 				));
 			} else if (this.state.category === "Expense") {
-				var titles = ["Company", "Cost", "Category", "Country", "PaidDate", "Tax Local", "Tax Federal", "DateEntered"];
+				var titles = ["PaidDate", "Company", "Cost", "Tax Local", "Tax Federal", "Country", "Category", "DateEntered"];
 				var heads = [];
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
@@ -1622,7 +1625,7 @@ var Report = React.createClass({
 			} else if (this.state.category === "Borrow") {
 				var titles = ["Person", "Purpose", "Country", "Subtracted", "Added", "Borrowed", "TransDate", "DateEntered"];
 				var heads = [];
-				for (var i = 0; i < 10; i++) {
+				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
@@ -1639,7 +1642,6 @@ var Report = React.createClass({
 			for (var j = 0; j < this.state.data.length; j++) {
 				var cols = [];
 				$.each(this.state.data[j], function (key, value) {
-					console.log(key, value);
 					cols.push(React.createElement(
 						"td",
 						null,
@@ -1701,7 +1703,7 @@ var Report = React.createClass({
 				React.createElement(
 					"h2",
 					{ id: "header_table" },
-					"Income"
+					this.state.category
 				),
 				React.createElement(
 					"table",

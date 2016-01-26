@@ -112,13 +112,63 @@ function borrowEntry(borrowPackage)
 
     return result;
 }
-/* Collects data from database to fill in output in table format */
-function reportTable(reportPackage)
+/* Collects data from database to fill fill content for income table format */
+function reportIncomeTable(reportPackage)
 {
     var result = [];
     $.ajax({
         type:'POST',
         url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/getIncome.php',
+        data: JSON.stringify(reportPackage),
+        contentType:'application/x-www-form-urlencoded; charset=utf-8',
+        dataType:'text',
+        async: false,
+        success:function(responseData)
+        {
+            result = JSON.parse(responseData).rows;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            console.log(error.responseText);
+            console.log(error.status);
+            console.log(error.statusText);
+        }
+    });
+    return result;
+}
+/* Collects data from database to fill fill content for expense table format */
+function reportExpenseTable(reportPackage)
+{
+    var result = [];
+    $.ajax({
+        type:'POST',
+        url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/getExpense.php',
+        data: JSON.stringify(reportPackage),
+        contentType:'application/x-www-form-urlencoded; charset=utf-8',
+        dataType:'text',
+        async: false,
+        success:function(responseData)
+        {
+            result = JSON.parse(responseData).rows;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            console.log(error.responseText);
+            console.log(error.status);
+            console.log(error.statusText);
+        }
+    });
+    return result;
+}
+/* Collects data from database to fill fill content for borrow table format */
+function reportBorrowTable(reportPackage)
+{
+    var result = [];
+    $.ajax({
+        type:'POST',
+        url:'http://www.williamrobertfunk.com/applications/financial-tracking-repository/actions/getBorrow.php',
         data: JSON.stringify(reportPackage),
         contentType:'application/x-www-form-urlencoded; charset=utf-8',
         dataType:'text',
