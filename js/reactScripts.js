@@ -7,7 +7,7 @@ var Project = React.createClass({
 		return { phase: "Login" };
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tableSelection") this.setState({ phase: "TableSelection" });else if (e.currentTarget.id === "btn_GraphSelection") this.setState({ phase: "GraphSelection" });else if (e.currentTarget.innerHTML === "Homepage") this.setState({ phase: "Navigate" });else if (e.currentTarget.innerHTML === "Entry type") this.setState({ phase: "InputType" });else if (e.currentTarget.innerHTML === "Report type") this.setState({ phase: "ReportType" });else this.setState({ phase: "Login" });
+		if (e.currentTarget.id === "btn_entry") this.setState({ phase: "InputType" });else if (e.currentTarget.id === "btn_reports") this.setState({ phase: "ReportType" });else if (e.currentTarget.id === "btn_income") this.setState({ phase: "Income" });else if (e.currentTarget.id === "btn_expense") this.setState({ phase: "Expense" });else if (e.currentTarget.id === "btn_borrow") this.setState({ phase: "Borrow" });else if (e.currentTarget.id === "btn_tableSelection") this.setState({ phase: "TableSelection" });else if (e.currentTarget.id === "btn_graphSelection") this.setState({ phase: "GraphSelection" });else if (e.currentTarget.innerHTML === "Homepage") this.setState({ phase: "Navigate" });else if (e.currentTarget.innerHTML === "Entry type") this.setState({ phase: "InputType" });else if (e.currentTarget.innerHTML === "Report type") this.setState({ phase: "ReportType" });else this.setState({ phase: "Login" });
 	},
 	onPhaseChange: function (phase) {
 		console.log("Phase changed");
@@ -1261,7 +1261,7 @@ var Report = React.createClass({
 		}
 	},
 	handleClick: function (e) {
-		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.setState({ phase: "select" });else if (e.currentTarget.value === "SUBMIT") {
+		if (e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");else if (e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");else if (e.currentTarget.innerHTML === "Tabular") this.setState({ phase: "select" });else if (e.currentTarget.innerHTML === "Graphical") this.setState({ phase: "select" });else if (e.currentTarget.value === "SUBMIT") {
 			var category = document.getElementById("report_category").value;
 			if (category.substring(0, 6) === "income") category = "Income";else if (category.substring(0, 7) === "expense") category = "Expense";else if (category.substring(0, 6) === "borrow") category = "Borrow";
 
@@ -1273,7 +1273,7 @@ var Report = React.createClass({
 					phase: "Table Report" });
 			} else {
 				this.setState({ category: category,
-					data: processReportGraph(e),
+					data: processReportTable(e),
 					phase: "Graph Report" });
 			}
 		}
@@ -1873,6 +1873,22 @@ var Report = React.createClass({
 				)
 			);
 		} else {
+			google.charts.load('current', { 'packages': ['corechart'] });
+			google.charts.setOnLoadCallback(drawChart);
+			if (this.state.category === "Income") {
+				function drawChart() {
+					var data = google.visualization.arrayToDataTable([['Year', 'Sales', 'Expenses'], ['2004', 1000, 400], ['2005', 1170, 460], ['2006', 660, 1120], ['2007', 1030, 540]]);
+
+					var options = {
+						title: 'Graph',
+						curveType: 'function',
+						legend: { position: 'bottom' }
+					};
+					var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+					chart.draw(data, options);
+				}
+			}
+
 			return React.createElement(
 				"div",
 				null,
@@ -1921,18 +1937,10 @@ var Report = React.createClass({
 				),
 				React.createElement(
 					"h2",
-					{ id: "header_table" },
+					{ id: "header_graph" },
 					this.state.category
 				),
-				React.createElement(
-					"table",
-					{ id: "graph_report" },
-					React.createElement(
-						"tbody",
-						null,
-						rows
-					)
-				),
+				React.createElement("div", { id: "curve_chart" }),
 				React.createElement("hr", null)
 			);
 		}

@@ -14,7 +14,7 @@ var Project = React.createClass
 		else if(e.currentTarget.id === "btn_expense") this.setState({phase: "Expense"});
 		else if(e.currentTarget.id === "btn_borrow") this.setState({phase: "Borrow"});
 		else if(e.currentTarget.id === "btn_tableSelection") this.setState({phase: "TableSelection"});
-		else if(e.currentTarget.id === "btn_GraphSelection") this.setState({phase: "GraphSelection"});
+		else if(e.currentTarget.id === "btn_graphSelection") this.setState({phase: "GraphSelection"});
 		else if(e.currentTarget.innerHTML === "Homepage") this.setState({phase: "Navigate"});
 		else if(e.currentTarget.innerHTML === "Entry type") this.setState({phase: "InputType"});
 		else if(e.currentTarget.innerHTML === "Report type") this.setState({phase: "ReportType"});
@@ -117,7 +117,7 @@ var Project = React.createClass
 		{
 			return (<div>
 						<Header/>
-						<Report data="Graph"  onPhaseChange={this.onPhaseChange}/>
+						<Report data="Graph" onPhaseChange={this.onPhaseChange}/>
 						<Footer/>
 					</div>);
 		}
@@ -595,6 +595,7 @@ var Report = React.createClass
 		if(e.currentTarget.innerHTML === "Homepage") this.props.onPhaseChange("Navigate");
 		else if(e.currentTarget.innerHTML === "Report type") this.props.onPhaseChange("ReportType");
 		else if(e.currentTarget.innerHTML === "Tabular") this.setState({phase: "select"});
+		else if(e.currentTarget.innerHTML === "Graphical") this.setState({phase: "select"});
 		else if(e.currentTarget.value === "SUBMIT")
 		{
 			var category = document.getElementById("report_category").value;
@@ -619,7 +620,7 @@ var Report = React.createClass
 			else
 			{
 				this.setState({	category: category,
-								data: processReportGraph(e),
+								data: processReportTable(e),
 								phase: "Graph Report"});
 			}
 		}
@@ -826,6 +827,31 @@ var Report = React.createClass
 		}
 		else
 		{
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+			if(this.state.category === "Income")
+			{
+				function drawChart()
+				{
+					var data = google.visualization.arrayToDataTable([
+						['Year', 'Sales', 'Expenses'],
+						['2004',  1000,      400],
+						['2005',  1170,      460],
+						['2006',  660,       1120],
+						['2007',  1030,      540]
+					]);
+
+					var options =
+					{
+						title: 'Graph',
+						curveType: 'function',
+						legend: { position: 'bottom' }
+					};			
+					var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+					chart.draw(data, options);
+				}
+			}
+
 			return (<div>
 						<ul className="breadcrumbs">
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Homepage</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
@@ -833,12 +859,8 @@ var Report = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graphical</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graph Report</span></li>
 						</ul>
-						<h2 id="header_table">{this.state.category}</h2>
-						<table id="graph_report">
-							<tbody>
-								{rows}
-							</tbody>
-						</table>
+						<h2 id="header_graph">{this.state.category}</h2>
+						<div id="curve_chart"></div>
 						<hr/>
 					</div>);
 		}

@@ -166,6 +166,26 @@ tr
 }
 /**
 *
+* Styles for all graphs
+*
+**/
+#curve_chart
+{
+	height: 500px;
+	width: 80%;
+}
+#header_graph
+{
+	border-bottom: 2px dashed #CCCCCC;
+	color: #DCDDD8;
+	font-size: 28px;
+	height: 50px;
+	line-height: 50px;
+	margin: 60px auto 20px auto;
+	width: 80%;
+}
+/**
+*
 * Styles for the footer
 *
 **/
