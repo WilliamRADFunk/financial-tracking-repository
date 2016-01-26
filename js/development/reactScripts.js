@@ -137,7 +137,7 @@ var SuccessModal = React.createClass
 ({
 	render: function()
 	{
-		return (<div id="dialog-success" title="Entry Complete">
+		return (<div id="dialog-success" title="Attempt Complete">
 					<p>
 						Your entry was successful.
 					</p>
@@ -148,9 +148,9 @@ var FailedModal = React.createClass
 ({
 	render: function()
 	{
-		return (<div id="dialog-failed-entry" title="Entry Failed">
+		return (<div id="dialog-failed-entry" title="Attempt Failed">
 					<p>
-						Your entry failed. Contact your application developer.
+						Your attempt failed. Contact your application developer.
 					</p>
 				</div>);
 	}
@@ -605,11 +605,16 @@ var Report = React.createClass
 			if(this.props.data === "Table")
 			{
 				var data = processReportTable(e);
-				console.log(data.total);
-				this.setState({	category: category,
-								data: data.rows,
-								total: data.total,
-								phase: "Table Report"});
+				if(data === null) this.handleSubmissionResponse("false");
+				else if(data.success !== undefined &&
+						data.success !== null &&
+						data.success !== "No Key")
+					this.handleSubmissionResponse("No Key");
+				else
+					this.setState({	category: category,
+									data: data.rows,
+									total: data.total,
+									phase: "Table Report"});
 			}
 			else
 			{
@@ -746,18 +751,14 @@ var Report = React.createClass
 				var feet = [];
 				for(var j = 0; j < titles.length; j++)
 				{
-					if(j === 0 || j === 1 || j === 2) feet.push(<td>-</td>);
-					else if(j <= 5)
+					if(j === 0 || j === 1) feet.push(<td>-</td>);
+					else if(j < 5)
 					{
 						feet.push(<td>{this.state.total[j-2]}</td>);
 					}
 					else feet.push(<td>-</td>);
 				}
 				footers.push(<tr>{feet}</tr>);
-				footers.push(<tr>
-								<td>ACCOUNT</td><td>BALANCE:</td><td>{this.state.total[0]}</td>
-								<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-							</tr>);
 			}
 			else if(this.state.category === "Borrow")
 			{

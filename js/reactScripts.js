@@ -213,7 +213,7 @@ var SuccessModal = React.createClass({
 	render: function () {
 		return React.createElement(
 			"div",
-			{ id: "dialog-success", title: "Entry Complete" },
+			{ id: "dialog-success", title: "Attempt Complete" },
 			React.createElement(
 				"p",
 				null,
@@ -228,11 +228,11 @@ var FailedModal = React.createClass({
 	render: function () {
 		return React.createElement(
 			"div",
-			{ id: "dialog-failed-entry", title: "Entry Failed" },
+			{ id: "dialog-failed-entry", title: "Attempt Failed" },
 			React.createElement(
 				"p",
 				null,
-				"Your entry failed. Contact your application developer."
+				"Your attempt failed. Contact your application developer."
 			)
 		);
 	}
@@ -1267,8 +1267,7 @@ var Report = React.createClass({
 
 			if (this.props.data === "Table") {
 				var data = processReportTable(e);
-				console.log(data.total);
-				this.setState({ category: category,
+				if (data === null) this.handleSubmissionResponse("false");else if (data.success !== undefined && data.success !== null && data.success !== "No Key") this.handleSubmissionResponse("No Key");else this.setState({ category: category,
 					data: data.rows,
 					total: data.total,
 					phase: "Table Report" });
@@ -1682,11 +1681,11 @@ var Report = React.createClass({
 				));
 				var feet = [];
 				for (var j = 0; j < titles.length; j++) {
-					if (j === 0 || j === 1 || j === 2) feet.push(React.createElement(
+					if (j === 0 || j === 1) feet.push(React.createElement(
 						"td",
 						null,
 						"-"
-					));else if (j <= 5) {
+					));else if (j < 5) {
 						feet.push(React.createElement(
 							"td",
 							null,
@@ -1702,50 +1701,6 @@ var Report = React.createClass({
 					"tr",
 					null,
 					feet
-				));
-				footers.push(React.createElement(
-					"tr",
-					null,
-					React.createElement(
-						"td",
-						null,
-						"ACCOUNT"
-					),
-					React.createElement(
-						"td",
-						null,
-						"BALANCE:"
-					),
-					React.createElement(
-						"td",
-						null,
-						this.state.total[0]
-					),
-					React.createElement(
-						"td",
-						null,
-						"-"
-					),
-					React.createElement(
-						"td",
-						null,
-						"-"
-					),
-					React.createElement(
-						"td",
-						null,
-						"-"
-					),
-					React.createElement(
-						"td",
-						null,
-						"-"
-					),
-					React.createElement(
-						"td",
-						null,
-						"-"
-					)
 				));
 			} else if (this.state.category === "Borrow") {
 				var titles = ["Trans Date", "Person", "Purpose", "Subtracted", "Borrowed", "Added", "Country", "Date Entered"];
