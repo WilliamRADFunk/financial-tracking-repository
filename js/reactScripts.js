@@ -1266,8 +1266,11 @@ var Report = React.createClass({
 			if (category.substring(0, 6) === "income") category = "Income";else if (category.substring(0, 7) === "expense") category = "Expense";else if (category.substring(0, 6) === "borrow") category = "Borrow";
 
 			if (this.props.data === "Table") {
+				var data = processReportTable(e);
+				console.log(data.total);
 				this.setState({ category: category,
-					data: processReportTable(e),
+					data: data.rows,
+					total: data.total,
 					phase: "Table Report" });
 			} else {
 				this.setState({ category: category,
@@ -1592,29 +1595,84 @@ var Report = React.createClass({
 			);
 		} else if (this.state.phase === "Table Report") {
 			var headers = [];
+			var footers = [];
 			if (this.state.category === "Income") {
-				var titles = ["Invoice #", "Client", "Income", "Payee", "Country", "SubDate", "RecDate", "DepDate", "Tax %", "DateEntered"];
+				var titles = ["Invoice #", "Client", "Income", "Payee", "Country", "Submission Date", "Received Date", "Deposit Date", "Tax %", "Date Entered"];
 				var heads = [];
 				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
-						titles[i]
+						titles[i].toString().toUpperCase()
 					));
 				}
 				headers.push(React.createElement(
 					"tr",
 					null,
 					heads
+				));
+				footers.push(React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						"TOTAL"
+					),
+					React.createElement(
+						"td",
+						null,
+						"INCOME:"
+					),
+					React.createElement(
+						"td",
+						null,
+						this.state.total[0]
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"TOTAL"
+					),
+					React.createElement(
+						"td",
+						null,
+						"TAXES:"
+					),
+					React.createElement(
+						"td",
+						null,
+						this.state.total[1]
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					)
 				));
 			} else if (this.state.category === "Expense") {
-				var titles = ["PaidDate", "Company", "Cost", "Tax Local", "Tax Federal", "Country", "Category", "DateEntered"];
+				var titles = ["Paid Date", "Company", "Cost", "Tax Local", "Tax Federal", "Country", "Category", "Date Entered"];
 				var heads = [];
 				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
-						titles[i]
+						titles[i].toString().toUpperCase()
 					));
 				}
 				headers.push(React.createElement(
@@ -1622,30 +1680,164 @@ var Report = React.createClass({
 					null,
 					heads
 				));
+				var feet = [];
+				for (var j = 0; j < titles.length; j++) {
+					if (j === 0 || j === 1 || j === 2) feet.push(React.createElement(
+						"td",
+						null,
+						"-"
+					));else if (j <= 5) {
+						feet.push(React.createElement(
+							"td",
+							null,
+							this.state.total[j - 2]
+						));
+					} else feet.push(React.createElement(
+						"td",
+						null,
+						"-"
+					));
+				}
+				footers.push(React.createElement(
+					"tr",
+					null,
+					feet
+				));
+				footers.push(React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						"ACCOUNT"
+					),
+					React.createElement(
+						"td",
+						null,
+						"BALANCE:"
+					),
+					React.createElement(
+						"td",
+						null,
+						this.state.total[0]
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					)
+				));
 			} else if (this.state.category === "Borrow") {
-				var titles = ["Person", "Purpose", "Country", "Subtracted", "Added", "Borrowed", "TransDate", "DateEntered"];
+				var titles = ["Trans Date", "Person", "Purpose", "Subtracted", "Borrowed", "Added", "Country", "Date Entered"];
 				var heads = [];
 				for (var i = 0; i < titles.length; i++) {
 					heads.push(React.createElement(
 						"th",
 						null,
-						titles[i]
+						titles[i].toString().toUpperCase()
 					));
 				}
 				headers.push(React.createElement(
 					"tr",
 					null,
 					heads
+				));
+				var feet = [];
+				for (var j = 0; j < titles.length; j++) {
+					if (j === 0 || j === 1 || j === 2) feet.push(React.createElement(
+						"td",
+						null,
+						"-"
+					));else if (j <= 5) {
+						feet.push(React.createElement(
+							"td",
+							null,
+							this.state.total[j - 2]
+						));
+					} else feet.push(React.createElement(
+						"td",
+						null,
+						"-"
+					));
+				}
+				footers.push(React.createElement(
+					"tr",
+					null,
+					feet
+				));
+				footers.push(React.createElement(
+					"tr",
+					null,
+					React.createElement(
+						"td",
+						null,
+						"ACCOUNT"
+					),
+					React.createElement(
+						"td",
+						null,
+						"BALANCE:"
+					),
+					React.createElement(
+						"td",
+						null,
+						this.state.total[0]
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					),
+					React.createElement(
+						"td",
+						null,
+						"-"
+					)
 				));
 			}
 			var rows = [];
-			for (var j = 0; j < this.state.data.length; j++) {
+			for (var k = 0; k < this.state.data.length; k++) {
 				var cols = [];
-				$.each(this.state.data[j], function (key, value) {
+				$.each(this.state.data[k], function (key, value) {
 					cols.push(React.createElement(
 						"td",
 						null,
-						value
+						value.toString().toUpperCase()
 					));
 				});
 				rows.push(React.createElement(
@@ -1717,6 +1909,11 @@ var Report = React.createClass({
 						"tbody",
 						null,
 						rows
+					),
+					React.createElement(
+						"tfoot",
+						null,
+						footers
 					)
 				)
 			);
@@ -1770,7 +1967,7 @@ var Report = React.createClass({
 				React.createElement(
 					"h2",
 					{ id: "header_table" },
-					"Something Else"
+					this.state.category
 				),
 				React.createElement(
 					"table",

@@ -604,8 +604,11 @@ var Report = React.createClass
 
 			if(this.props.data === "Table")
 			{
+				var data = processReportTable(e);
+				console.log(data.total);
 				this.setState({	category: category,
-								data: processReportTable(e),
+								data: data.rows,
+								total: data.total,
 								phase: "Table Report"});
 			}
 			else
@@ -694,7 +697,8 @@ var Report = React.createClass
 		}
 		else if(this.state.phase === "Table Report")
 		{
-			var headers = []
+			var headers = [];
+			var footers = [];
 			if(this.state.category === "Income")
 			{
 				var titles = [
@@ -703,63 +707,98 @@ var Report = React.createClass
 					"Income",
 					"Payee",
 					"Country",
-					"SubDate",
-					"RecDate",
-					"DepDate",
+					"Submission Date",
+					"Received Date",
+					"Deposit Date",
 					"Tax %",
-					"DateEntered"
+					"Date Entered"
 				];
 				var heads = [];
 				for(var i = 0; i < titles.length; i++)
 				{
-					heads.push(<th>{titles[i]}</th>);
+					heads.push(<th>{titles[i].toString().toUpperCase()}</th>);
 				}
 				headers.push(<tr>{heads}</tr>);
+				footers.push(<tr>
+								<td>TOTAL</td><td>INCOME:</td><td>{this.state.total[0]}</td>
+								<td>-</td><td>-</td><td>-</td><td>TOTAL</td><td>TAXES:</td>
+								<td>{this.state.total[1]}</td><td>-</td>
+							</tr>);
 			}
 			else if(this.state.category === "Expense")
 			{
 				var titles = [
-					"PaidDate",
+					"Paid Date",
 					"Company",
 					"Cost",
 					"Tax Local",
 					"Tax Federal",
 					"Country",
 					"Category",
-					"DateEntered"
+					"Date Entered"
 				];
 				var heads = [];
 				for(var i = 0; i < titles.length; i++)
 				{
-					heads.push(<th>{titles[i]}</th>);
+					heads.push(<th>{titles[i].toString().toUpperCase()}</th>);
 				}
 				headers.push(<tr>{heads}</tr>);
+				var feet = [];
+				for(var j = 0; j < titles.length; j++)
+				{
+					if(j === 0 || j === 1 || j === 2) feet.push(<td>-</td>);
+					else if(j <= 5)
+					{
+						feet.push(<td>{this.state.total[j-2]}</td>);
+					}
+					else feet.push(<td>-</td>);
+				}
+				footers.push(<tr>{feet}</tr>);
+				footers.push(<tr>
+								<td>ACCOUNT</td><td>BALANCE:</td><td>{this.state.total[0]}</td>
+								<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+							</tr>);
 			}
 			else if(this.state.category === "Borrow")
 			{
 				var titles = [
+					"Trans Date",
 					"Person",
 					"Purpose",
-					"Country",
 					"Subtracted",
-					"Added",
 					"Borrowed",
-					"TransDate",
-					"DateEntered"
+					"Added",
+					"Country",
+					"Date Entered"
 				];
 				var heads = [];
 				for(var i = 0; i < titles.length; i++)
 				{
-					heads.push(<th>{titles[i]}</th>);
+					heads.push(<th>{titles[i].toString().toUpperCase()}</th>);
 				}
 				headers.push(<tr>{heads}</tr>);
+				var feet = [];
+				for(var j = 0; j < titles.length; j++)
+				{
+					if(j === 0 || j === 1 || j === 2) feet.push(<td>-</td>);
+					else if(j <= 5)
+					{
+						feet.push(<td>{this.state.total[j-2]}</td>);
+					}
+					else feet.push(<td>-</td>);
+				}
+				footers.push(<tr>{feet}</tr>);
+				footers.push(<tr>
+								<td>ACCOUNT</td><td>BALANCE:</td><td>{this.state.total[0]}</td>
+								<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+							</tr>);
 			}
 			var rows = [];
-			for(var j = 0; j < this.state.data.length; j++)
+			for(var k = 0; k < this.state.data.length; k++)
 			{
 				var cols = [];
-				$.each(this.state.data[j], function(key, value) {
-					cols.push(<td>{value}</td>);
+				$.each(this.state.data[k], function(key, value) {
+					cols.push(<td>{value.toString().toUpperCase()}</td>);
 				});
 				rows.push(<tr>{cols}</tr>);
 			}
@@ -778,6 +817,9 @@ var Report = React.createClass
 							<tbody>
 								{rows}
 							</tbody>
+							<tfoot>
+								{footers}
+							</tfoot>
 						</table>
 					</div>);
 		}
@@ -790,7 +832,7 @@ var Report = React.createClass
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graphical</span>&nbsp;&nbsp;&gt;&nbsp;&nbsp;</li>
 							<li className="breadcrumb"><span className="breadcrumb-label" onClick={this.handleClick}>Graph Report</span></li>
 						</ul>
-						<h2 id="header_table">Something Else</h2>
+						<h2 id="header_table">{this.state.category}</h2>
 						<table id="graph_report">
 							<tbody>
 								{rows}

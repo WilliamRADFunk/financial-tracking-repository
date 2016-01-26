@@ -125,7 +125,7 @@ function reportIncomeTable(reportPackage)
         async: false,
         success:function(responseData)
         {
-            result = JSON.parse(responseData).rows;
+            result = JSON.parse(responseData);
         },
         error:function(error)
         {
@@ -150,7 +150,7 @@ function reportExpenseTable(reportPackage)
         async: false,
         success:function(responseData)
         {
-            result = JSON.parse(responseData).rows;
+            result = JSON.parse(responseData);
         },
         error:function(error)
         {
@@ -175,7 +175,7 @@ function reportBorrowTable(reportPackage)
         async: false,
         success:function(responseData)
         {
-            result = JSON.parse(responseData).rows;
+            result = JSON.parse(responseData);
         },
         error:function(error)
         {

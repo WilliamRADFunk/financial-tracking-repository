@@ -83,10 +83,6 @@ function processReportTable(e) {
 
 	if (category.indexOf('income') > -1) return reportIncomeTable(reportPackage);else if (category.indexOf('expense') > -1) return reportExpenseTable(reportPackage);else if (category.indexOf('borrow') > -1) return reportBorrowTable(reportPackage);else return null;
 }
-function populateTable(data, category) {
-	tableData = data;
-	document.getElementById("header_table").innerHTML = category;
-}
 function killDefaultEvent(e) {
 	e.preventDefault();
 	e.stopPropagation();
