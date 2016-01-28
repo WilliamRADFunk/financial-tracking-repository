@@ -1873,11 +1873,11 @@ var Report = React.createClass({
 				)
 			);
 		} else {
-			google.charts.load('current', { 'packages': ['corechart'] });
+			google.charts.load('current', { packages: ['corechart'] });
 			google.charts.setOnLoadCallback(drawChart);
 			if (this.state.category === "Income") {
 				function drawChart() {
-					var data = google.visualization.arrayToDataTable([['Month', 'Sales', 'Expenses'], ['Jan', 1000, 400], ['Feb', 1170, 460], ['Mar', 660, 1120], ['Apr', 1030, 540], ['May', 660, 1120], ['Jun', 860, 970], ['Jul', 120, 720], ['Aug', 430, 1090], ['Sep', 660, 1120], ['Oct', 220, 870], ['Nov', 1180, 560], ['Dec', 660, 1120]]);
+					var data = google.visualization.arrayToDataTable([['Month', 'Bill', 'Andrea'], ['Jan', 1000, 400], ['Feb', 1170, 460], ['Mar', 660, 1120], ['Apr', 1030, 540], ['May', 660, 1120], ['Jun', 860, 970], ['Jul', 120, 720], ['Aug', 430, 1090], ['Sep', 660, 1120], ['Oct', 220, 870], ['Nov', 1180, 560], ['Dec', 660, 1120]]);
 
 					var options = {
 						curveType: 'function',

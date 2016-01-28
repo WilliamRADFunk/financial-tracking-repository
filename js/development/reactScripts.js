@@ -827,14 +827,14 @@ var Report = React.createClass
 		}
 		else
 		{
-			google.charts.load('current', {'packages':['corechart']});
+			google.charts.load('current', {packages: ['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			if(this.state.category === "Income")
 			{
 				function drawChart()
 				{
 					var data = google.visualization.arrayToDataTable([
-						['Month', 'Sales', 'Expenses'],
+						['Month', 'Bill', 'Andrea'],
 						['Jan',  1000,      400],
 						['Feb',  1170,      460],
 						['Mar',  660,       1120],
