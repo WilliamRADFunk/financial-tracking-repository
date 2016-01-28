@@ -834,18 +834,37 @@ var Report = React.createClass
 				function drawChart()
 				{
 					var data = google.visualization.arrayToDataTable([
-						['Year', 'Sales', 'Expenses'],
-						['2004',  1000,      400],
-						['2005',  1170,      460],
-						['2006',  660,       1120],
-						['2007',  1030,      540]
+						['Month', 'Sales', 'Expenses'],
+						['Jan',  1000,      400],
+						['Feb',  1170,      460],
+						['Mar',  660,       1120],
+						['Apr',  1030,      540],
+						['May',  660,       1120],
+						['Jun',  860,       970],
+						['Jul',  120,       720],
+						['Aug',  430,       1090],
+						['Sep',  660,       1120],
+						['Oct',  220,       870],
+						['Nov',  1180,      560],
+						['Dec',  660,       1120]
 					]);
 
 					var options =
 					{
-						title: 'Graph',
 						curveType: 'function',
-						legend: { position: 'bottom' }
+						hAxis: {textStyle:{color: '#FFFFFF'}},
+						vAxis: {textStyle:{color: '#FFFFFF'}},
+						legendTextStyle: {color:'#FFFFFF'},
+						backgroundColor: 'none',
+						legend: { position: 'bottom' },
+						series: {
+							0: { color: '#00ffff' },
+							1: { color: '#e7711b' },
+							2: { color: '#f1ca3a' },
+							3: { color: '#6f9654' },
+							4: { color: '#1c91c0' },
+							5: { color: '#43459d' },
+						}
 					};			
 					var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 					chart.draw(data, options);
@@ -861,7 +880,6 @@ var Report = React.createClass
 						</ul>
 						<h2 id="header_graph">{this.state.category}</h2>
 						<div id="curve_chart"></div>
-						<hr/>
 					</div>);
 		}
 	}
