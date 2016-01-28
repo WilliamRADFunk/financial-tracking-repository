@@ -26,9 +26,9 @@ if ($conn->connect_error)
 }
 
 // Make sure username has no special characters before checking database.
-if( (preg_match('/[^\w\s\/-]/s' , $company)) || (preg_match('/[^\w\s]/s' , $paidDate)) || (preg_match('/[^\w\s\/-]/s' , $category)) ||
-	(preg_match('/[^\w\s]/s' , $taxLocal)) || (preg_match('/[^\w\s]/s' , $taxFed)) || (preg_match('/[^\w\s]/s' , $country)) ||
-	(preg_match('/[^\w\s]/s' , $amount)) )
+if( (preg_match('/[^\w\s\(\)-]/s' , $company)) || (preg_match('/[^\w\s]/s' , $paidDate)) || (preg_match('/[^\w\s\/-]/s' , $category)) ||
+	(preg_match('/[^\w\s\.]/s' , $taxLocal)) || (preg_match('/[^\w\s\.]/s' , $taxFed)) || (preg_match('/[^\w\s]/s' , $country)) ||
+	(preg_match('/[^\w\s\.]/s' , $amount)) )
 {
 	$reply = '{"success":"invalid character(s)"}';
 	print $reply;
