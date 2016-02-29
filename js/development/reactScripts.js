@@ -512,7 +512,7 @@ var Borrow = React.createClass
 					<FailedModal display={this.state.modalFail}/>
 					<NoKeyModal display={this.state.modalNoKey}/>
 					<form id="form_borrow" method="post">
-						<h2>Expense</h2>
+						<h2>Borrow</h2>
 						<div className="content">
 							<div className="input left">
 								<p><label htmlFor="subtracted">Subtract:</label></p>

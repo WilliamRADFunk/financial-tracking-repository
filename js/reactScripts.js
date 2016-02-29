@@ -1087,7 +1087,7 @@ var Borrow = React.createClass({
 				React.createElement(
 					"h2",
 					null,
-					"Expense"
+					"Borrow"
 				),
 				React.createElement(
 					"div",
